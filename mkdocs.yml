@@ -1,0 +1,96 @@
+site_name: Wiresploit
+theme:
+  favicon: assets/logo.png
+  features:
+  - content.code.copy
+  - content.code.annotate
+  logo: assets/logo.png
+  name: material
+  palette:
+  - accent: indigo
+    primary: red
+    scheme: default
+    toggle:
+      icon: material/brightness-7
+      name: Switch to dark mode
+  - accent: indigo
+    primary: red
+    scheme: slate
+    toggle:
+      icon: material/brightness-4
+      name: Switch to light mode
+
+    
+    
+  palette:
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+extra_css:
+  - stylesheets/extra.css
+    
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - def_list
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+plugins:
+  - search
+  - mkdocs-video:
+      is_video: True
+      video_muted: False
+      is_video: True
+      video_controls: True
+      css_style:
+        width: "100%"
+
+nav:
+  - Home: index.md
+  - private: private/private.md
+  - Project Management:
+    - 00_Project_Management:
+      - 01_Charter: 00_Project_Management/01_Charter.md
+  - Requirements:
+    - 01_Requirements:
+      - 00_BRD: 01_Requirements/00_BRD.md
+  - Acceptance Criteria:
+    - 01_Acceptance_Criteria: 01_Requirements/05_Acceptance_Criteria.md
+  - Resources: Resources.md
+  
