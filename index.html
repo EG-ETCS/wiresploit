@@ -435,10 +435,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#33-rules-best-practices" class="md-nav__link">
+  <a href="#33-rules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3 Rules &amp; Best Practices
+        3.3 Rules
       
     </span>
   </a>
@@ -447,72 +447,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Format
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Types
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#component" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Component
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#full-pattern" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Full Pattern
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Writing Rules
-      
-    </span>
-  </a>
   
 </li>
       
@@ -1106,10 +1040,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#33-rules-best-practices" class="md-nav__link">
+  <a href="#33-rules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3 Rules &amp; Best Practices
+        3.3 Rules
       
     </span>
   </a>
@@ -1118,72 +1052,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Format
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Types
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#component" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Component
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#full-pattern" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Full Pattern
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Writing Rules
-      
-    </span>
-  </a>
   
 </li>
       
@@ -1466,141 +1334,98 @@
 <p>This section defines the standard naming convention for Git branches in the <strong>Wiresploit</strong> repository. makes it clear at a glance which part of the project (brain, firmware, hardware, or docs) a branch touches, and links code changes directly back to Business Requirements (BR-IDs) for traceability in reports and audits.</p>
 <pre class="mermaid"><code>gitGraph
     commit id: "init repo"
+    branch develop
+    checkout develop
     commit id: "add docs/BRD"
-    branch docs/srs-draft
-    checkout docs/srs-draft
+    branch docs
+    checkout docs
     commit id: "add SRS skeleton"
     commit id: "clarify BR-ACT scope"
-    checkout main
+    checkout develop
     branch feature/firmware/BR-MON-01-i2c-capture
     checkout feature/firmware/BR-MON-01-i2c-capture
     commit id: "i2c capture skeleton"
     commit id: "i2c capture tested"
-    checkout main
+    checkout develop
     branch feature/core/BR-MON-04-ntp-sync
     checkout feature/core/BR-MON-04-ntp-sync
     commit id: "ptp sync client"
     commit id: "clock drift logging"
-    checkout main
-    merge docs/srs-draft tag: "PR #10 reviewed"
+    checkout develop
+    merge docs tag: "PR #10 reviewed"
     merge feature/firmware/BR-MON-01-i2c-capture tag: "PR #12 reviewed"
     checkout feature/core/BR-MON-04-ntp-sync
     commit id: "fix drift edge case"
-    checkout main
+    checkout develop
     merge feature/core/BR-MON-04-ntp-sync tag: "PR #15 reviewed"
     branch fix/core/BR-ANA-08-memory-overlap
     checkout fix/core/BR-ANA-08-memory-overlap
     commit id: "fix overlap detection"
-    checkout main
+    checkout develop
     merge fix/core/BR-ANA-08-memory-overlap tag: "PR #18 reviewed"
-    commit id: "tag v0.1.0-alpha" tag: "v0.1.0-alpha"
     branch feature/hardware/pcb-rev2
     checkout feature/hardware/pcb-rev2
     commit id: "pcb rev2 schematic"
+    checkout develop
+    merge feature/hardware/pcb-rev2 tag: "PR #21 reviewed"
     checkout main
-    merge feature/hardware/pcb-rev2 tag: "PR #21 reviewed"</code></pre>
+    merge develop tag: "v0.1.0-alpha"</code></pre>
 <h3 id="31-branching-strategy">3.1 Branching Strategy</h3>
 <ul>
 <li><strong><code>main</code> branch:</strong> Always stable, production-ready code. Only CERT-approved and reviewed changes are merged here.</li>
 <li><strong><code>develop</code> branch:</strong> Integration branch containing the latest delivered features, bugfixes, and changes. Most feature branches are merged here after review.</li>
-<li><strong>Feature branches:</strong> Short-lived branches created from <code>develop</code> for each new feature, enhancement, or fix. Convention: <code>feature/branch-name</code>.</li>
+<li><strong><code>docs</code> branch</strong> For documentation, requirements, or architecture work.</li>
+<li><strong>Feature branches:</strong> Short-lived branches created from <code>develop</code> for each new feature, enhancement, or fix. Convention: <code>feature/&lt;component&gt;/&lt;short-description-or-BR-ID&gt;</code>.</li>
 <li><strong>fix branches:</strong> For urgent fixes applied to production (<code>main</code>). Convention: <code>fix/&lt;component&gt;/&lt;BR-ID&gt;-&lt;short-description&gt;</code>.</li>
-<li><strong>Docs branches:</strong> For documentation, requirements, or architecture work. Convention: <code>docs/&lt;cert or helwan&gt;</code>.</li>
 </ul>
-<blockquote>
-<p><strong>Note:</strong> All work should be done through Pull Requests (PRs), never by directly committing to <code>main</code> or <code>develop</code>.</p>
-</blockquote>
-<h3 id="32-github-workflow">3.2 GitHub Workflow</h3>
-<ol>
-<li><strong>Fork and Clone:</strong> Developers fork the repository (if external), then clone locally.</li>
-<li><strong>Create a Branch:</strong> For each task, create a branch from <code>develop</code> using the feature/hotfix/release naming conventions.</li>
-<li><strong>Commit Changes:</strong> Make descriptive, atomic commits (referencing ClickUp or task IDs where possible).</li>
-<li><strong>Push &amp; PR:</strong> Push the branch and open a Pull Request (PR) targeting <code>develop</code> (or <code>main</code> for hotfixes). Ensure PR description references the related task or issue.</li>
-<li><strong>Code Review:</strong> At least one reviewer (preferably someone not the author) must review the PR.</li>
-<li><strong>CERT Review:</strong> CERT team reviews and approves PRs, especially for critical or production changes.</li>
-<li><strong>Merge:</strong> Only after all required approvals and automations pass, PRs are merged.</li>
-<li><strong>Delete branch:</strong> After merging, delete the feature/hotfix/release branch.</li>
-</ol>
-<h3 id="33-rules-best-practices">3.3 Rules &amp; Best Practices</h3>
+<div class="admonition note">
+<p class="admonition-title">Branch Namming Convention</p>
+<p>Used with <code>feature/</code> and <code>fix/</code> branches:</p>
 <ul>
-<li><strong>No direct pushes to <code>main</code> or <code>develop</code>.</strong> All changes enter via PRs.</li>
-<li><strong>PR descriptions must include:</strong></li>
-<li>Summary of changes</li>
-<li>Related ClickUp/GitHub issues</li>
-<li>Screenshots/test results (where applicable)</li>
-<li><strong>Status checks:</strong> PRs must pass all required status checks (CI, code quality, tests).</li>
-<li><strong>Reviewers:</strong> Assign at least one reviewer (CERT team for critical paths, peer review otherwise).</li>
-<li><strong>Conventional commits:</strong> Use <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a> style for commit messages.</li>
-<li><strong>Documentation:</strong> Update relevant documentation with code changes.</li>
-<li><strong>Changelogs:</strong> Major PRs must update the project changelog (if present).</li>
-<li><strong>Protected branches:</strong> <code>main</code> (and often <code>develop</code>) should be protected in repository settings to require PRs, passing checks, and approvals.</li>
-</ul>
-<hr>
-<blockquote>
-<p><strong>Why this matters:</strong><br>
-Following strict workflows and branching rules ensures code quality, auditability, and project traceability—supporting safe, predictable, and maintainable project development.</p>
-</blockquote>
-<h2 id="format">Format</h2>
-<div class="highlight"><pre><span></span><code>&lt;type&gt;/&lt;component&gt;/&lt;short-description-or-BR-ID&gt;
-</code></pre></div>
-<h2 id="types">Types</h2>
-<table>
-<thead>
-<tr>
-<th>Type</th>
-<th>When to use</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>feature/</code></td>
-<td>Adding new functionality to the code</td>
-</tr>
-<tr>
-<td><code>fix/</code></td>
-<td>Fixing a bug</td>
-</tr>
-<tr>
-<td><code>docs/</code></td>
-<td>Documentation changes only</td>
-</tr>
-<tr>
-<td><code>chore/</code></td>
-<td>Maintenance (dependencies, CI, config)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="component">Component</h2>
-<p>Used with <code>feature/</code> and <code>fix/</code> only (not with <code>docs/</code> or <code>chore/</code>, since those usually aren't tied to a specific code component):</p>
-<ul>
-<li><code>brain</code></li>
+<li><code>core</code></li>
 <li><code>firmware</code></li>
 <li><code>hardware</code></li>
 </ul>
-<h2 id="full-pattern">Full Pattern</h2>
-<div class="highlight"><pre><span></span><code>feature/&lt;component&gt;/&lt;BR-ID&gt;-&lt;short-description&gt;
-fix/&lt;component&gt;/&lt;BR-ID&gt;-&lt;short-description&gt;
-docs/&lt;short-description&gt;
-chore/&lt;short-description&gt;
-</code></pre></div>
-<h2 id="examples">Examples</h2>
-<div class="highlight"><pre><span></span><code>feature/brain/BR-MON-04-ntp-sync
-feature/firmware/BR-MON-01-i2c-capture
-feature/hardware/BR-ACT-03-pcb-rev2
-fix/brain/BR-ANA-08-memory-overlap
-docs/srs-draft
-docs/clarify-BR-ACT-scope
-chore/update-docker-base-image
-chore/ci-pipeline-setup
-</code></pre></div>
-<h2 id="writing-rules">Writing Rules</h2>
+<p>rules </p>
 <ul>
 <li>All <strong>lowercase</strong></li>
 <li>Words separated by <code>-</code> (not spaces or <code>_</code>)</li>
 <li>Sections separated by <code>/</code></li>
 <li>BR-ID (if applicable) written exactly as in the BRD: <code>BR-MON-04</code>, not <code>br-mon-04</code> or <code>BRMON04</code></li>
 <li>Keep the whole name under ~50 characters where possible</li>
-</ul></div>
+</ul>
+<p>for Example:</p>
+<div class="highlight"><pre><span></span><code>feature/core/BR-MON-04-ntp-sync
+feature/firmware/BR-MON-01-i2c-capture
+feature/hardware/BR-ACT-03-pcb-rev2
+fix/core/BR-ANA-08-memory-overlap
+</code></pre></div>
+</div>
+<h3 id="32-github-workflow">3.2 GitHub Workflow</h3>
+<ol>
+<li><strong>Create a Branch:</strong> For each task, create a branch from <code>develop</code> using the feature/fix naming conventions.</li>
+<li><strong>Commit Changes:</strong> Make descriptive, atomic commits (referencing ClickUp or task IDs where possible).</li>
+<li><strong>Push &amp; PR:</strong> Push the branch and open a Pull Request (PR) targeting <code>develop</code> (or <code>main</code> for fixes). Ensure PR description references the related task or issue.</li>
+<li><strong>Code Review:</strong> At least one reviewer (peer review) must review the PR.</li>
+<li><strong>CERT Review:</strong> CERT team reviews and approves PRs, especially for critical or production changes.</li>
+<li><strong>Merge:</strong> Only after all required approvals pass, PRs are merged to the main.</li>
+<li><strong>Delete branch:</strong> After merging, delete the feature/fix branch.</li>
+</ol>
+<h3 id="33-rules">3.3 Rules</h3>
+<ul>
+<li><strong>No direct pushes to <code>main</code> or <code>develop</code>.</strong> All changes enter via PRs.</li>
+<li><strong>PR descriptions must include:</strong></li>
+<li>Summary of changes</li>
+<li>Related ClickUp/GitHub task/issues</li>
+<li>Screenshots/test results (where applicable)</li>
+<li><strong>Reviewers:</strong> Assign at least one reviewer (CERT team for critical paths, peer review otherwise).</li>
+<li><strong>Documentation:</strong> Update relevant documentation with code changes.</li>
+<li><strong>Protected branches:</strong> <code>main</code> (and often <code>develop</code>) should be protected in repository settings to require PRs, passing checks, and approvals.</li>
+</ul>
+<div class="admonition bug">
+<p class="admonition-title">important note</p>
+<p>All work should be done through Pull Requests (PRs), never by directly committing to <code>main</code> or <code>develop</code> or <code>docs</code>.</p>
+</div></div>
 
 
 
