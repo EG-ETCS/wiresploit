@@ -1,0 +1,1662 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="private/private/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Wiresploit</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#wiresploit" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Wiresploit" class="md-header__button md-logo" aria-label="Wiresploit" data-md-component="logo">
+      
+  <img src="assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Wiresploit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Wiresploit" class="md-nav__button md-logo" aria-label="Wiresploit" data-md-component="logo">
+      
+  <img src="assets/logo.png" alt="logo">
+
+    </a>
+    Wiresploit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-project-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. project documents
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. project documents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-project-management-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Project Management Documents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-task-management-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Task Management Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Task Management Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-task-lifecycle-and-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Task Lifecycle and States
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-responsibilities-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Responsibilities &amp; Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-github-branches-workflow-and-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. GitHub Branches, Workflow, and Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. GitHub Branches, Workflow, and Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Branches
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#31-branching-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Branching Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-github-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 GitHub Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-rules-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Rules &amp; Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="private/private/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    private
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00_Project_Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    00_Project_Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="00_Project_Management/01_Charter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Charter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requirements
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Requirements
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01_Requirements
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01_Requirements/00_BRD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00_BRD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Criteria
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Acceptance Criteria
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01_Requirements/05_Acceptance_Criteria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Acceptance_Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-project-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. project documents
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. project documents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-project-management-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Project Management Documents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-task-management-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Task Management Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Task Management Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-task-lifecycle-and-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Task Lifecycle and States
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-responsibilities-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Responsibilities &amp; Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-github-branches-workflow-and-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. GitHub Branches, Workflow, and Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. GitHub Branches, Workflow, and Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Branches
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#31-branching-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Branching Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-github-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 GitHub Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-rules-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Rules &amp; Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div><h1 id="wiresploit">Wiresploit</h1>
+<p>A unified cross-layer analysis platform that correlates every communication—from network packets to hardware buses—into a single, searchable and analysable timeline, revealing the complete behavior of embedded and IoT devices.</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><a href="https://chat.whatsapp.com/HETf1boCfe9348HhhtXPtW"><img alt="" src="/assets/20260714212759.png"></a></p>
+</li>
+<li>
+<p><a href="https://app.clickup.com/9015638084/v/o/s/901511461217"><img alt="" src="/assets/20260717105105.png"></a></p>
+</li>
+<li>
+<p><a href="Resources/"><img alt="" src="/assets/20260717110133.png"></a></p>
+</li>
+<li>
+<p><a href="https://github.com/EG-ETCS/Wiresploit"><img alt="" src="/assets/20260717163303.png"></a></p>
+</li>
+</ul>
+</div>
+<h2 id="1-project-documents">1. project documents</h2>
+<h3 id="11-project-management-documents">1.1 Project Management Documents</h3>
+<table>
+<thead>
+<tr>
+<th>Document Name</th>
+<th>Description</th>
+<th>Owner</th>
+<th>Date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="00_Project_Management/01_Charter/">Project Charter</a></td>
+<td>Defines project purpose, objectives, scope, and key stakeholders</td>
+<td>CERT-team</td>
+<td>14-7-2026</td>
+<td>🟢 Final</td>
+</tr>
+<tr>
+<td><a href="00_Project_Management/02_Plan/">Project Plan</a></td>
+<td>Outlines the detailed project management and approach</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="00_Project_Management/03_Schedule/">Project Schedule</a></td>
+<td>Timeline, milestones, and deliverables schedule</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="00_Project_Management/04_Issue_Log/">Issue Log</a></td>
+<td>Records project issues and their resolution status</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-requirements">1.2 Requirements</h3>
+<table>
+<thead>
+<tr>
+<th>Document Name</th>
+<th>Description</th>
+<th>Owner</th>
+<th>Date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="01_Requirements/00_BRD/">Business Requirements Document (BRD)</a></td>
+<td>Details business case, objectives, and high-level requirements</td>
+<td>CERT-team</td>
+<td>14-7-2026</td>
+<td>🟢 Final</td>
+</tr>
+<tr>
+<td><a href="01_Requirements/01_SysRS/">System Requirements Specification (SysRS)</a></td>
+<td>Top-level system requirements for the solution</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="01_Requirements/02_SwRS/">Software Requirements Specification (SwRS)</a></td>
+<td>Software-specific detailed requirements</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="01_Requirements/03_HwRS/">Hardware Requirements Specification (HwRS)</a></td>
+<td>Hardware-specific detailed requirements</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="01_Requirements/04_FwRS/">Firmware Requirements Specification (FwRS)</a></td>
+<td>Firmware-specific detailed requirements</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="01_Requirements/05_Acceptance_Criteria/">Acceptance Criteria</a></td>
+<td>Success criteria for evaluating requirements fulfillment</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-system-architecture">1.3 System Architecture</h3>
+<table>
+<thead>
+<tr>
+<th>Document Name</th>
+<th>Description</th>
+<th>Owner</th>
+<th>Date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="14-documentation">1.4 Documentation</h3>
+<table>
+<thead>
+<tr>
+<th>Document Name</th>
+<th>Description</th>
+<th>Owner</th>
+<th>Date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="03_Documentation/00_User_Manual/">User Manual</a></td>
+<td>End-user documentation and usage guide</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="03_Documentation/01_API_Documentation/">API Documentation</a></td>
+<td>Technical reference for platform APIs</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="03_Documentation/02_Installation_Guide/">Installation Guide</a></td>
+<td>Setup &amp; installation instructions for all components</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-task-management-process">2. Task Management Process</h2>
+<p>The project leverages <a href="https://app.clickup.com/9015638084/v/o/s/901511461217">ClickUp</a> as the central platform for managing, tracking, and reviewing all project tasks and deliverables.</p>
+<h3 id="21-task-lifecycle-and-states">2.1 Task Lifecycle and States</h3>
+<div class="grid">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Task States</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Tasks flow through distinct stages as visualized in the following chart:</p>
+<table>
+<thead>
+<tr>
+<th>Task State</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Backlog</strong></td>
+<td>All new and pending tasks are added to the backlog, where they await prioritisation and selection.</td>
+</tr>
+<tr>
+<td><strong>To Do</strong></td>
+<td>Tasks selected for the upcoming sprint or iteration are moved here.</td>
+</tr>
+<tr>
+<td><strong>In Progress</strong></td>
+<td>When a team member (from the Helwan team) begins working on a task, it transitions to "In Progress".</td>
+</tr>
+<tr>
+<td><strong>Blocked</strong></td>
+<td>If a task is impeded by external factors (e.g., dependencies, missing hardware), it's flagged as Blocked for visibility.</td>
+</tr>
+<tr>
+<td><strong>Completed</strong></td>
+<td>Once finished, tasks move to Completed, pending further review.</td>
+</tr>
+<tr>
+<td><strong>In Review</strong></td>
+<td>CERT team reviews the deliverable for quality and completeness.</td>
+</tr>
+<tr>
+<td><strong>Rejected</strong></td>
+<td>If the deliverable does not meet acceptance criteria, the CERT team can reject it, requiring further rework.</td>
+</tr>
+<tr>
+<td><strong>Closed</strong></td>
+<td>After CERT approval, the task is marked as Closed, indicating official completion.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<pre class="mermaid"><code>flowchart TD
+    BL(BACKLOG):::BACKLOG -- sprint's Tasks --&gt; TODO(TO DO):::TODO
+    subgraph Helwan team
+        TODO -- task picked up --&gt; INPROGRESS(IN PROGRESS):::INPROGRESS
+        INPROGRESS -- waiting on another task or missing hardware --&gt; BLOCKED(BLOCKED):::BLOCKED
+        INPROGRESS -- task completed by team member --&gt; COMPLETED(COMPLETED):::COMPLETED
+    end
+    subgraph CERT team
+        COMPLETED -- Task selected by CERT team for formal review --&gt; REVIEW[IN REVIEW]:::REVIEW
+        REVIEW -- CERT team reviewed and rejected the task --&gt; REJECTED(REJECTED):::REJECTED
+        REVIEW -- CERT team formally approves the deliverable --&gt; CLOSED(CLOSED):::CLOSED
+    end
+
+    %% Node colors
+    classDef BACKLOG fill:#8D8D8D,stroke:#444444,stroke-width:2px,font-weight:bold;
+    classDef TODO fill:#5C47CD,stroke:#3B2580,stroke-width:2px,font-weight:bold;
+    classDef INPROGRESS fill:#FFC53D,stroke:#B98A1C,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef BLOCKED fill:#000000,stroke:#191919,stroke-width:2px,font-weight:bold;
+    classDef COMPLETED fill:#12A594,stroke:#07584E,stroke-width:2px,font-weight:bold;
+    classDef REVIEW fill:#C36522,stroke:#7A4004,stroke-width:2px,font-weight:bold;
+    classDef REJECTED fill:#E5484D,stroke:#831921,stroke-width:2px,font-weight:bold;
+    classDef CLOSED fill:#2C8C5E,stroke:#1F4135,stroke-width:2px,font-weight:bold;</code></pre>
+</div>
+<h3 id="22-responsibilities-process">2.2 Responsibilities &amp; Process</h3>
+<ul>
+<li><strong>Task Creation:</strong> Tasks can be created by any stakeholder, with details such as description, assignee, due date, and priority.</li>
+<li><strong>Assignment:</strong> Tasks are assigned to appropriate team members via ClickUp, clarifying ownership.</li>
+<li><strong>Regular Updates:</strong> Team members update task status as progress is made, ensuring real-time visibility for all stakeholders.</li>
+<li><strong>Review &amp; Approval:</strong> The CERT team is responsible for formal reviews, acceptance, or rejection of completed deliveries.</li>
+<li><strong>Traceability:</strong> All changes, comments, attachments, and status updates are logged in the project's Github repo for a comprehensive project audit.</li>
+</ul>
+<h2 id="3-github-branches-workflow-and-rules">3. GitHub Branches, Workflow, and Rules</h2>
+<h3 id="31-branches">3.1 Branches</h3>
+<p>This section defines the standard naming convention for Git branches in the <strong>Wiresploit</strong> repository. makes it clear at a glance which part of the project (brain, firmware, hardware, or docs) a branch touches, and links code changes directly back to Business Requirements (BR-IDs) for traceability in reports and audits.</p>
+<pre class="mermaid"><code>gitGraph
+    commit id: "init repo"
+    commit id: "add docs/BRD"
+    branch docs/srs-draft
+    checkout docs/srs-draft
+    commit id: "add SRS skeleton"
+    commit id: "clarify BR-ACT scope"
+    checkout main
+    branch feature/firmware/BR-MON-01-i2c-capture
+    checkout feature/firmware/BR-MON-01-i2c-capture
+    commit id: "i2c capture skeleton"
+    commit id: "i2c capture tested"
+    checkout main
+    branch feature/core/BR-MON-04-ntp-sync
+    checkout feature/core/BR-MON-04-ntp-sync
+    commit id: "ptp sync client"
+    commit id: "clock drift logging"
+    checkout main
+    merge docs/srs-draft tag: "PR #10 reviewed"
+    merge feature/firmware/BR-MON-01-i2c-capture tag: "PR #12 reviewed"
+    checkout feature/core/BR-MON-04-ntp-sync
+    commit id: "fix drift edge case"
+    checkout main
+    merge feature/core/BR-MON-04-ntp-sync tag: "PR #15 reviewed"
+    branch fix/core/BR-ANA-08-memory-overlap
+    checkout fix/core/BR-ANA-08-memory-overlap
+    commit id: "fix overlap detection"
+    checkout main
+    merge fix/core/BR-ANA-08-memory-overlap tag: "PR #18 reviewed"
+    commit id: "tag v0.1.0-alpha" tag: "v0.1.0-alpha"
+    branch feature/hardware/pcb-rev2
+    checkout feature/hardware/pcb-rev2
+    commit id: "pcb rev2 schematic"
+    checkout main
+    merge feature/hardware/pcb-rev2 tag: "PR #21 reviewed"</code></pre>
+<h3 id="31-branching-strategy">3.1 Branching Strategy</h3>
+<ul>
+<li><strong><code>main</code> branch:</strong> Always stable, production-ready code. Only CERT-approved and reviewed changes are merged here.</li>
+<li><strong><code>develop</code> branch:</strong> Integration branch containing the latest delivered features, bugfixes, and changes. Most feature branches are merged here after review.</li>
+<li><strong>Feature branches:</strong> Short-lived branches created from <code>develop</code> for each new feature, enhancement, or fix. Convention: <code>feature/branch-name</code>.</li>
+<li><strong>fix branches:</strong> For urgent fixes applied to production (<code>main</code>). Convention: <code>fix/&lt;component&gt;/&lt;BR-ID&gt;-&lt;short-description&gt;</code>.</li>
+<li><strong>Docs branches:</strong> For documentation, requirements, or architecture work. Convention: <code>docs/&lt;cert or helwan&gt;</code>.</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> All work should be done through Pull Requests (PRs), never by directly committing to <code>main</code> or <code>develop</code>.</p>
+</blockquote>
+<h3 id="32-github-workflow">3.2 GitHub Workflow</h3>
+<ol>
+<li><strong>Fork and Clone:</strong> Developers fork the repository (if external), then clone locally.</li>
+<li><strong>Create a Branch:</strong> For each task, create a branch from <code>develop</code> using the feature/hotfix/release naming conventions.</li>
+<li><strong>Commit Changes:</strong> Make descriptive, atomic commits (referencing ClickUp or task IDs where possible).</li>
+<li><strong>Push &amp; PR:</strong> Push the branch and open a Pull Request (PR) targeting <code>develop</code> (or <code>main</code> for hotfixes). Ensure PR description references the related task or issue.</li>
+<li><strong>Code Review:</strong> At least one reviewer (preferably someone not the author) must review the PR.</li>
+<li><strong>CERT Review:</strong> CERT team reviews and approves PRs, especially for critical or production changes.</li>
+<li><strong>Merge:</strong> Only after all required approvals and automations pass, PRs are merged.</li>
+<li><strong>Delete branch:</strong> After merging, delete the feature/hotfix/release branch.</li>
+</ol>
+<h3 id="33-rules-best-practices">3.3 Rules &amp; Best Practices</h3>
+<ul>
+<li><strong>No direct pushes to <code>main</code> or <code>develop</code>.</strong> All changes enter via PRs.</li>
+<li><strong>PR descriptions must include:</strong></li>
+<li>Summary of changes</li>
+<li>Related ClickUp/GitHub issues</li>
+<li>Screenshots/test results (where applicable)</li>
+<li><strong>Status checks:</strong> PRs must pass all required status checks (CI, code quality, tests).</li>
+<li><strong>Reviewers:</strong> Assign at least one reviewer (CERT team for critical paths, peer review otherwise).</li>
+<li><strong>Conventional commits:</strong> Use <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a> style for commit messages.</li>
+<li><strong>Documentation:</strong> Update relevant documentation with code changes.</li>
+<li><strong>Changelogs:</strong> Major PRs must update the project changelog (if present).</li>
+<li><strong>Protected branches:</strong> <code>main</code> (and often <code>develop</code>) should be protected in repository settings to require PRs, passing checks, and approvals.</li>
+</ul>
+<hr>
+<blockquote>
+<p><strong>Why this matters:</strong><br>
+Following strict workflows and branching rules ensures code quality, auditability, and project traceability—supporting safe, predictable, and maintainable project development.</p>
+</blockquote>
+<h2 id="format">Format</h2>
+<div class="highlight"><pre><span></span><code>&lt;type&gt;/&lt;component&gt;/&lt;short-description-or-BR-ID&gt;
+</code></pre></div>
+<h2 id="types">Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>feature/</code></td>
+<td>Adding new functionality to the code</td>
+</tr>
+<tr>
+<td><code>fix/</code></td>
+<td>Fixing a bug</td>
+</tr>
+<tr>
+<td><code>docs/</code></td>
+<td>Documentation changes only</td>
+</tr>
+<tr>
+<td><code>chore/</code></td>
+<td>Maintenance (dependencies, CI, config)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="component">Component</h2>
+<p>Used with <code>feature/</code> and <code>fix/</code> only (not with <code>docs/</code> or <code>chore/</code>, since those usually aren't tied to a specific code component):</p>
+<ul>
+<li><code>brain</code></li>
+<li><code>firmware</code></li>
+<li><code>hardware</code></li>
+</ul>
+<h2 id="full-pattern">Full Pattern</h2>
+<div class="highlight"><pre><span></span><code>feature/&lt;component&gt;/&lt;BR-ID&gt;-&lt;short-description&gt;
+fix/&lt;component&gt;/&lt;BR-ID&gt;-&lt;short-description&gt;
+docs/&lt;short-description&gt;
+chore/&lt;short-description&gt;
+</code></pre></div>
+<h2 id="examples">Examples</h2>
+<div class="highlight"><pre><span></span><code>feature/brain/BR-MON-04-ntp-sync
+feature/firmware/BR-MON-01-i2c-capture
+feature/hardware/BR-ACT-03-pcb-rev2
+fix/brain/BR-ANA-08-memory-overlap
+docs/srs-draft
+docs/clarify-BR-ACT-scope
+chore/update-docker-base-image
+chore/ci-pipeline-setup
+</code></pre></div>
+<h2 id="writing-rules">Writing Rules</h2>
+<ul>
+<li>All <strong>lowercase</strong></li>
+<li>Words separated by <code>-</code> (not spaces or <code>_</code>)</li>
+<li>Sections separated by <code>/</code></li>
+<li>BR-ID (if applicable) written exactly as in the BRD: <code>BR-MON-04</code>, not <code>br-mon-04</code> or <code>BRMON04</code></li>
+<li>Keep the whole name under ~50 characters where possible</li>
+</ul></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "content.code.annotate"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

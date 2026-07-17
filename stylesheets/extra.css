@@ -1,0 +1,428 @@
+/* ========================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ======================================== */
+
+:root {
+    /* Primary Theme Colors */
+    --md-primary-fg-color: #1a1414;
+    --md-primary-fg-color--light: #ECB7B7;
+    --md-primary-fg-color--dark: #1e2129;
+    /* Custom theme variables - Default values */
+    --cover-bg-primary: rgba(15, 23, 42, 0.85);
+    --cover-bg-secondary: rgba(30, 41, 59, 0.8);
+    --cover-bg-tertiary: rgba(51, 65, 85, 0.75);
+    --cover-accent-warm: rgba(120, 53, 15, 0.3);
+    --cover-accent-cool: rgba(29, 78, 216, 0.3);
+    --cover-text-color: white;
+    --cover-subtitle-color: #e2e8f0;
+    --cover-description-color: #cbd5e1;
+    --cover-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --section-title-color: #1e293b;
+    --section-underline: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+}
+
+
+/* Dark mode variables */
+
+[data-md-color-scheme="slate"] {
+    --cover-bg-primary: rgba(15, 23, 42, 0.95);
+    --cover-bg-secondary: rgba(30, 41, 59, 0.9);
+    --cover-bg-tertiary: rgba(51, 65, 85, 0.85);
+    --cover-accent-warm: rgba(139, 69, 19, 0.4);
+    --cover-accent-cool: rgba(37, 99, 235, 0.4);
+    --cover-text-color: #f8fafc;
+    --cover-subtitle-color: #e2e8f0;
+    --cover-description-color: #cbd5e1;
+    --cover-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    --card-bg: rgba(255, 255, 255, 0.08);
+    --card-border: rgba(255, 255, 255, 0.15);
+    --section-title-color: #f1f5f9;
+    --section-underline: linear-gradient(90deg, #c00000, #ff0000);
+}
+
+
+/* Light mode variables */
+
+[data-md-color-scheme="default"] {
+    --cover-bg-primary: rgba(71, 85, 105, 0.8);
+    --cover-bg-secondary: rgba(100, 116, 139, 0.75);
+    --cover-bg-tertiary: rgba(148, 163, 184, 0.7);
+    --cover-accent-warm: rgba(194, 65, 12, 0.25);
+    --cover-accent-cool: rgba(59, 130, 246, 0.25);
+    --cover-text-color: white;
+    --cover-subtitle-color: #f8fafc;
+    --cover-description-color: #e2e8f0;
+    --cover-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --card-border: rgba(0, 0, 0, 0.1);
+    --section-title-color: #1e293b;
+    --section-underline: linear-gradient(90deg, #c00000, #ff0000);
+}
+
+
+
+
+/* Dark Red Header Styling */
+
+.md-header {
+    background: linear-gradient(135deg, #6a0000 0%, #8b0000 100%) !important;
+    box-shadow: 0 1px 4px rgba(139, 0, 0, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.md-header__button {
+    color: rgb(255, 255, 255) !important;
+    transition: all 0.3s ease !important;
+}
+
+.md-header__button:hover {
+    color: #ffcdd2 !important;
+    transform: scale(1.1) !important;
+}
+
+.md-header__title {
+    color: white !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+.md-header-nav__button {
+    color: white !important;
+}
+
+.md-search__input {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: black !important;
+    /* fallback for light mode */
+}
+
+/* Light mode: black text */
+[data-md-color-scheme="default"] .md-search__input {
+    color: black !important;
+}
+
+[data-md-color-scheme="default"] .md-search__input::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Dark mode (slate): white text */
+[data-md-color-scheme="slate"] .md-search__input {
+    color: white !important;
+}
+
+[data-md-color-scheme="slate"] .md-search__input::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.md-search__input::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.md-footer,
+.md-footer__inner,
+.md-footer-copyright,
+.md-footer__title,
+.md-footer__direction {
+    display: none !important;
+}
+
+._red {
+    color: #ef5552;
+    font-weight: bold;
+}
+
+._green {
+    color: #397d2c;
+    font-weight: bold;
+}
+
+.Small_table_image {
+    width: 100px;
+    height: auto;
+}
+
+/* ========================================
+   COVER SECTION STYLING
+   ======================================== */
+
+.cover {
+    position: relative;
+    background: url("../assets/logo.png") no-repeat center center;
+    background-size: cover;
+    color: white;
+    min-height: 300px;
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 0 0 0px 0px;
+    padding: 0px;
+}
+
+/* Gradient fade at bottom */
+.cover::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 10%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, var(--md-default-bg-color) 100%);
+}
+
+/* Ensure text is readable and styled */
+
+.cover h1,
+.cover h2,
+.cover p {
+    position: relative;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin: 10px 0;
+}
+
+.cover h1 {
+    font-size: clamp(2.5em, 5vw, 4em);
+    font-weight: 800;
+    margin-bottom: 25px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 25%, #42a5f5 50%, #4ecdc4 75%, #ab47bc 100%);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 8s ease-in-out infinite;
+    letter-spacing: -0.02em;
+    text-shadow: none;
+}
+
+@keyframes gradientShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.cover h2 {
+    font-size: clamp(1.4em, 3vw, 2.2em);
+    font-weight: 300;
+    margin-bottom: 20px;
+    opacity: 0.95;
+    color: var(--cover-subtitle-color);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.cover p {
+    font-size: clamp(1em, 2vw, 1.3em);
+    max-width: 700px;
+    line-height: 1.8;
+    opacity: 0.85;
+    color: var(--cover-description-color);
+    font-weight: 300;
+    margin-top: 25px;
+}
+
+.gallery-table img {
+    width: 100%;
+    max-width: 250px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.gallery-table img:hover {
+    transform: scale(1.05);
+}
+
+.gallery-table td {
+    text-align: center;
+    padding: 15px;
+    vertical-align: top;
+}
+
+/* First row of tables with red background */
+.md-typeset table thead tr:first-child td,
+.md-typeset table thead tr:first-child th {
+    background-color: #b10000 !important;
+    color: white !important;
+}
+
+
+/* CVE Chip Styling - Enhanced */
+
+.cve-chip {
+    display: inline-block;
+    background: #e53935;
+    color: white !important;
+    padding: 0.25rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.55rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.cve-chip::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.cve-chip:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: #d32f2f;
+    color: white !important;
+}
+
+.cve-chip:hover::before {
+    left: 100%;
+}
+
+
+/* Grid Card Image Styling */
+
+.md-typeset .grid.cards img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.md-typeset .grid.cards img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Grid Card Hover Effect - Enhanced Blue Frame */
+
+.md-typeset .grid.cards>ul>li,
+.md-typeset .grid.cards>ol>li {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    border-radius: 16px;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.md-typeset .grid.cards>ul>li::before,
+.md-typeset .grid.cards>ol>li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(156, 39, 176, 0.1) 100%); */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 14px;
+    z-index: -1;
+}
+
+.md-typeset .grid.cards>ul>li:hover,
+.md-typeset .grid.cards>ol>li:hover {
+    border: 2px solid #2196F3 !important;
+    box-shadow:
+        0 0 15px rgba(33, 150, 243, 0.8) !important,
+        0 0 30px rgba(33, 150, 243, 0.5) !important,
+        0 0 45px rgba(33, 150, 243, 0.3) !important,
+        0 8px 25px rgba(33, 150, 243, 0.2) !important,
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-6px) scale(1.02);
+    border-radius: 16px;
+}
+
+.md-typeset .grid.cards>ul>li:hover::before,
+.md-typeset .grid.cards>ol>li:hover::before {
+    opacity: 1;
+}
+
+
+/* Beautiful section title styling */
+
+.md-typeset h1 {
+    color: var(--section-title-color);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.md-typeset h1::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100px;
+    height: 3px;
+    background: var(--section-underline);
+    border-radius: 2px;
+}
+
+
+/* Smooth page transitions */
+
+* {
+    scroll-behavior: smooth;
+}
+
+
+/* Enhanced Material Icons */
+
+.md-typeset .grid.cards .material-icons {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+
+/* Navigation tabs styling for dark red theme */
+
+.md-tabs {
+    background: linear-gradient(135deg, #6a0000 0%, #8b0000 100%) !important;
+    box-shadow: 0 1px 4px rgba(139, 0, 0, 0.2) !important;
+}
+
+.md-tabs__item {
+    color: rgba(255, 255, 255, 0.8) !important;
+    transition: all 0.3s ease !important;
+}
+
+.md-tabs__item:hover {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.md-tabs__link--active {
+    color: white !important;
+    border-bottom: 2px solid #ffcdd2 !important;
+}

@@ -1,0 +1,2573 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../00_BRD/">
+      
+      
+        <link rel="next" href="../../Resources/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>01_Acceptance_Criteria - Wiresploit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#acceptance-criteria-ac" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Wiresploit" class="md-header__button md-logo" aria-label="Wiresploit" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Wiresploit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              01_Acceptance_Criteria
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Wiresploit" class="md-nav__button md-logo" aria-label="Wiresploit" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Wiresploit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../private/private/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    private
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00_Project_Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    00_Project_Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00_Project_Management/01_Charter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Charter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requirements
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Requirements
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01_Requirements
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_BRD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00_BRD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Criteria
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Acceptance Criteria
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Acceptance_Criteria
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Acceptance_Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-core-monitoring-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Core Monitoring &amp; Correlation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Core Monitoring &amp; Correlation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-01-unified-live-multi-protocol-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-01 — Unified live multi-protocol view
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-02-correct-causaltime-ordering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-02 — Correct causal/time ordering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-03-live-correlation-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-03 — Live correlation latency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-04-common-time-reference-clock-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-04 — Common time reference / clock sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-05-documented-capacity-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-05 — Documented capacity limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-06-camera-trigger-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-06 — Camera trigger conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-07-video-timeline-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-07 — Video-timeline correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-08-automated-video-behavior-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-08 — Automated video behavior summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-session-recording-analysis-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Session Recording, Analysis &amp; Reporting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Session Recording, Analysis &amp; Reporting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-01-record-playback-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-01 — Record &amp; playback sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-02-search-for-sensitive-info-in-a-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-02 — Search for sensitive info in a session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-03-behavior-diagram-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-03 — Behavior diagram generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-04-export-for-client-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-04 — Export for client reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-05-auto-flag-clear-text-sensitive-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-05 — Auto-flag clear-text sensitive data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-06-usageroi-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-06 — Usage/ROI metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-07-memory-reconstruction-from-bus-captures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-07 — Memory reconstruction from bus captures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-08-reconstruction-completeness-indication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-08 — Reconstruction completeness indication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-active-triggering-dut-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Active Triggering &amp; DUT Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Active Triggering &amp; DUT Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-act-01-controlled-active-reconnaissance-with-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACT-01 — Controlled active reconnaissance with confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-act-02-configurable-auto-trigger-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACT-02 — Configurable auto-trigger conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-act-03-trigger-output-action-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACT-03 — Trigger output action types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-data-integrity-security-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Data Integrity, Security &amp; Access Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Data Integrity, Security &amp; Access Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-sec-01-protection-of-data-at-rest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-SEC-01 — Protection of data at rest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-sec-02-tamper-evidence-for-recorded-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-SEC-02 — Tamper-evidence for recorded sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-sec-03-role-based-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-SEC-03 — Role-based access control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-sec-04-encryptedauthenticated-node-to-core-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-SEC-04 — Encrypted/authenticated node-to-core communication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-non-interference-operating-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Non-Interference &amp; Operating Environment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Non-Interference &amp; Operating Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-env-01-no-interference-during-passive-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ENV-01 — No interference during passive monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-env-02-fully-air-gapped-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ENV-02 — Fully air-gapped operation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-extensibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Extensibility
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Extensibility">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-ext-01-support-for-additional-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-EXT-01 — Support for additional protocols
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ext-02-documented-external-integration-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-EXT-02 — Documented external integration interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-deployment-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Deployment &amp; Delivery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Deployment &amp; Delivery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-dep-01-containerized-reproducible-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-DEP-01 — Containerized, reproducible deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-dep-02-configdata-export-import-independent-of-container-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-DEP-02 — Config/data export-import independent of container lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-acceptance-adoption-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Acceptance, Adoption &amp; Support
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Acceptance, Adoption &amp; Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-acc-01-uat-process-against-real-dut-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACC-01 — UAT process against real DUT scenarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-acc-02-training-planmaterial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACC-02 — Training plan/material
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-core-monitoring-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Core Monitoring &amp; Correlation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Core Monitoring &amp; Correlation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-01-unified-live-multi-protocol-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-01 — Unified live multi-protocol view
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-02-correct-causaltime-ordering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-02 — Correct causal/time ordering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-03-live-correlation-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-03 — Live correlation latency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-04-common-time-reference-clock-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-04 — Common time reference / clock sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-05-documented-capacity-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-05 — Documented capacity limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-06-camera-trigger-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-06 — Camera trigger conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-07-video-timeline-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-07 — Video-timeline correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-08-automated-video-behavior-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-08 — Automated video behavior summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-session-recording-analysis-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Session Recording, Analysis &amp; Reporting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Session Recording, Analysis &amp; Reporting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-01-record-playback-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-01 — Record &amp; playback sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-02-search-for-sensitive-info-in-a-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-02 — Search for sensitive info in a session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-03-behavior-diagram-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-03 — Behavior diagram generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-04-export-for-client-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-04 — Export for client reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-05-auto-flag-clear-text-sensitive-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-05 — Auto-flag clear-text sensitive data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-06-usageroi-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-06 — Usage/ROI metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-07-memory-reconstruction-from-bus-captures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-07 — Memory reconstruction from bus captures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-08-reconstruction-completeness-indication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-08 — Reconstruction completeness indication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-active-triggering-dut-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Active Triggering &amp; DUT Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Active Triggering &amp; DUT Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-act-01-controlled-active-reconnaissance-with-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACT-01 — Controlled active reconnaissance with confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-act-02-configurable-auto-trigger-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACT-02 — Configurable auto-trigger conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-act-03-trigger-output-action-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACT-03 — Trigger output action types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-data-integrity-security-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Data Integrity, Security &amp; Access Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Data Integrity, Security &amp; Access Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-sec-01-protection-of-data-at-rest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-SEC-01 — Protection of data at rest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-sec-02-tamper-evidence-for-recorded-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-SEC-02 — Tamper-evidence for recorded sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-sec-03-role-based-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-SEC-03 — Role-based access control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-sec-04-encryptedauthenticated-node-to-core-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-SEC-04 — Encrypted/authenticated node-to-core communication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-non-interference-operating-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Non-Interference &amp; Operating Environment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Non-Interference &amp; Operating Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-env-01-no-interference-during-passive-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ENV-01 — No interference during passive monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-env-02-fully-air-gapped-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ENV-02 — Fully air-gapped operation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-extensibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Extensibility
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Extensibility">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-ext-01-support-for-additional-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-EXT-01 — Support for additional protocols
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ext-02-documented-external-integration-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-EXT-02 — Documented external integration interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-deployment-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Deployment &amp; Delivery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Deployment &amp; Delivery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-dep-01-containerized-reproducible-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-DEP-01 — Containerized, reproducible deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-dep-02-configdata-export-import-independent-of-container-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-DEP-02 — Config/data export-import independent of container lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-acceptance-adoption-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Acceptance, Adoption &amp; Support
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Acceptance, Adoption &amp; Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#br-acc-01-uat-process-against-real-dut-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACC-01 — UAT process against real DUT scenarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-acc-02-training-planmaterial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ACC-02 — Training plan/material
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div><h1 id="acceptance-criteria-ac">Acceptance Criteria (AC)</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Project Name</td>
+<td>IoT Reconnaissance &amp; Communication-Block Monitoring System</td>
+</tr>
+<tr>
+<td>Working Title</td>
+<td>Wiresploit</td>
+</tr>
+<tr>
+<td>Document Status</td>
+<td><code>Draft</code> — pending sponsor approval</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>17-7-2026</td>
+</tr>
+<tr>
+<td>Prepared by</td>
+<td>Mohamed Salah-elden</td>
+</tr>
+<tr>
+<td>Related Documents</td>
+<td>00_BRD.md, 01_Charter.md</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="purpose">Purpose</h2>
+<p>This document defines testable Acceptance Criteria (AC) for every Business Requirement (BR) listed in the BRD (Section 5). Each BR is broken down into one or more AC items that can be individually verified during User Acceptance Testing (UAT), per BR-ACC-01. Most criteria are written as measurable statements; requirements involving multi-step behavior or conditional logic use a Given/When/Then format for precision.</p>
+<p><strong>Legend:</strong>
+- <strong>Format: Measurable</strong> — a plain, quantifiable/verifiable statement.
+- <strong>Format: G/W/T</strong> — Given/When/Then scenario.</p>
+<hr>
+<h2 id="1-core-monitoring-correlation">1. Core Monitoring &amp; Correlation</h2>
+<h3 id="br-mon-01-unified-live-multi-protocol-view">BR-MON-01 — Unified live multi-protocol view</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-01.1</td>
+<td>Measurable</td>
+<td>The live UI displays network, onboard-bus (I2C/SPI/UART/GPIO), and wireless (BT/LoRa/RFID/etc.) captures simultaneously in a single screen/session, without requiring a separate tool or window per protocol.</td>
+</tr>
+<tr>
+<td>AC-MON-01.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> at least two Capture Nodes of different protocol types are connected and active, <strong>when</strong> the analyst opens a live session, <strong>then</strong> events from both protocols appear on the same unified view without manual switching.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-02-correct-causaltime-ordering">BR-MON-02 — Correct causal/time ordering</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-02.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a DUT action triggers both a network event and an internal bus event, <strong>when</strong> both are captured, <strong>then</strong> the system displays them in the unified timeline ordered by their true chronological occurrence, not by arrival/ingestion order.</td>
+</tr>
+<tr>
+<td>AC-MON-02.2</td>
+<td>Measurable</td>
+<td>Events sharing a common trigger (e.g., a login attempt) are visually grouped or linked on the timeline as a correlated set.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-03-live-correlation-latency">BR-MON-03 — Live correlation latency</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-03.1</td>
+<td>Measurable</td>
+<td>The system publishes a documented maximum latency (in ms) between an event's occurrence and its appearance on the live correlated timeline, validated against the selected hardware.</td>
+</tr>
+<tr>
+<td>AC-MON-03.2</td>
+<td>Measurable</td>
+<td>In a test run of N events (N to be defined in the test plan), at least 95% of events are displayed within the documented latency threshold.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-04-common-time-reference-clock-sync">BR-MON-04 — Common time reference / clock sync</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-04.1</td>
+<td>Measurable</td>
+<td>All Capture Nodes and the core synchronize to a local/on-premises NTP or PTP server with no dependency on external internet connectivity.</td>
+</tr>
+<tr>
+<td>AC-MON-04.2</td>
+<td>Measurable</td>
+<td>The system documents a maximum clock drift value (e.g., in µs/ms) between any two Capture Nodes and the core, verified by test measurement.</td>
+</tr>
+<tr>
+<td>AC-MON-04.3</td>
+<td>Measurable</td>
+<td>Time-sync status (in-sync / drifted / lost) is visible to the analyst for each connected node.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-05-documented-capacity-limits">BR-MON-05 — Documented capacity limits</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-05.1</td>
+<td>Measurable</td>
+<td>The system documentation states the maximum number of simultaneous Capture Nodes/protocols supported without degradation in correlation accuracy or timeline responsiveness.</td>
+</tr>
+<tr>
+<td>AC-MON-05.2</td>
+<td>Measurable</td>
+<td>A load test at the documented maximum shows no measurable increase in correlation latency beyond the threshold defined in BR-MON-03.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-06-camera-trigger-conditions">BR-MON-06 — Camera trigger conditions</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-06.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a trigger event/signal is configured, <strong>when</strong> that event occurs, <strong>then</strong> the camera begins recording automatically without operator intervention.</td>
+</tr>
+<tr>
+<td>AC-MON-06.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a configured delay period following a trigger, <strong>when</strong> the trigger fires, <strong>then</strong> recording starts after the exact configured delay (within a documented tolerance).</td>
+</tr>
+<tr>
+<td>AC-MON-06.3</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a configured packet/pattern match condition, <strong>when</strong> a matching packet is captured, <strong>then</strong> recording starts automatically.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-07-video-timeline-correlation">BR-MON-07 — Video-timeline correlation</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-07.1</td>
+<td>Measurable</td>
+<td>Every recorded video segment is stored with a timestamp aligned to the same time reference used by BR-MON-04.</td>
+</tr>
+<tr>
+<td>AC-MON-07.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a recorded session containing a video segment, <strong>when</strong> the analyst views the timeline, <strong>then</strong> the video segment appears positioned at its correct correlated point relative to other captured events.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-08-automated-video-behavior-summary">BR-MON-08 — Automated video behavior summary</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-08.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a recorded video segment linked to a triggering event, <strong>when</strong> the analyst requests analysis, <strong>then</strong> the system generates a descriptive text summary of observed physical behavior (e.g., motor movement, LED state change).</td>
+</tr>
+<tr>
+<td>AC-MON-08.2</td>
+<td>Measurable</td>
+<td>The generated summary is displayed attached to (or linked from) the triggering event on the timeline.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-session-recording-analysis-reporting">2. Session Recording, Analysis &amp; Reporting</h2>
+<h3 id="br-ana-01-record-playback-sessions">BR-ANA-01 — Record &amp; playback sessions</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ANA-01.1</td>
+<td>Measurable</td>
+<td>A full test session (all protocols captured during that session) can be saved to persistent storage and reloaded for playback at a later time.</td>
+</tr>
+<tr>
+<td>AC-ANA-01.2</td>
+<td>Measurable</td>
+<td>Playback reproduces the original event order and timestamps as recorded, without data loss.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-ana-02-search-for-sensitive-info-in-a-session">BR-ANA-02 — Search for sensitive info in a session</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ANA-02.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a recorded session containing a known plaintext credential/token, <strong>when</strong> the analyst runs a search/scan, <strong>then</strong> the system identifies it and shows its exact location (packet/timestamp/protocol) within the session.</td>
+</tr>
+<tr>
+<td>AC-ANA-02.2</td>
+<td>Measurable</td>
+<td>Search supports both known-pattern detection (e.g., credential formats) and analyst-defined custom search phrases.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-ana-03-behavior-diagram-generation">BR-ANA-03 — Behavior diagram generation</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ANA-03.1</td>
+<td>Measurable</td>
+<td>From a recorded session, the analyst can generate a visual diagram representing observed device behavior/flow.</td>
+</tr>
+<tr>
+<td>AC-ANA-03.2</td>
+<td>Measurable</td>
+<td>The generated diagram is exportable in a format usable directly in a client report (e.g., PNG/SVG/PDF).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-ana-04-export-for-client-reporting">BR-ANA-04 — Export for client reporting</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ANA-04.1</td>
+<td>Measurable</td>
+<td>Session data and findings can be exported in at least one report-ready format (e.g., PDF, DOCX, or structured JSON/CSV for further processing).</td>
+</tr>
+<tr>
+<td>AC-ANA-04.2</td>
+<td>Measurable</td>
+<td>Exported output includes timestamps, protocol source, and any flagged findings (e.g., detected secrets from BR-ANA-05).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-ana-05-auto-flag-clear-text-sensitive-data">BR-ANA-05 — Auto-flag clear-text sensitive data</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ANA-05.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a captured packet contains plaintext sensitive data (e.g., credentials/tokens), <strong>when</strong> capture/analysis completes, <strong>then</strong> the packet is automatically flagged and visually distinguished on the timeline without manual search.</td>
+</tr>
+<tr>
+<td>AC-ANA-05.2</td>
+<td>Measurable</td>
+<td>Flagged items are filterable/listable as a dedicated view (e.g., "Findings" panel) separate from the full timeline.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-ana-06-usageroi-metrics">BR-ANA-06 — Usage/ROI metrics</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ANA-06.1</td>
+<td>Measurable</td>
+<td>The system tracks and reports, at minimum: number of sessions conducted, average time-to-finding, and number of secrets/credentials automatically detected.</td>
+</tr>
+<tr>
+<td>AC-ANA-06.2</td>
+<td>Measurable</td>
+<td>Metrics are viewable in an aggregated dashboard/report covering a selectable time period.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-ana-07-memory-reconstruction-from-bus-captures">BR-ANA-07 — Memory reconstruction from bus captures</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ANA-07.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a recorded session with SPI/I2C flash or addressable memory transactions, <strong>when</strong> the analyst requests reconstruction, <strong>then</strong> the system aggregates observed address/data pairs into a unified memory map/dump.</td>
+</tr>
+<tr>
+<td>AC-ANA-07.2</td>
+<td>Measurable</td>
+<td>The reconstructed memory map is exportable (e.g., as a binary/hex dump file) for external review.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-ana-08-reconstruction-completeness-indication">BR-ANA-08 — Reconstruction completeness indication</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ANA-08.1</td>
+<td>Measurable</td>
+<td>The reconstructed memory map visually distinguishes three states per address range: fully observed, partially observed, never captured.</td>
+</tr>
+<tr>
+<td>AC-ANA-08.2</td>
+<td>Measurable</td>
+<td>A summary statistic (e.g., % of address space fully observed) is displayed alongside the memory map.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-active-triggering-dut-control">3. Active Triggering &amp; DUT Control</h2>
+<h3 id="br-act-01-controlled-active-reconnaissance-with-confirmation">BR-ACT-01 — Controlled active reconnaissance with confirmation</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ACT-01.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> an analyst initiates an active reconnaissance action, <strong>when</strong> the action is about to execute, <strong>then</strong> the system requires and logs explicit operator confirmation before proceeding.</td>
+</tr>
+<tr>
+<td>AC-ACT-01.2</td>
+<td>Measurable</td>
+<td>No active reconnaissance action executes without a prior, auditable confirmation step (no silent/automatic execution).</td>
+</tr>
+<tr>
+<td>AC-ACT-01.3</td>
+<td>Measurable</td>
+<td>The DUT's response to the action is captured and made available for analysis through the same platform/session.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-act-02-configurable-auto-trigger-conditions">BR-ACT-02 — Configurable auto-trigger conditions</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ACT-02.1</td>
+<td>Measurable</td>
+<td>The operator can define a trigger condition (event, pattern, or signal) through the UI/config, without requiring code changes.</td>
+</tr>
+<tr>
+<td>AC-ACT-02.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a configured trigger condition, <strong>when</strong> that condition is met during a session, <strong>then</strong> the associated output action initiates automatically.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-act-03-trigger-output-action-types">BR-ACT-03 — Trigger output action types</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ACT-03.1</td>
+<td>Measurable</td>
+<td>The system supports, at minimum, these output actions: (a) hardware reset/power-cycle of the DUT, (b) wired/logic-level output signal (e.g., GPIO pulse), (c) wireless signal generation/replay, (d) on-board protocol generation/replay via capture nodes.</td>
+</tr>
+<tr>
+<td>AC-ACT-03.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> any of the above output actions is selected, <strong>when</strong> the operator has not explicitly configured/confirmed it, <strong>then</strong> the system does not execute it.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-data-integrity-security-access-control">4. Data Integrity, Security &amp; Access Control</h2>
+<h3 id="br-sec-01-protection-of-data-at-rest">BR-SEC-01 — Protection of data at rest</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-SEC-01.1</td>
+<td>Measurable</td>
+<td>Captured session data stored at rest is encrypted or otherwise access-controlled such that it cannot be read without proper authentication.</td>
+</tr>
+<tr>
+<td>AC-SEC-01.2</td>
+<td>Measurable</td>
+<td>Unauthorized access attempts (e.g., wrong credentials, missing permissions) are denied and logged.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-sec-02-tamper-evidence-for-recorded-sessions">BR-SEC-02 — Tamper-evidence for recorded sessions</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-SEC-02.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a recorded session has been saved, <strong>when</strong> any part of its data is modified post-capture, <strong>then</strong> the system can detect and flag the modification (e.g., via hash/checksum/signature mismatch).</td>
+</tr>
+<tr>
+<td>AC-SEC-02.2</td>
+<td>Measurable</td>
+<td>Verification of session integrity is available as an explicit action/report the analyst (or client) can run on demand.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-sec-03-role-based-access-control">BR-SEC-03 — Role-based access control</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-SEC-03.1</td>
+<td>Measurable</td>
+<td>The system supports at least two distinct roles (e.g., viewer, analyst/editor) with different permissions for view/export/modify actions.</td>
+</tr>
+<tr>
+<td>AC-SEC-03.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a user with view-only role, <strong>when</strong> they attempt to modify or export restricted session data, <strong>then</strong> the action is denied.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-sec-04-encryptedauthenticated-node-to-core-communication">BR-SEC-04 — Encrypted/authenticated node-to-core communication</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-SEC-04.1</td>
+<td>Measurable</td>
+<td>Wireless communication between Capture Nodes and the core is encrypted and authenticated (e.g., TLS or equivalent), verified via traffic inspection showing no plaintext payload.</td>
+</tr>
+<tr>
+<td>AC-SEC-04.2</td>
+<td>Measurable</td>
+<td>A spoofed/unauthenticated node cannot successfully submit data accepted by the core.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-non-interference-operating-environment">5. Non-Interference &amp; Operating Environment</h2>
+<h3 id="br-env-01-no-interference-during-passive-monitoring">BR-ENV-01 — No interference during passive monitoring</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ENV-01.1</td>
+<td>Measurable</td>
+<td>With passive monitoring active and no reconnaissance action triggered, the DUT's measured behavior (timing, responses, state) is unchanged compared to a baseline run without the system attached.</td>
+</tr>
+<tr>
+<td>AC-ENV-01.2</td>
+<td>Measurable</td>
+<td>This criterion is verified separately from — and does not apply to — active reconnaissance actions under BR-ACT-01/03.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-env-02-fully-air-gapped-operation">BR-ENV-02 — Fully air-gapped operation</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ENV-02.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> the system is fully installed, <strong>when</strong> all external internet connectivity is disconnected, <strong>then</strong> live monitoring, correlation, session recording, and active reconnaissance features all remain fully operable.</td>
+</tr>
+<tr>
+<td>AC-ENV-02.2</td>
+<td>Measurable</td>
+<td>Only initial installation/setup (e.g., pulling Docker images per BR-DEP-01) is documented as requiring internet access; no runtime feature depends on it.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-extensibility">6. Extensibility</h2>
+<h3 id="br-ext-01-support-for-additional-protocols">BR-EXT-01 — Support for additional protocols</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-EXT-01.1</td>
+<td>Measurable</td>
+<td>The architecture documentation describes a defined process/interface for adding a new protocol capture module without redesigning the core system.</td>
+</tr>
+<tr>
+<td>AC-EXT-01.2</td>
+<td>Measurable</td>
+<td>A proof-of-concept addition of one new protocol (beyond the initial set) can be integrated and demonstrated within an agreed effort/time bound.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-ext-02-documented-external-integration-interface">BR-EXT-02 — Documented external integration interface</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-EXT-02.1</td>
+<td>Measurable</td>
+<td>A documented API or scripting interface exists, specifying how an external hardware capture tool can submit data as an additional source.</td>
+</tr>
+<tr>
+<td>AC-EXT-02.2</td>
+<td>Measurable</td>
+<td>A sample/reference integration (e.g., a script or stub tool) successfully submits data through the documented interface and it appears correctly on the unified timeline.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7-deployment-delivery">7. Deployment &amp; Delivery</h2>
+<h3 id="br-dep-01-containerized-reproducible-deployment">BR-DEP-01 — Containerized, reproducible deployment</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-DEP-01.1</td>
+<td>Measurable</td>
+<td>The core and its dependencies can be deployed using a documented Docker/Docker Compose configuration on a clean environment, with no manual environment setup steps beyond running the provided commands.</td>
+</tr>
+<tr>
+<td>AC-DEP-01.2</td>
+<td>Measurable</td>
+<td>Once deployed, the system operates fully offline per BR-ENV-02, with internet access needed only during the initial image pull/setup.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-dep-02-configdata-export-import-independent-of-container-lifecycle">BR-DEP-02 — Config/data export-import independent of container lifecycle</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-DEP-02.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a running deployment with configuration and recorded sessions, <strong>when</strong> the analyst exports this data, <strong>then</strong> a portable backup file/package is produced independent of the container instance.</td>
+</tr>
+<tr>
+<td>AC-DEP-02.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a fresh deployment (new container instance), <strong>when</strong> the exported backup is imported, <strong>then</strong> all configuration and session data is restored correctly and is usable (playback, search, etc.).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8-acceptance-adoption-support">8. Acceptance, Adoption &amp; Support</h2>
+<h3 id="br-acc-01-uat-process-against-real-dut-scenarios">BR-ACC-01 — UAT process against real DUT scenarios</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ACC-01.1</td>
+<td>Measurable</td>
+<td>A formal UAT test plan exists, covering real DUT scenarios (e.g., an actual IP camera), and is executed and signed off before final delivery.</td>
+</tr>
+<tr>
+<td>AC-ACC-01.2</td>
+<td>Measurable</td>
+<td>Every BR-level AC in this document has a corresponding UAT test case with a pass/fail result recorded.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-acc-02-training-planmaterial">BR-ACC-02 — Training plan/material</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ACC-02.1</td>
+<td>Measurable</td>
+<td>Training material (e.g., user guide, walkthrough, or session) covering system operation is delivered before full analyst adoption.</td>
+</tr>
+<tr>
+<td>AC-ACC-02.2</td>
+<td>Measurable</td>
+<td>At least one analyst outside the development team completes a supervised test session using only the training material and system documentation, without developer assistance.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Exact numeric thresholds marked as "to be defined"/"to be validated" (e.g., latency values, node count limits, drift tolerance) should be finalized during the technical design phase and captured in the test plan referenced by BR-ACC-01.</li>
+<li>This document should be updated alongside the BRD if requirements change (traceability per BO-10).</li>
+</ul></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

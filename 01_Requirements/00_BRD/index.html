@@ -1,0 +1,1745 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../00_Project_Management/01_Charter/">
+      
+      
+        <link rel="next" href="../05_Acceptance_Criteria/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>00_BRD - Wiresploit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#business-requirements-document-brd" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Wiresploit" class="md-header__button md-logo" aria-label="Wiresploit" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Wiresploit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              00_BRD
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Wiresploit" class="md-nav__button md-logo" aria-label="Wiresploit" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Wiresploit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../private/private/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    private
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00_Project_Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    00_Project_Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00_Project_Management/01_Charter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Charter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requirements
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Requirements
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01_Requirements
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00_BRD
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00_BRD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Executive Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-business-problem-opportunity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Business Problem / Opportunity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-business-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Business Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-business-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Business Scope
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Business Scope">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-in-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 In Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Out of Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-business-requirements-br" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Business Requirements (BR)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Business Requirements (BR)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-core-monitoring-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Core Monitoring &amp; Correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-session-recording-analysis-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Session Recording, Analysis &amp; Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-active-triggering-dut-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Active Triggering &amp; DUT Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-data-integrity-security-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Data Integrity, Security &amp; Access Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-non-interference-operating-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Non-Interference &amp; Operating Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-extensibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Extensibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-deployment-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Deployment &amp; Delivery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-acceptance-adoption-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.8 Acceptance, Adoption &amp; Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-assumptions-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Assumptions &amp; Constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-cost-benefit-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Cost / Benefit Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-future-business-opportunities-not-yet-scoped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Future Business Opportunities (Not Yet Scoped)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Success Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-risks-business-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Risks (Business-Level)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-related-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Related Documents
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Criteria
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Acceptance Criteria
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_Acceptance_Criteria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01_Acceptance_Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Executive Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-business-problem-opportunity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Business Problem / Opportunity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-business-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Business Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-business-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Business Scope
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Business Scope">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-in-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 In Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Out of Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-business-requirements-br" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Business Requirements (BR)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Business Requirements (BR)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-core-monitoring-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Core Monitoring &amp; Correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-session-recording-analysis-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Session Recording, Analysis &amp; Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-active-triggering-dut-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Active Triggering &amp; DUT Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-data-integrity-security-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Data Integrity, Security &amp; Access Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-non-interference-operating-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Non-Interference &amp; Operating Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-extensibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Extensibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-deployment-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Deployment &amp; Delivery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-acceptance-adoption-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.8 Acceptance, Adoption &amp; Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-assumptions-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Assumptions &amp; Constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-cost-benefit-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Cost / Benefit Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-future-business-opportunities-not-yet-scoped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Future Business Opportunities (Not Yet Scoped)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Success Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-risks-business-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Risks (Business-Level)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-related-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Related Documents
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div><h1 id="business-requirements-document-brd">Business Requirements Document (BRD)</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Project Name</td>
+<td>IoT Reconnaissance &amp; Communication-Block Monitoring System</td>
+</tr>
+<tr>
+<td>Working Title</td>
+<td>Wiresploit</td>
+</tr>
+<tr>
+<td>Document Status</td>
+<td><code>final V0.0</code></td>
+</tr>
+<tr>
+<td>Date</td>
+<td>14-7-2026</td>
+</tr>
+<tr>
+<td>Prepared by</td>
+<td>Mohamed Salah-elden</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<p>This document defines the business case, objectives, and high-level requirements for a system designed to empower black-box security analysis teams to monitor, record, and analyze both internal and external (network-facing) communications of IoT devices (e.g., an IP camera) in real time. The system will capture activity across various protocols (including HTTP/network traffic, I2C, SPI, UART, and logic-level signals), automatically correlate related events into a unified, time-ordered timeline, and provide robust analysis features to help identify potential security weaknesses. In addition, the system will support performing active reconnaissance techniques against the device under test (DUT) and analyzing its resulting responses, with the goal of maximizing the benefits and insights obtained from reconnaissance activities.</p>
+<h2 id="2-business-problem-opportunity">2. Business Problem / Opportunity</h2>
+<p>When performing black-box security analysis of an IoT/OT device, a single logical operation (e.g., a login attempt) triggers a chain of communications and actions across multiple physical layers — network traffic and internal hardware buses. Today, analysts use separate, disconnected tools for each layer (e.g., a network sniffer, a logic analyzer) and manually cross-reference timestamps and perform corelation analysis to reconstruct what actually happened. This approach is:</p>
+<ul>
+<li><strong>Slow</strong> — manual correlation across tools takes significant analyst time per test.</li>
+<li><strong>Error-prone</strong> — it's easy to miss or mis-order causally related events across tools.</li>
+<li><strong>Difficult to defend/report on</strong> — findings based on manual correlation are harder to justify with precise, traceable evidence.</li>
+</ul>
+<p><strong>Opportunity:</strong> A unified system that automatically captures, timestamps, and correlates all relevant communications — and helps analysts search for hidden secrets and visualize system behavior and also cabable of performing active reconnaissance techniques — would materially speed up security assessments, improve finding quality, and produce better-documented evidence for client-facing reports.</p>
+<h2 id="3-business-objectives">3. Business Objectives</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Objective</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BO-01</td>
+<td>Reduce analyst time spent manually correlating captures from separate, disconnected tools</td>
+</tr>
+<tr>
+<td>BO-02</td>
+<td>Reduce cost per engagement by shortening analysis time, enabling more assessments to be completed with the same team size</td>
+</tr>
+<tr>
+<td>BO-03</td>
+<td>Improve the accuracy and defensibility of security findings through traceable evidence</td>
+</tr>
+<tr>
+<td>BO-04</td>
+<td>Enable faster identification of sensitive-data exposure (e.g., plaintext credentials) across all monitored protocols</td>
+</tr>
+<tr>
+<td>BO-05</td>
+<td>Produce report-ready artifacts (timelines, diagrams, exports) to speed up the write-up phase of assessments</td>
+</tr>
+<tr>
+<td>BO-06</td>
+<td>Build a reusable, extensible internal tool/platform rather than a one-off script, so it can grow with future assessment needs</td>
+</tr>
+<tr>
+<td>BO-07</td>
+<td>Broadening the behavioral visibility scope of the DUT by performing active reconnaissance techniques and analyzing the resulting responses.</td>
+</tr>
+<tr>
+<td>BO-08</td>
+<td>Build a growing, reusable knowledge base of recorded sessions across engagements, usable for future comparisons, training, and reference</td>
+</tr>
+<tr>
+<td>BO-09</td>
+<td>Reduce dependency on individual analyst expertise by encoding correlation and analysis logic into the tool itself</td>
+</tr>
+<tr>
+<td>BO-10</td>
+<td>Strengthen client trust and deliverable quality through a documented, traceable audit trail of how findings were obtained</td>
+</tr>
+<tr>
+<td>BO-11</td>
+<td>Reduce tool acquisition and maintenance costs by consolidating separate capture tools (network analyzers, logic analyzers, etc.) into a single platform, at the organizational level — not just individual analyst time</td>
+</tr>
+<tr>
+<td>BO-12</td>
+<td>Enable measurement of the system's actual ROI over time by having the system itself generate quantitative usage and performance metrics (e.g., number of sessions conducted, average time-to-finding, number of secrets/credentials automatically detected), rather than relying solely on analysts' subjective impressions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-business-scope">4. Business Scope</h2>
+<h3 id="41-in-scope">4.1 In Scope</h3>
+<ul>
+<li>Passive, real-time capture of DUT communications across: network traffic (HTTP/Ethernet/WiFi, captured directly by the central device), and onboard buses (I2C, SPI, UART, logic-level/GPIO) via dedicated Capture Nodes (wired and/or wireless, to be determined by the vendor/hardware lead based on technical feasibility), in addition to wireless communication (Bluetooth, LoRa, RFID, etc.).</li>
+<li>Timestamped, causally-correlated presentation of all captured communications as a unified timeline ("Communication Blocks", "Snapshot Blocks").</li>
+<li>Session recording, replay, filtering, search, annotation, and export for reporting.</li>
+<li>Analysis capabilities: searching captured sessions for hidden secrets/credentials, and generating diagrams/visualizations of system behavior from a session.</li>
+<li>Active reconnaissance on the DUT (e.g., traffic replay/modification, bus-level fault injection, fuzzing, etc.), with the DUT's resulting responses captured and analyzed through the same platform.</li>
+<li>Advanced analysis modules building (e.g., anomaly detection across sessions, automated protocol classification).</li>
+</ul>
+<h3 id="42-out-of-scope">4.2 Out of Scope</h3>
+<ul>
+<li>Automated vulnerability scoring or exploit generation.</li>
+<li>Firmware disassembly / static analysis (a complementary but separate capability).</li>
+<li>Fleet-wide or simultaneous multi-device monitoring (one device under test per session).</li>
+</ul>
+<hr>
+<h2 id="5-business-requirements-br">5. Business Requirements (BR)</h2>
+<p>The requirements listed below are prioritized using the MoSCoW framework. The MoSCoW method classifies requirements into four categories:</p>
+<ul>
+<li><strong>Must</strong>: Essential requirements that the solution must deliver for project success.</li>
+<li><strong>Should</strong>: Important requirements that are not vital for immediate delivery, but add significant value if included.</li>
+<li><strong>Could</strong>: Desirable but non-essential requirements to be included if time and resources permit.</li>
+<li><strong>Won't</strong> (or <strong>Would like to</strong>): Requirements that are acknowledged but agreed to be excluded from the current scope or release.</li>
+</ul>
+<h3 id="51-core-monitoring-correlation">5.1 Core Monitoring &amp; Correlation</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-MON-01</td>
+<td>The system shall allow an analyst to observe a live, unified view of a device's communications across network, onboard-bus protocols and wireless communication simultaneously, without needing to operate multiple separate tools</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-MON-02</td>
+<td>The system shall present related communications (e.g., a request and the internal operations it triggers) in correct time order, so an analyst can understand cause and effect</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-MON-03</td>
+<td>The system shall display correlated events on the live timeline within a defined maximum latency threshold (to be validated against chosen hardware)</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-MON-04</td>
+<td>All Capture Nodes and the Brain shall synchronize to a common time reference (e.g., a local/on-premises NTP or PTP server hosted within the isolated test-bench network) with documented maximum clock drift, to ensure correlation accuracy claims are valid. This time reference shall not depend on external internet connectivity, consistent with BR-ENV-02.</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-MON-05</td>
+<td>The system shall document the maximum number of simultaneous Capture Nodes/protocols it supports without degradation in correlation accuracy or timeline responsiveness</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-MON-06</td>
+<td>The system shall support triggering a camera to begin recording video of the DUT based on configurable conditions, including: (a) a defined trigger event/signal, (b) a defined delay period following a trigger, or (c) detection of a specific captured packet/pattern</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-MON-07</td>
+<td>The system shall correlate the recorded video segment with its corresponding communication events on the unified timeline, aligned by timestamp</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-MON-08</td>
+<td>The system shall analyze recorded video segments and generate descriptive text summarizing observed physical device behavior (e.g., "camera motor began moving right"), associated with the triggering event on the timeline</td>
+<td>Should</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-session-recording-analysis-reporting">5.2 Session Recording, Analysis &amp; Reporting</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-ANA-01</td>
+<td>The system shall allow analysts to record a full test session and play it back later for analysis or client reporting</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-ANA-02</td>
+<td>The system shall allow analysts to search a recorded session for potentially sensitive information (e.g., credentials, tokens) and see exactly where it appeared</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-ANA-03</td>
+<td>The system shall allow analysts to generate a visual diagram of a device's observed behavior for inclusion in reports</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-ANA-04</td>
+<td>The system shall allow exporting session data and findings in formats suitable for client-facing security reports</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-ANA-05</td>
+<td>The system shall automatically flag any captured, timestamped packet found to contain clear-text sensitive data (e.g., plaintext credentials or tokens), making it visually identifiable within the session timeline for post-capture review</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-ANA-06</td>
+<td>The system shall generate quantitative usage and performance metrics (e.g., number of sessions conducted, average time-to-finding, number of secrets/credentials automatically detected) to support measurement of the tool's return on investment over time</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-ANA-07</td>
+<td>The system shall allow analysts to reconstruct the contents of the DUT's memory (e.g., SPI/I2C flash or addressable memory) from a recorded session, by aggregating the address/data pairs observed across captured bus transactions into a unified memory map/dump</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-ANA-08</td>
+<td>The system shall indicate, within the reconstructed memory map, which address ranges were fully observed, partially observed, or never captured during the session, to give analysts an honest picture of reconstruction completeness</td>
+<td>Should</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The capability or raw memory content reconstruction does not constitute firmware disassembly or static binary analysis, which remain out of scope per Section 4.2.</p>
+</div>
+<h3 id="53-active-triggering-dut-control">5.3 Active Triggering &amp; DUT Control</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-ACT-01</td>
+<td>The system shall allow an analyst to perform a controlled active reconnaissance against a device under test and observe/analyze its response, with explicit confirmation required before any such action</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-ACT-02</td>
+<td>The system shall provide configurable triggering capability, allowing the operator to define conditions (e.g., detection of a specific event, pattern, or signal) that automatically initiate a defined output action</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-ACT-03</td>
+<td>Trigger output actions shall include, at minimum: (a) a hardware-level reset/power-cycle signal to the DUT, (b) generation of a specific wired/logic-level output signal (e.g., GPIO pulse), (c) generation or replay of a specific wireless signal, (D) generation or replay a specific on-board protocol through the capture nodes, with the specific trigger action explicitly configured/confirmed by the operator before use</td>
+<td>Must</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Active reconnaissance actions under this section are explicitly excluded from the non-interference constraint defined in BR-ENV-01, and are only performed with explicit operator confirmation.</p>
+</div>
+<h3 id="54-data-integrity-security-access-control">5.4 Data Integrity, Security &amp; Access Control</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-SEC-01</td>
+<td>The system shall protect captured data (which may include live credentials/secrets) from unauthorized access while in rest</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-SEC-02</td>
+<td>The system shall preserve the integrity of recorded sessions such that any post-capture modification is detectable, to maintain evidentiary chain of custody</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-SEC-03</td>
+<td>The system shall support role-based access control to restrict who can view, export, or modify captured session data</td>
+<td>Could</td>
+</tr>
+<tr>
+<td>BR-SEC-04</td>
+<td>Communication between Capture Nodes and the Brain (whether wired or wireless) shall be encrypted and authenticated to prevent interception or spoofing of captured data in transit. (Note: applies primarily where wireless connectivity is used; wired links may rely on physical security instead.)</td>
+<td>Could</td>
+</tr>
+</tbody>
+</table>
+<h3 id="55-non-interference-operating-environment">5.5 Non-Interference &amp; Operating Environment</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-ENV-01</td>
+<td>The system shall not alter or interfere with the device under test's normal operation during passive monitoring. This constraint applies exclusively to passive monitoring activities and does not apply to active reconnaissance actions performed under BR-ACT-01/BR-ACT-03, which are explicitly intended to interact with and affect the DUT's behavior upon operator confirmation.</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-ENV-02</td>
+<td>The system's operational runtime — including live monitoring, correlation, session recording, and active reconnaissance activities — shall be fully operable in an isolated, air-gapped network environment with no dependency on external internet connectivity. Initial installation/setup (e.g., pulling Docker images and dependencies per BR-DEP-01) may require internet access and is not subject to this constraint, provided the system remains fully functional offline once deployed.</td>
+<td>Must</td>
+</tr>
+</tbody>
+</table>
+<h3 id="56-extensibility">5.6 Extensibility</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-EXT-01</td>
+<td>The system shall be extensible to support additional communication protocols as new device types are assessed</td>
+<td>Should</td>
+</tr>
+<tr>
+<td>BR-EXT-02</td>
+<td>The system shall provide a documented integration interface (e.g., API or scripting interface) allowing external hardware capture tools to connect as an additional data source alongside native Capture Nodes</td>
+<td>Could</td>
+</tr>
+</tbody>
+</table>
+<h3 id="57-deployment-delivery">5.7 Deployment &amp; Delivery</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-DEP-01</td>
+<td>The system shall be packaged and delivered as a containerized, reproducible deployment (e.g., Docker/Docker Compose), allowing the Brain and its dependencies to be installed and run consistently across different environments without manual environment setup. Internet access may be used during initial setup/installation, but is not required afterward for normal operation, in line with BR-ENV-02.</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-DEP-02</td>
+<td>The system shall support exporting/importing its configuration and recorded session data independently of the container lifecycle, to allow backup and migration between deployments</td>
+<td>Should</td>
+</tr>
+</tbody>
+</table>
+<h3 id="58-acceptance-adoption-support">5.8 Acceptance, Adoption &amp; Support</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BR-ACC-01</td>
+<td>The system shall pass a defined User Acceptance Testing (UAT) process, validated against real DUT scenarios, before being accepted as delivered</td>
+<td>Must</td>
+</tr>
+<tr>
+<td>BR-ACC-02</td>
+<td>The project shall include a training plan/material to onboard analysts on system operation before full adoption</td>
+<td>Should</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-assumptions-constraints">6. Assumptions &amp; Constraints</h2>
+<ul>
+<li>Physical access to the device under test is available for attaching capture hardware.</li>
+<li>An isolated test-bench network will be used for the system, separate from general business networks.</li>
+<li>The system is intended for use by one analyst/team on one device at a time in its first version, not for large-scale or concurrent testing.</li>
+</ul>
+<h2 id="7-cost-benefit-considerations">7. Cost / Benefit Considerations</h2>
+<table>
+<thead>
+<tr>
+<th>Cost Factors</th>
+<th>Benefit Factors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Development cost (in-house or vendor)</td>
+<td>Reduced analyst hours per assessment (recurring time savings)</td>
+</tr>
+<tr>
+<td>Capture hardware (per-protocol devices)</td>
+<td>Improved finding quality and defensibility in reports</td>
+</tr>
+<tr>
+<td>Ongoing maintenance/support</td>
+<td>Reusable platform across multiple future engagements/devices</td>
+</tr>
+<tr>
+<td>Training time for analysts to adopt the tool</td>
+<td>Faster report turnaround, potentially enabling more assessments per period</td>
+</tr>
+</tbody>
+</table>
+<p><em>(Detailed budget figures to be provided by the Business Owner/Sponsor; a rough estimate should be captured in the Project Charter and refined in the Statement of Work.)</em></p>
+<h2 id="8-future-business-opportunities-not-yet-scoped">8. Future Business Opportunities (Not Yet Scoped)</h2>
+<ul>
+<li>AI/ML-assisted analysis modules (e.g., automated report drafting, smarter secret detection, anomaly detection across sessions, automated protocol classification) — see the project's technical documentation for a detailed breakdown.</li>
+<li>Computer-vision-assisted capabilities (e.g., reading device status LEDs as an additional data source, automated board/component identification).</li>
+</ul>
+<p>These may become part of a Phase 3 or later roadmap once Phase 1/2 are delivered and real usage data is available to justify further investment.</p>
+<h2 id="9-success-criteria">9. Success Criteria</h2>
+<ul>
+<li>Analysts report reduced time-to-finding compared to the current manual, multi-tool workflow.</li>
+<li>Client-facing reports produced using the system are accepted without requests for additional manual re-verification of timing/correlation claims.</li>
+<li>The tool is adopted as standard practice for black-box IoT assessments within the team, rather than used ad hoc.</li>
+</ul>
+<h2 id="10-risks-business-level">10. Risks (Business-Level)</h2>
+<ul>
+<li><strong>Adoption risk:</strong> analysts may default back to familiar individual tools if the new system isn't clearly faster/better in practice — mitigate with early pilot use on a real engagement.</li>
+<li><strong>Precision/credibility risk:</strong> if timestamp correlation accuracy is oversold or misunderstood, findings based on it could be challenged — the system must always report honest confidence levels (see technical documentation).</li>
+<li><strong>Vendor/IP risk (if outsourced):</strong> ensure ownership of code and documentation is contractually clear (see BRD-adjacent Statement of Work and IP Assignment Agreement).</li>
+</ul>
+<h2 id="11-related-documents">11. Related Documents</h2>
+<ul>
+<li>Project Charter</li>
+</ul></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
