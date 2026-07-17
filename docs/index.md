@@ -6,13 +6,13 @@ A unified cross-layer analysis platform that correlates every communication—fr
 <div class="grid cards" markdown>
 
 
--   [![](/assets/20260714212759.png)](https://chat.whatsapp.com/HETf1boCfe9348HhhtXPtW)
+-   [![](20260714212759.png)](https://chat.whatsapp.com/HETf1boCfe9348HhhtXPtW)
 
--   [![](/assets/20260717105105.png)](https://app.clickup.com/9015638084/v/o/s/901511461217)
+-   [![](20260717105105.png)](https://app.clickup.com/9015638084/v/o/s/901511461217)
 
--   [![](/assets/20260717110133.png)](./Resources.md)
+-   [![](20260717110133.png)](./Resources.md)
 
--   [![](/assets/20260717163303.png)](https://github.com/EG-ETCS/Wiresploit)
+-   [![](20260717163303.png)](https://github.com/EG-ETCS/Wiresploit)
 
 </div>
 
@@ -122,5 +122,116 @@ flowchart TD
 - **Regular Updates:** Team members update task status as progress is made, ensuring real-time visibility for all stakeholders.
 - **Review & Approval:** The CERT team is responsible for formal reviews, acceptance, or rejection of completed deliveries.
 - **Traceability:** All changes, comments, attachments, and status updates are logged in the project's Github repo for a comprehensive project audit.
+
+
+## 3. GitHub Branches, Workflow, and Rules
+
+
+### 3.1 Branches
+
+This section defines the standard naming convention for Git branches in the **Wiresploit** repository. makes it clear at a glance which part of the project (brain, firmware, hardware, or docs) a branch touches, and links code changes directly back to Business Requirements (BR-IDs) for traceability in reports and audits.
+
+
+```mermaid
+gitGraph
+    commit id: "init repo"
+    branch develop
+    checkout develop
+    commit id: "add docs/BRD"
+    branch docs
+    checkout docs
+    commit id: "add SRS skeleton"
+    commit id: "clarify BR-ACT scope"
+    checkout develop
+    branch feature/firmware/BR-MON-01-i2c-capture
+    checkout feature/firmware/BR-MON-01-i2c-capture
+    commit id: "i2c capture skeleton"
+    commit id: "i2c capture tested"
+    checkout develop
+    branch feature/core/BR-MON-04-ntp-sync
+    checkout feature/core/BR-MON-04-ntp-sync
+    commit id: "ptp sync client"
+    commit id: "clock drift logging"
+    checkout develop
+    merge docs tag: "PR #10 reviewed"
+    merge feature/firmware/BR-MON-01-i2c-capture tag: "PR #12 reviewed"
+    checkout feature/core/BR-MON-04-ntp-sync
+    commit id: "fix drift edge case"
+    checkout develop
+    merge feature/core/BR-MON-04-ntp-sync tag: "PR #15 reviewed"
+    branch fix/core/BR-ANA-08-memory-overlap
+    checkout fix/core/BR-ANA-08-memory-overlap
+    commit id: "fix overlap detection"
+    checkout develop
+    merge fix/core/BR-ANA-08-memory-overlap tag: "PR #18 reviewed"
+    branch feature/hardware/pcb-rev2
+    checkout feature/hardware/pcb-rev2
+    commit id: "pcb rev2 schematic"
+    checkout develop
+    merge feature/hardware/pcb-rev2 tag: "PR #21 reviewed"
+    checkout main
+    merge develop tag: "v0.1.0-alpha"
+```
+
+### 3.1 Branching Strategy
+
+- **`main` branch:** Always stable, production-ready code. Only CERT-approved and reviewed changes are merged here.
+- **`develop` branch:** Integration branch containing the latest delivered features, bugfixes, and changes. Most feature branches are merged here after review.
+- **`docs` branch** For documentation, requirements, or architecture work.
+- **Feature branches:** Short-lived branches created from `develop` for each new feature, enhancement, or fix. Convention: `feature/<component>/<short-description-or-BR-ID>`.
+- **fix branches:** For urgent fixes applied to production (`main`). Convention: `fix/<component>/<BR-ID>-<short-description>`.
+
+!!! note "Branch Namming Convention"
+    
+    Used with `feature/` and `fix/` branches:
+
+    - `core`
+    - `firmware`
+    - `hardware`
+
+    rules 
+
+    - All **lowercase**
+    - Words separated by `-` (not spaces or `_`)
+    - Sections separated by `/`
+    - BR-ID (if applicable) written exactly as in the BRD: `BR-MON-04`, not `br-mon-04` or `BRMON04`
+    - Keep the whole name under ~50 characters where possible
+
+
+    for Example:
+
+    ```
+    feature/core/BR-MON-04-ntp-sync
+    feature/firmware/BR-MON-01-i2c-capture
+    feature/hardware/BR-ACT-03-pcb-rev2
+    fix/core/BR-ANA-08-memory-overlap
+    ```
+
+
+### 3.2 GitHub Workflow
+
+2. **Create a Branch:** For each task, create a branch from `develop` using the feature/fix naming conventions.
+3. **Commit Changes:** Make descriptive, atomic commits (referencing ClickUp or task IDs where possible).
+4. **Push & PR:** Push the branch and open a Pull Request (PR) targeting `develop` (or `main` for fixes). Ensure PR description references the related task or issue.
+5. **Code Review:** At least one reviewer (peer review) must review the PR.
+6. **CERT Review:** CERT team reviews and approves PRs, especially for critical or production changes.
+7. **Merge:** Only after all required approvals pass, PRs are merged to the main.
+8. **Delete branch:** After merging, delete the feature/fix branch.
+
+### 3.3 Rules
+
+- **No direct pushes to `main` or `develop`.** All changes enter via PRs.
+- **PR descriptions must include:**
+  - Summary of changes
+  - Related ClickUp/GitHub task/issues
+  - Screenshots/test results (where applicable)
+- **Reviewers:** Assign at least one reviewer (CERT team for critical paths, peer review otherwise).
+- **Documentation:** Update relevant documentation with code changes.
+- **Protected branches:** `main` (and often `develop`) should be protected in repository settings to require PRs, passing checks, and approvals.
+
+
+
+!!! bug "important note" 
+    All work should be done through Pull Requests (PRs), never by directly committing to `main` or `develop` or `docs`.
 
 
