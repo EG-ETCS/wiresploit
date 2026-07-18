@@ -450,6 +450,89 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#4-coding-standards-commenting-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Coding Standards &amp; Commenting Guidelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Coding Standards &amp; Commenting Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-general-principles-all-languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 General Principles (All Languages)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-naming-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Naming Conventions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-commenting-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Commenting Standards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-required-documentation-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Required Documentation Comments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-inline-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Inline Comments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-file-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 File Headers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1055,6 +1138,89 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#4-coding-standards-commenting-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Coding Standards &amp; Commenting Guidelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Coding Standards &amp; Commenting Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-general-principles-all-languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 General Principles (All Languages)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-naming-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Naming Conventions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-commenting-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Commenting Standards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-required-documentation-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Required Documentation Comments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-inline-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Inline Comments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-file-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 File Headers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1323,11 +1489,11 @@
 </div>
 <h3 id="22-responsibilities-process">2.2 Responsibilities &amp; Process</h3>
 <ul>
-<li><strong>Task Creation:</strong> Tasks can be created by any stakeholder, with details such as description, assignee, due date, and priority.</li>
+<li><strong class="_red">Task Creation:</strong> Tasks can be created by any stakeholder, with details such as description, assignee, due date, and priority.</li>
 <li><strong>Assignment:</strong> Tasks are assigned to appropriate team members via ClickUp, clarifying ownership.</li>
-<li><strong>Regular Updates:</strong> Team members update task status as progress is made, ensuring real-time visibility for all stakeholders.</li>
-<li><strong>Review &amp; Approval:</strong> The CERT team is responsible for formal reviews, acceptance, or rejection of completed deliveries.</li>
-<li><strong>Traceability:</strong> All changes, comments, attachments, and status updates are logged in the project's Github repo for a comprehensive project audit.</li>
+<li><strong class="_red">Regular Updates:</strong> Team members update task status as progress is made, ensuring real-time visibility for all stakeholders.</li>
+<li><strong class="_red">Review &amp; Approval:</strong> The CERT team is responsible for formal reviews, acceptance, or rejection of completed deliveries.</li>
+<li><strong class="_red">Traceability:</strong> All changes, comments, attachments, and status updates are logged in the project's Github repo for a comprehensive project audit.</li>
 </ul>
 <h2 id="3-github-branches-workflow-and-rules">3. GitHub Branches, Workflow, and Rules</h2>
 <h3 id="31-branches">3.1 Branches</h3>
@@ -1372,11 +1538,11 @@
     merge develop tag: "v0.1.0-alpha"</code></pre>
 <h3 id="31-branching-strategy">3.1 Branching Strategy</h3>
 <ul>
-<li><strong><code>main</code> branch:</strong> Always stable, production-ready code. Only CERT-approved and reviewed changes are merged here.</li>
-<li><strong><code>develop</code> branch:</strong> Integration branch containing the latest delivered features, bugfixes, and changes. Most feature branches are merged here after review.</li>
-<li><strong><code>docs</code> branch</strong> For documentation, requirements, or architecture work.</li>
-<li><strong>Feature branches:</strong> Short-lived branches created from <code>develop</code> for each new feature, enhancement, or fix. Convention: <code>feature/&lt;component&gt;/&lt;short-description-or-BR-ID&gt;</code>.</li>
-<li><strong>fix branches:</strong> For urgent fixes applied to production (<code>main</code>). Convention: <code>fix/&lt;component&gt;/&lt;BR-ID&gt;-&lt;short-description&gt;</code>.</li>
+<li><strong class="_red">main branch:</strong> Always stable, production-ready code. Only CERT-approved and reviewed changes are merged here.</li>
+<li><strong class="_red">develop branch:</strong> Integration branch containing the latest delivered features, bugfixes, and changes. Most feature branches are merged here after review.</li>
+<li><strong class="_red">docs branch</strong> For documentation, requirements, or architecture work.</li>
+<li><strong class="_red">Feature branches:</strong> Short-lived branches created from <code>develop</code> for each new feature, enhancement, or fix. Convention: <code>feature/&lt;component&gt;/&lt;short-description-or-BR-ID&gt;</code>.</li>
+<li><strong class="_red">fix branches:</strong> For urgent fixes applied to production (<code>main</code>). Convention: <code>fix/&lt;component&gt;/&lt;BR-ID&gt;-&lt;short-description&gt;</code>.</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Branch Namming Convention</p>
@@ -1403,13 +1569,13 @@ fix/core/BR-ANA-08-memory-overlap
 </div>
 <h3 id="32-github-workflow">3.2 GitHub Workflow</h3>
 <ol>
-<li><strong>Create a Branch:</strong> For each task, create a branch from <code>develop</code> using the feature/fix naming conventions.</li>
-<li><strong>Commit Changes:</strong> Make descriptive, atomic commits (referencing ClickUp or task IDs where possible).</li>
-<li><strong>Push &amp; PR:</strong> Push the branch and open a Pull Request (PR) targeting <code>develop</code> (or <code>main</code> for fixes). Ensure PR description references the related task or issue.</li>
-<li><strong>Code Review:</strong> At least one reviewer (peer review) must review the PR.</li>
-<li><strong>CERT Review:</strong> CERT team reviews and approves PRs, especially for critical or production changes.</li>
-<li><strong>Merge:</strong> Only after all required approvals pass, PRs are merged to the main.</li>
-<li><strong>Delete branch:</strong> After merging, delete the feature/fix branch.</li>
+<li><strong class="_red">Create a Branch:</strong> For each task, create a branch from <code>develop</code> using the feature/fix naming conventions.</li>
+<li><strong class="_red">Commit Changes:</strong> Make descriptive, atomic commits (referencing ClickUp or task IDs where possible).</li>
+<li><strong class="_red">Push &amp; PR:</strong> Push the branch and open a Pull Request (PR) targeting <code>develop</code> (or <code>main</code> for fixes). Ensure PR description references the related task or issue.</li>
+<li><strong class="_red">Code Review:</strong> At least one reviewer (peer review) must review the PR.</li>
+<li><strong class="_red">CERT Review:</strong> CERT team reviews and approves PRs, especially for critical or production changes.</li>
+<li><strong class="_red">Merge:</strong> Only after all required approvals pass, PRs are merged to the main.</li>
+<li><strong class="_red">Delete branch:</strong> After merging, delete the feature/fix branch.</li>
 </ol>
 <h3 id="33-rules">3.3 Rules</h3>
 <ul>
@@ -1425,7 +1591,180 @@ fix/core/BR-ANA-08-memory-overlap
 <div class="admonition bug">
 <p class="admonition-title">important note</p>
 <p>All work should be done through Pull Requests (PRs), never by directly committing to <code>main</code> or <code>develop</code> or <code>docs</code>.</p>
-</div></div>
+</div>
+<h2 id="4-coding-standards-commenting-guidelines">4. Coding Standards &amp; Commenting Guidelines</h2>
+<p>This section defines the coding rules, style conventions, and commenting standards to be followed across all components of Wiresploit. The goal is to keep the codebase consistent, readable, secure, and maintainable across the core (backend + UI) and Capture Node firmware, regardless of which engineer is writing the code per BO-06.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>BO-06: Build a reusable, extensible internal tool/platform rather than a one-off script, so it can grow with future assessment needs</p>
+</div>
+<h3 id="41-general-principles-all-languages">4.1 General Principles (All Languages)</h3>
+<ol>
+<li><strong class="_red">Clarity over cleverness.</strong> Code is read far more often than it is written. Prefer the obvious solution over a "smart" one-liner code.</li>
+<li><strong class="_red">Single Responsibility.</strong> Each function/class/module should do single task. If you need to perform multiple tasks, split it into two functions.</li>
+<li><strong class="_red">No magic numbers/strings.</strong> Use named constants or enums (e.g., <code>MAX_CAPTURE_NODES</code>, not <code>16</code>).</li>
+<li><strong class="_red">Fail loudly, fail safely.</strong> Never silently swallow errors. a hidden failure means lost evidence — log it, surface it, and handle it explicitly.</li>
+<li><strong class="_red">Consistent formatting.</strong> Use an auto-formatter per language (see §5) and run it before every commit. Formatting is not a matter of personal taste in this project.</li>
+<li><strong class="_red">No commented-out code in commits.</strong> Delete commented-out code sections before committing code to github,  version control (Git) already remembers it.</li>
+<li><strong>Deterministic time handling.</strong> All timestamps must use a single, explicit time source/format (per BR-MON-04). Never mix local time and UTC in the same module.</li>
+</ol>
+<h3 id="42-naming-conventions">4.2 Naming Conventions</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Python</th>
+<th>C/C++ (Firmware)</th>
+<th>Web-based (JS/TS)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Variables / functions</td>
+<td><code>snake_case</code> — <code>capture_node_id</code>, <code>def get_session_timeline():</code></td>
+<td><code>snake_case</code> — <code>capture_node_id</code>, <code>read_i2c_frame()</code></td>
+<td><code>camelCase</code> — <code>captureNodeId</code>, <code>getSessionTimeline()</code></td>
+</tr>
+<tr>
+<td>Classes / Types</td>
+<td><code>PascalCase</code> — <code>CommunicationBlock</code>, <code>SnapshotBlock</code></td>
+<td><code>PascalCase</code> — <code>typedef struct GpioEvent</code>, <code>typedef struct SnapshotBlock</code></td>
+<td><code>PascalCase</code> — <code>CommunicationBlock</code>, <code>SnapshotBlock</code></td>
+</tr>
+<tr>
+<td>Constants</td>
+<td><code>UPPER_SNAKE_CASE</code> — <code>DEFAULT_SYNC_INTERVAL_MS</code></td>
+<td><code>UPPER_SNAKE_CASE</code> (macros) — <code>#define MAX_FRAME_LEN</code></td>
+<td><code>UPPER_SNAKE_CASE</code> — <code>DEFAULT_SYNC_INTERVAL_MS</code></td>
+</tr>
+<tr>
+<td>Files/modules</td>
+<td><code>snake_case.py</code> — <code>bus_correlator.py</code></td>
+<td><code>snake_case.c</code> / <code>.h</code> — <code>i2c_capture.c</code>, <code>gpio_driver.h</code></td>
+<td><code>kebab-case.tsx</code> — <code>timeline-view.tsx</code></td>
+</tr>
+<tr>
+<td>Booleans</td>
+<td>Prefix <code>is_</code>/<code>has_</code>/<code>should_</code> — <code>is_synced</code>, <code>has_secret_flag</code></td>
+<td>Prefix <code>is_</code>/<code>has_</code>/<code>should_</code> — <code>is_synced</code>, <code>has_secret_flag</code></td>
+<td>Prefix <code>is</code>/<code>has</code>/<code>should</code> — <code>isSynced</code>, <code>hasSecretFlag</code></td>
+</tr>
+</tbody>
+</table>
+<p>Domain terms from the BRD/Charter must be used consistently and match the documents exactly:</p>
+<ul>
+<li><strong>Core</strong> (not "server" or "backend" alone)</li>
+<li><strong>Capture Node</strong> (not "sniffer" or "probe")</li>
+<li><strong>Communication Block (CB)</strong> / <strong>Snapshot Block (SB)</strong></li>
+<li><strong>Device Under Test (DUT)</strong></li>
+</ul>
+<h3 id="43-commenting-standards">4.3 Commenting Standards</h3>
+<ul>
+<li>Comments explain <strong class="_red">why the class/function/line is doing that</strong>, not <strong class="_red">what the class/function/line is doing</strong>. The code already shows <em>what</em> it does; a comment should add context a reader can't get from the code itself (rationale, trade-offs, links to requirement IDs).</li>
+</ul>
+<div class="grid">
+<div class="highlight"><pre><span></span><code><span class="c1"># bad comment</span>
+
+<span class="c1"># increment the retry counter by 1</span>
+<span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># loop through all capture nodes</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">capture_nodes</span><span class="p">:</span>
+    <span class="c1"># check if node is synced</span>
+    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_synced</span><span class="p">:</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">send_heartbeat</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># good comment</span>
+
+<span class="c1"># Retry up to MAX_RETRIES because Capture Nodes on wireless links</span>
+<span class="c1"># occasionally miss the first heartbeat after a Wi-Fi channel hop.</span>
+<span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">capture_nodes</span><span class="p">:</span>
+    <span class="c1"># Skip unsynced nodes — sending a heartbeat before PTP sync completes</span>
+    <span class="c1"># can be misread by the node as a reset trigger (see BR-MON-04).</span>
+    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_synced</span><span class="p">:</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">send_heartbeat</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<ul>
+<li>All comments must accurately <strong class="_red">reflect the current code</strong>. If you modify code, ensure you update its associated comments in the <strong class="_red">same commit</strong>. Outdated or incorrect comments are more harmful than having no comments at all. When changing a comment due to code changes, <strong class="_red">reference the previous comment</strong> as necessary to clarify your rationale for future readers.</li>
+</ul>
+<div class="grid">
+<div class="highlight"><pre><span></span><code><span class="c1"># Retry up to 3 times before giving up</span>
+<span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">send_heartbeat</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+        <span class="k">break</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Retry up to 5 times — increased from 3 after observing</span>
+<span class="c1"># wireless nodes needing extra attempts post channel-hop.</span>
+<span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">send_heartbeat</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+        <span class="k">break</span>
+</code></pre></div>
+</div>
+<ul>
+<li><strong class="_red">No commented-out/dead code</strong> blocks, no TODO left without an owner or ticket reference (e.g., <code># TODO(mohamed): handle SPI clock stretching</code>).</li>
+</ul>
+<h3 id="44-required-documentation-comments">4.4 Required Documentation Comments</h3>
+<p>Every <strong>public function, class, and module</strong> must have a documentation comment (docstring / Doxygen block / JSDoc) covering:</p>
+<ul>
+<li><strong class="_red">Purpose</strong> — one-line summary.</li>
+<li><strong class="_red">Params</strong> — name, type, meaning, units (critical for anything timing/voltage/frequency related).</li>
+<li><strong class="_red">Returns</strong> — type and meaning.</li>
+<li><strong class="_red">Raises/Errors</strong> — expected error conditions.</li>
+<li><strong class="_red">Requirement traceability</strong> (where applicable) — reference the BR ID it implements, e.g. <code>Implements: BR-MON-02</code>.</li>
+</ul>
+<p><strong>Python example:</strong>
+</p><div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">correlate_events</span><span class="p">(</span><span class="n">network_events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">],</span> <span class="n">bus_events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">CommunicationBlock</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Merge network-layer and bus-layer events into causally ordered Communication Blocks.</span>
+
+<span class="sd">    Uses the shared PTP-synced clock (BR-MON-04) to align events within the</span>
+<span class="sd">    configured correlation window. Events outside the window are emitted as</span>
+<span class="sd">    unmatched (see BR-ANA-08 style completeness reporting).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        network_events: Timestamped events captured from the Brain's network tap.</span>
+<span class="sd">        bus_events: Timestamped events reported by Capture Nodes (I2C/SPI/UART/GPIO).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A time-ordered list of CommunicationBlock objects.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ClockDriftError: If drift between sources exceeds the documented tolerance.</span>
+
+<span class="sd">    Implements: BR-MON-02, BR-MON-04</span>
+<span class="sd">    """</span>
+</code></pre></div>
+<p><strong>C/C++ (firmware) example:</strong>
+</p><div class="highlight"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * @brief Reads a single I2C transaction frame from the capture buffer.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @param buf     Pointer to the raw capture buffer.</span>
+<span class="cm"> * @param len     Length of the buffer in bytes.</span>
+<span class="cm"> * @param out     Destination for the parsed frame.</span>
+<span class="cm"> * @return 0 on success, negative error code on malformed frame.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @note Does not modify bus state; passive tap only (BR-ENV-01).</span>
+<span class="cm"> */</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">read_i2c_frame</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="n">I2cFrame</span><span class="w"> </span><span class="o">*</span><span class="n">out</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="45-inline-comments">4.5 Inline Comments</h3>
+<ul>
+<li>Use only <strong class="_red">for non-obvious logic</strong> (bit manipulation, protocol-specific cases, timing-sensitive sections).</li>
+<li><strong class="_red">Place above the line(s)</strong> they explain, not trailing at the end of long lines.</li>
+</ul>
+<h3 id="46-file-headers">4.6 File Headers</h3>
+<p>Every source file starts with a <strong class="_red">short header</strong> block:
+</p><div class="highlight"><pre><span></span><code><span class="sd">"""</span>
+<span class="sd">Module: bus_correlator.py</span>
+<span class="sd">Purpose: Correlates I2C/SPI/UART bus events with network events into CBs.</span>
+<span class="sd">Owner: Software Team</span>
+<span class="sd">"""</span>
+</code></pre></div></div>
 
 
 
