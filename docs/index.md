@@ -6,7 +6,7 @@ A unified cross-layer analysis platform that correlates every communication—fr
 <div class="grid cards" markdown>
 
 
--   [![](20260714212759.png)](https://chat.whatsapp.com/HETf1boCfe9348HhhtXPtW)
+-   [![](20260718105330.png)](https://discord.gg/PNt62532N)
 
 -   [![](20260717105105.png)](https://app.clickup.com/9015638084/v/o/s/901511461217)
 
