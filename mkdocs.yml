@@ -90,6 +90,11 @@ nav:
   - Requirements:
     - 01_Requirements:
       - 00_BRD: 01_Requirements/00_BRD.md
+      - System Requirements: 
+        - Functional_Requirements: 01_Requirements/01_SysRS/01_Functional_Requirements.md
+        - Nonfunctional_Requirements: 01_Requirements/01_SysRS/02_Nonfunctional_Requirements.md
+        - Interface_Requirements: 01_Requirements/01_SysRS/03_Interface_Requirements.md
+        - Behavioral_and_Model_Requirements: 01_Requirements/01_SysRS/04_Behavioral_and_Model_Requirements.md
   - Acceptance Criteria:
     - 01_Acceptance_Criteria: 01_Requirements/05_Acceptance_Criteria.md
   - Resources: Resources.md
