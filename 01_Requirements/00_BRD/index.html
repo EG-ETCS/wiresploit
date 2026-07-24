@@ -12,7 +12,7 @@
         <link rel="prev" href="../../00_Project_Management/01_Charter/">
       
       
-        <link rel="next" href="../05_Acceptance_Criteria/">
+        <link rel="next" href="../01_SysRS/01_Functional_Requirements/">
       
       
         
@@ -614,22 +614,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-business-scope" class="md-nav__link">
+  <a href="#4-definitions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Business Scope
+        4. Definitions
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="4. Business Scope">
+    <nav class="md-nav" aria-label="4. Definitions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#41-in-scope" class="md-nav__link">
+  <a href="#41-capture-node" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.1 In Scope
+        4.1 Capture Node
       
     </span>
   </a>
@@ -637,10 +637,43 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#42-out-of-scope" class="md-nav__link">
+  <a href="#42-snapshot-node" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.2 Out of Scope
+        4.2 Snapshot Node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-injection-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Injection Node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-communication-block-cb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Communication Block (CB)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-snapshot-block-sb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Snapshot Block (SB)
       
     </span>
   </a>
@@ -653,22 +686,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-business-requirements-br" class="md-nav__link">
+  <a href="#5-business-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Business Requirements (BR)
+        5. Business Scope
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. Business Requirements (BR)">
+    <nav class="md-nav" aria-label="5. Business Scope">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-core-monitoring-correlation" class="md-nav__link">
+  <a href="#51-in-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1 Core Monitoring &amp; Correlation
+        5.1 In Scope
       
     </span>
   </a>
@@ -676,76 +709,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#52-session-recording-analysis-reporting" class="md-nav__link">
+  <a href="#52-out-of-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.2 Session Recording, Analysis &amp; Reporting
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#53-active-triggering-dut-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.3 Active Triggering &amp; DUT Control
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#54-data-integrity-security-access-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.4 Data Integrity, Security &amp; Access Control
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#55-non-interference-operating-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.5 Non-Interference &amp; Operating Environment
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#56-extensibility" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.6 Extensibility
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#57-deployment-delivery" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.7 Deployment &amp; Delivery
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#58-acceptance-adoption-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.8 Acceptance, Adoption &amp; Support
+        5.2 Out of Scope
       
     </span>
   </a>
@@ -758,10 +725,115 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-assumptions-constraints" class="md-nav__link">
+  <a href="#6-business-requirements-br" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Assumptions &amp; Constraints
+        6. Business Requirements (BR)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Business Requirements (BR)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-core-monitoring-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Core Monitoring &amp; Correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-session-recording-analysis-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Session Recording, Analysis &amp; Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-active-triggering-dut-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Active Triggering &amp; DUT Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-data-integrity-security-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Data Integrity, Security &amp; Access Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-non-interference-operating-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Non-Interference &amp; Operating Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-extensibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Extensibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-deployment-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Deployment &amp; Delivery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#68-acceptance-adoption-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8 Acceptance, Adoption &amp; Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-assumptions-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Assumptions &amp; Constraints
       
     </span>
   </a>
@@ -769,21 +841,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-cost-benefit-considerations" class="md-nav__link">
+  <a href="#8-cost-benefit-considerations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Cost / Benefit Considerations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-future-business-opportunities-not-yet-scoped" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Future Business Opportunities (Not Yet Scoped)
+        8. Cost / Benefit Considerations
       
     </span>
   </a>
@@ -823,9 +884,187 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#12-glosary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. glosary
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1_2" id="__nav_4_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Requirements
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System Requirements
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_SysRS/01_Functional_Requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional_Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_SysRS/02_Nonfunctional_Requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nonfunctional_Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_SysRS/03_Interface_Requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interface_Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_SysRS/04_Behavioral_and_Model_Requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Behavioral_and_Model_Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -1016,22 +1255,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-business-scope" class="md-nav__link">
+  <a href="#4-definitions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Business Scope
+        4. Definitions
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="4. Business Scope">
+    <nav class="md-nav" aria-label="4. Definitions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#41-in-scope" class="md-nav__link">
+  <a href="#41-capture-node" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.1 In Scope
+        4.1 Capture Node
       
     </span>
   </a>
@@ -1039,10 +1278,43 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#42-out-of-scope" class="md-nav__link">
+  <a href="#42-snapshot-node" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.2 Out of Scope
+        4.2 Snapshot Node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-injection-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Injection Node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-communication-block-cb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Communication Block (CB)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-snapshot-block-sb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Snapshot Block (SB)
       
     </span>
   </a>
@@ -1055,22 +1327,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-business-requirements-br" class="md-nav__link">
+  <a href="#5-business-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Business Requirements (BR)
+        5. Business Scope
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. Business Requirements (BR)">
+    <nav class="md-nav" aria-label="5. Business Scope">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-core-monitoring-correlation" class="md-nav__link">
+  <a href="#51-in-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1 Core Monitoring &amp; Correlation
+        5.1 In Scope
       
     </span>
   </a>
@@ -1078,76 +1350,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#52-session-recording-analysis-reporting" class="md-nav__link">
+  <a href="#52-out-of-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.2 Session Recording, Analysis &amp; Reporting
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#53-active-triggering-dut-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.3 Active Triggering &amp; DUT Control
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#54-data-integrity-security-access-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.4 Data Integrity, Security &amp; Access Control
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#55-non-interference-operating-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.5 Non-Interference &amp; Operating Environment
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#56-extensibility" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.6 Extensibility
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#57-deployment-delivery" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.7 Deployment &amp; Delivery
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#58-acceptance-adoption-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.8 Acceptance, Adoption &amp; Support
+        5.2 Out of Scope
       
     </span>
   </a>
@@ -1160,10 +1366,115 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-assumptions-constraints" class="md-nav__link">
+  <a href="#6-business-requirements-br" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Assumptions &amp; Constraints
+        6. Business Requirements (BR)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Business Requirements (BR)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-core-monitoring-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Core Monitoring &amp; Correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-session-recording-analysis-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Session Recording, Analysis &amp; Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-active-triggering-dut-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Active Triggering &amp; DUT Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-data-integrity-security-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Data Integrity, Security &amp; Access Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-non-interference-operating-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Non-Interference &amp; Operating Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-extensibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Extensibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-deployment-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Deployment &amp; Delivery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#68-acceptance-adoption-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8 Acceptance, Adoption &amp; Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-assumptions-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Assumptions &amp; Constraints
       
     </span>
   </a>
@@ -1171,21 +1482,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-cost-benefit-considerations" class="md-nav__link">
+  <a href="#8-cost-benefit-considerations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Cost / Benefit Considerations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-future-business-opportunities-not-yet-scoped" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Future Business Opportunities (Not Yet Scoped)
+        8. Cost / Benefit Considerations
       
     </span>
   </a>
@@ -1219,6 +1519,17 @@
     <span class="md-ellipsis">
       
         11. Related Documents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-glosary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. glosary
       
     </span>
   </a>
@@ -1343,8 +1654,25 @@
 </tr>
 </tbody>
 </table>
-<h2 id="4-business-scope">4. Business Scope</h2>
-<h3 id="41-in-scope">4.1 In Scope</h3>
+<h2 id="4-definitions">4. Definitions</h2>
+<h3 id="41-capture-node">4.1 Capture Node</h3>
+<p>A Capture Node is a dedicated hardware device attached directly to a Device Under Test (DUT) that passively taps into one or more of the DUT's internal onboard communication buses (e.g., I2C, SPI, UART, logic-level/GPIO), a wireless interfaces (e.g., Bluetooth, LoRa, RFID), or logically taps to a network level protocol (HTTP, TCP, MQTT, etc.). It captures raw communication events, timestamps them, and reports them to the Core for correlation with other captured data from other Capture nodes into a unified timeline.</p>
+<h3 id="42-snapshot-node">4.2 Snapshot Node</h3>
+<p>A Snapshot Node is a dedicated hardware or software module that can be triggered at a specific time to capture a snapshot of the device's state at that exact time instance. The captured device state can include:</p>
+<ul>
+<li><strong>Physical/Visual State</strong>: Observing physical phenomena such as motor movements, LED status, or a screen display using a camera.</li>
+<li><strong>Electrical/Signal State</strong>: Capturing electrical signals such as GPIO pin status or analog voltage levels on specific wires or connections.</li>
+<li><strong>Internal/Logical State</strong>: Extracting internal device information, such as CPU register contents, internal memory content, or debug information, using a debugging interfaces.</li>
+</ul>
+<p>The Snapshot Node acts when a trigger condition is met (such as recieving specific network packet) or it could be triggered manually to captue device state, device state (physical, electrical, or internal) is captured and timestamped for correlation on the unified timeline.</p>
+<h3 id="43-injection-node">4.3 Injection Node</h3>
+<p>An Injection Node is a dedicated hardware or software module (should be the same as Capture Node) designed to actively inject data onto the DUT's onboard buses or logic-level lines rather than passively observing them. When triggered — either manually by the operator or automatically upon a defined condition being met — it generates and transmits fake/crafted packets or logic-level signals (e.g., a forged I2C/SPI/UART transaction, or a specific GPIO pulse, or forged HTTP request) directly onto the target bus, intended to test the DUT's response.</p>
+<h3 id="44-communication-block-cb">4.4 Communication Block (CB)</h3>
+<p>A Communication Block is a unit on the unified timeline representing a set of communication events — captured from one or more Capture Nodes that the Core should correlate then together based on timing and logical relationship, so they represent a single logical operation on the DUT (e.g., a login attempt triggering both an HTTP request and internal I2C/SPI activity).</p>
+<h3 id="45-snapshot-block-sb">4.5 Snapshot Block (SB)</h3>
+<p>A Snapshot Block is a unit on the unified timeline representing a captured state or data snapshot at a specific point in time (e.g. internal memory read, voltage level on specific wire, debug info or registers state, camera captues the physical state of the device or any another discrete piece of captured data), Snapshot Block is timestamped and placed on the timeline to provide context around or between Communication Blocks.</p>
+<h2 id="5-business-scope">5. Business Scope</h2>
+<h3 id="51-in-scope">5.1 In Scope</h3>
 <ul>
 <li>Passive, real-time capture of DUT communications across: network traffic (HTTP/Ethernet/WiFi, captured directly by the central device), and onboard buses (I2C, SPI, UART, logic-level/GPIO) via dedicated Capture Nodes (wired and/or wireless, to be determined by the vendor/hardware lead based on technical feasibility), in addition to wireless communication (Bluetooth, LoRa, RFID, etc.).</li>
 <li>Timestamped, causally-correlated presentation of all captured communications as a unified timeline ("Communication Blocks", "Snapshot Blocks").</li>
@@ -1353,14 +1681,14 @@
 <li>Active reconnaissance on the DUT (e.g., traffic replay/modification, bus-level fault injection, fuzzing, etc.), with the DUT's resulting responses captured and analyzed through the same platform.</li>
 <li>Advanced analysis modules building (e.g., anomaly detection across sessions, automated protocol classification).</li>
 </ul>
-<h3 id="42-out-of-scope">4.2 Out of Scope</h3>
+<h3 id="52-out-of-scope">5.2 Out of Scope</h3>
 <ul>
 <li>Automated vulnerability scoring or exploit generation.</li>
 <li>Firmware disassembly / static analysis (a complementary but separate capability).</li>
 <li>Fleet-wide or simultaneous multi-device monitoring (one device under test per session).</li>
 </ul>
 <hr>
-<h2 id="5-business-requirements-br">5. Business Requirements (BR)</h2>
+<h2 id="6-business-requirements-br">6. Business Requirements (BR)</h2>
 <p>The requirements listed below are prioritized using the MoSCoW framework. The MoSCoW method classifies requirements into four categories:</p>
 <ul>
 <li><strong>Must</strong>: Essential requirements that the solution must deliver for project success.</li>
@@ -1368,7 +1696,7 @@
 <li><strong>Could</strong>: Desirable but non-essential requirements to be included if time and resources permit.</li>
 <li><strong>Won't</strong> (or <strong>Would like to</strong>): Requirements that are acknowledged but agreed to be excluded from the current scope or release.</li>
 </ul>
-<h3 id="51-core-monitoring-correlation">5.1 Core Monitoring &amp; Correlation</h3>
+<h3 id="61-core-monitoring-correlation">6.1 Core Monitoring &amp; Correlation</h3>
 <table>
 <thead>
 <tr>
@@ -1390,7 +1718,7 @@
 </tr>
 <tr>
 <td>BR-MON-03</td>
-<td>The system shall display correlated events on the live timeline within a defined maximum latency threshold (to be validated against chosen hardware)</td>
+<td>The system shall display each event on the live timeline within a defined end-to-end latency value [end-to-end latency is measured from the moment the event happends at its source (e.g. UART Tx Trigger) to the moment it appears on the operator's live timeline (a new communication block appears on the screen)]. This latency value is to be documented and validated against the final chosen hardware/connectivity (wired vs. wireless Capture Nodes)</td>
 <td>Should</td>
 </tr>
 <tr>
@@ -1405,22 +1733,22 @@
 </tr>
 <tr>
 <td>BR-MON-06</td>
-<td>The system shall support triggering a camera to begin recording video of the DUT based on configurable conditions, including: (a) a defined trigger event/signal, (b) a defined delay period following a trigger, or (c) detection of a specific captured packet/pattern</td>
+<td>The system shall support triggering a Snapshot Node to capture the DUT's state (physical/visual, electrical/signal, or internal/logical) based on configurable conditions, including: (a) a defined trigger event/signal, (b) a defined delay period following a trigger, or (c) detection of a specific captured packet/pattern. The specific state captured (e.g., camera recording, GPIO/voltage reading, memory/register dump) shall depend on the type of Snapshot Node triggered.</td>
 <td>Should</td>
 </tr>
 <tr>
 <td>BR-MON-07</td>
-<td>The system shall correlate the recorded video segment with its corresponding communication events on the unified timeline, aligned by timestamp</td>
+<td>The system shall correlate the Snapshot Node's captured output (e.g., video segment, electrical/signal reading, or internal memory/register dump) with its corresponding communication events on the unified timeline, aligned by timestamp.</td>
 <td>Should</td>
 </tr>
 <tr>
 <td>BR-MON-08</td>
-<td>The system shall analyze recorded video segments and generate descriptive text summarizing observed physical device behavior (e.g., "camera motor began moving right"), associated with the triggering event on the timeline</td>
+<td>The system shall analyze the Snapshot Node's captured output and generate descriptive text summarizing the observed device state or behavior (e.g., "camera motor began moving right," "GPIO pin 3 transitioned HIGH," "instruction pointer register is now pointing to 0x0000ABCD"), and illustrate this on the timeline.</td>
 <td>Should</td>
 </tr>
 </tbody>
 </table>
-<h3 id="52-session-recording-analysis-reporting">5.2 Session Recording, Analysis &amp; Reporting</h3>
+<h3 id="62-session-recording-analysis-reporting">6.2 Session Recording, Analysis &amp; Reporting</h3>
 <table>
 <thead>
 <tr>
@@ -1476,7 +1804,7 @@
 <p class="admonition-title">Note</p>
 <p>The capability or raw memory content reconstruction does not constitute firmware disassembly or static binary analysis, which remain out of scope per Section 4.2.</p>
 </div>
-<h3 id="53-active-triggering-dut-control">5.3 Active Triggering &amp; DUT Control</h3>
+<h3 id="63-active-triggering-dut-control">6.3 Active Triggering &amp; DUT Control</h3>
 <table>
 <thead>
 <tr>
@@ -1492,11 +1820,6 @@
 <td>Must</td>
 </tr>
 <tr>
-<td>BR-ACT-02</td>
-<td>The system shall provide configurable triggering capability, allowing the operator to define conditions (e.g., detection of a specific event, pattern, or signal) that automatically initiate a defined output action</td>
-<td>Should</td>
-</tr>
-<tr>
 <td>BR-ACT-03</td>
 <td>Trigger output actions shall include, at minimum: (a) a hardware-level reset/power-cycle signal to the DUT, (b) generation of a specific wired/logic-level output signal (e.g., GPIO pulse), (c) generation or replay of a specific wireless signal, (D) generation or replay a specific on-board protocol through the capture nodes, with the specific trigger action explicitly configured/confirmed by the operator before use</td>
 <td>Must</td>
@@ -1507,7 +1830,7 @@
 <p class="admonition-title">Note</p>
 <p>Active reconnaissance actions under this section are explicitly excluded from the non-interference constraint defined in BR-ENV-01, and are only performed with explicit operator confirmation.</p>
 </div>
-<h3 id="54-data-integrity-security-access-control">5.4 Data Integrity, Security &amp; Access Control</h3>
+<h3 id="64-data-integrity-security-access-control">6.4 Data Integrity, Security &amp; Access Control</h3>
 <table>
 <thead>
 <tr>
@@ -1539,7 +1862,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="55-non-interference-operating-environment">5.5 Non-Interference &amp; Operating Environment</h3>
+<h3 id="65-non-interference-operating-environment">6.5 Non-Interference &amp; Operating Environment</h3>
 <table>
 <thead>
 <tr>
@@ -1561,7 +1884,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="56-extensibility">5.6 Extensibility</h3>
+<h3 id="66-extensibility">6.6 Extensibility</h3>
 <table>
 <thead>
 <tr>
@@ -1583,7 +1906,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="57-deployment-delivery">5.7 Deployment &amp; Delivery</h3>
+<h3 id="67-deployment-delivery">6.7 Deployment &amp; Delivery</h3>
 <table>
 <thead>
 <tr>
@@ -1605,7 +1928,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="58-acceptance-adoption-support">5.8 Acceptance, Adoption &amp; Support</h3>
+<h3 id="68-acceptance-adoption-support">6.8 Acceptance, Adoption &amp; Support</h3>
 <table>
 <thead>
 <tr>
@@ -1628,13 +1951,13 @@
 </tbody>
 </table>
 <hr>
-<h2 id="6-assumptions-constraints">6. Assumptions &amp; Constraints</h2>
+<h2 id="7-assumptions-constraints">7. Assumptions &amp; Constraints</h2>
 <ul>
 <li>Physical access to the device under test is available for attaching capture hardware.</li>
 <li>An isolated test-bench network will be used for the system, separate from general business networks.</li>
 <li>The system is intended for use by one analyst/team on one device at a time in its first version, not for large-scale or concurrent testing.</li>
 </ul>
-<h2 id="7-cost-benefit-considerations">7. Cost / Benefit Considerations</h2>
+<h2 id="8-cost-benefit-considerations">8. Cost / Benefit Considerations</h2>
 <table>
 <thead>
 <tr>
@@ -1662,12 +1985,6 @@
 </tbody>
 </table>
 <p><em>(Detailed budget figures to be provided by the Business Owner/Sponsor; a rough estimate should be captured in the Project Charter and refined in the Statement of Work.)</em></p>
-<h2 id="8-future-business-opportunities-not-yet-scoped">8. Future Business Opportunities (Not Yet Scoped)</h2>
-<ul>
-<li>AI/ML-assisted analysis modules (e.g., automated report drafting, smarter secret detection, anomaly detection across sessions, automated protocol classification) — see the project's technical documentation for a detailed breakdown.</li>
-<li>Computer-vision-assisted capabilities (e.g., reading device status LEDs as an additional data source, automated board/component identification).</li>
-</ul>
-<p>These may become part of a Phase 3 or later roadmap once Phase 1/2 are delivered and real usage data is available to justify further investment.</p>
 <h2 id="9-success-criteria">9. Success Criteria</h2>
 <ul>
 <li>Analysts report reduced time-to-finding compared to the current manual, multi-tool workflow.</li>
@@ -1683,7 +2000,189 @@
 <h2 id="11-related-documents">11. Related Documents</h2>
 <ul>
 <li>Project Charter</li>
-</ul></div>
+</ul>
+<h2 id="12-glosary">12. glosary</h2>
+<table>
+<thead>
+<tr>
+<th>Abbreviation</th>
+<th>Full Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API</td>
+<td>Application Programming Interface</td>
+<td>Documented interface allowing external tools to integrate with the system (BR-EXT-02)</td>
+</tr>
+<tr>
+<td>BO</td>
+<td>Business Objective</td>
+<td>High-level business goal the project aims to achieve (e.g., BO-01, BO-02)</td>
+</tr>
+<tr>
+<td>BR</td>
+<td>Business Requirement</td>
+<td>A specific, traceable requirement derived from the business objectives (e.g., BR-MON-01)</td>
+</tr>
+<tr>
+<td>BRD</td>
+<td>Business Requirements Document</td>
+<td>The document defining the business case, objectives, and high-level requirements</td>
+</tr>
+<tr>
+<td>CB</td>
+<td>Communication Block</td>
+<td>A unit of correlated communication data shown on the unified timeline (could be TCP packet, UART Tx data , SPI data read)</td>
+</tr>
+<tr>
+<td>CERT</td>
+<td>Computer Emergency Readiness Team</td>
+<td>The organization type acting as Business Owner (EG-CERT)</td>
+</tr>
+<tr>
+<td>DUT</td>
+<td>Device Under Test</td>
+<td>The IoT/OT device being analyzed (e.g., an IP camera)</td>
+</tr>
+<tr>
+<td>FwRS</td>
+<td>Firmware Requirements Specification</td>
+<td>Document detailing firmware-specific requirements</td>
+</tr>
+<tr>
+<td>GPIO</td>
+<td>General Purpose Input/Output</td>
+<td>Logic-level digital signal pins used for onboard bus/signal capture</td>
+</tr>
+<tr>
+<td>HwRS</td>
+<td>Hardware Requirements Specification</td>
+<td>Document detailing hardware-specific requirements</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>HyperText Transfer Protocol</td>
+<td>Network protocol captured as part of the DUT's network traffic</td>
+</tr>
+<tr>
+<td>I2C</td>
+<td>Inter-Integrated Circuit</td>
+<td>An onboard communication bus protocol monitored by Capture Nodes</td>
+</tr>
+<tr>
+<td>IoT</td>
+<td>Internet of Things</td>
+<td>Category of connected embedded devices the system is designed to analyze</td>
+</tr>
+<tr>
+<td>IP</td>
+<td>Intellectual Property</td>
+<td>Ownership rights over code/documentation (mentioned under vendor risk)</td>
+</tr>
+<tr>
+<td>JS</td>
+<td>JavaScript</td>
+<td>Web-based scripting language used for frontend development</td>
+</tr>
+<tr>
+<td>LoRa</td>
+<td>Long Range (wireless protocol)</td>
+<td>A long-range wireless communication protocol supported for capture</td>
+</tr>
+<tr>
+<td>MoSCoW</td>
+<td>Must, Should, Could, Won't</td>
+<td>Framework used to prioritize business requirements</td>
+</tr>
+<tr>
+<td>NTP</td>
+<td>Network Time Protocol</td>
+<td>Protocol used to synchronize time across the Core and Capture Nodes</td>
+</tr>
+<tr>
+<td>OT</td>
+<td>Operational Technology</td>
+<td>Category of industrial/embedded devices referenced alongside IoT</td>
+</tr>
+<tr>
+<td>PCB</td>
+<td>Printed Circuit Board</td>
+<td>Physical hardware board referenced in hardware branch naming (e.g., pcb-rev2)</td>
+</tr>
+<tr>
+<td>PR</td>
+<td>Pull Request</td>
+<td>A GitHub request to merge code changes after review</td>
+</tr>
+<tr>
+<td>PTP</td>
+<td>Precision Time Protocol</td>
+<td>High-precision time synchronization protocol used for clock alignment (BR-MON-04)</td>
+</tr>
+<tr>
+<td>QA</td>
+<td>Quality Assurance</td>
+<td>Role responsible for testing strategy and validation</td>
+</tr>
+<tr>
+<td>RFID</td>
+<td>Radio Frequency Identification</td>
+<td>A wireless protocol supported for capture alongside Bluetooth/LoRa</td>
+</tr>
+<tr>
+<td>ROI</td>
+<td>Return on Investment</td>
+<td>Measure of the system's value/benefit over time (BO-12)</td>
+</tr>
+<tr>
+<td>SB</td>
+<td>Snapshot Block</td>
+<td>A captured state/data snapshot shown on the unified timeline</td>
+</tr>
+<tr>
+<td>SPI</td>
+<td>Serial Peripheral Interface</td>
+<td>An onboard communication bus protocol monitored by Capture Nodes</td>
+</tr>
+<tr>
+<td>SwRS</td>
+<td>Software Requirements Specification</td>
+<td>Document detailing software-specific requirements</td>
+</tr>
+<tr>
+<td>SysRS</td>
+<td>System Requirements Specification</td>
+<td>Document detailing top-level system requirements</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>Transmission Control Protocol</td>
+<td>Network-layer protocol captured as part of DUT network traffic</td>
+</tr>
+<tr>
+<td>TS</td>
+<td>TypeScript</td>
+<td>Typed superset of JavaScript used in web-based development</td>
+</tr>
+<tr>
+<td>UART</td>
+<td>Universal Asynchronous Receiver-Transmitter</td>
+<td>An onboard communication bus protocol monitored by Capture Nodes</td>
+</tr>
+<tr>
+<td>UAT</td>
+<td>User Acceptance Testing</td>
+<td>Formal testing process validating the system before final acceptance</td>
+</tr>
+<tr>
+<td>Wi-Fi</td>
+<td>Wireless Fidelity</td>
+<td>Wireless networking technology used for network traffic and/or Capture Node connectivity</td>
+</tr>
+</tbody>
+</table></div>
 
 
 
