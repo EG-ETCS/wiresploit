@@ -2,9 +2,9 @@
 
 ## BR-MON — Monitoring
 
-**Source BR:** BR-MON-01 to BR-MON-08
-**Assignee:** BK
-**Status:** In progress
+**Source BR:** BR-MON-01 to BR-MON-08,
+**Assignee:** BK,
+**Status:** In progress.
 
 ### Summary
 The monitoring module provides a unified live view of DUT communications and device states, correlating events and snapshots on a synchronized timeline.
