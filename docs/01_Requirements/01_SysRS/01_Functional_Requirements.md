@@ -203,48 +203,111 @@ _One or two sentences restating the business need in plain language._
 
 ---
 
-## BR-ENV — Environment
+## BR-ENV — Non-Interference & Operating Environment
 
-**Source BR:**
-**Assignee:** YS
-**Status:** Not started
+**Source BR:** BR-ENV-01 to BR-ENV-02 ,
+**Assignee:** YS ,
+**Status:** Completed.
 
 ### Summary
-_One or two sentences restating the business need in plain language._
+The system must behave as a passive observer during normal monitoring — never altering the DUT's behavior — and must be fully deployable and operable inside an isolated, air-gapped test-bench network, with internet access confined to initial setup only.
 
+### Environment Operation Flow
+```mermaid
+flowchart LR
+
+    Analyst --> Brain
+
+    Brain --> CaptureNodes["Capture Nodes"]
+
+    CaptureNodes --> DUT["Device Under Test"]
+
+    DUT -.Passive Monitoring 
+    (listen-only).-> CaptureNodes
+
+    Brain --> Storage
+
+    Brain --> Timeline
+
+    subgraph Deployment Environment
+        Brain
+        CaptureNodes
+        Storage
+        Timeline
+    end
+
+    Internet[(Internet)]
+
+    Internet -. Required only during 
+    installation .-> Installer["Initial Installation"]
+
+    Internet -. No dependency 
+    during runtime .-x Brain
+```
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-ENV-01 | | Must / Should / Could | |
-| FR-ENV-02 | | | |
+| FR-ENV-01-1 | The system shall operate in a listen-only (passive) mode on all monitored interfaces — network, onboard-bus, and wireless — during standard monitoring sessions. | Must | No outbound transmission, injection, or signal alteration occurs on any monitored interface while in passive monitoring mode. |
+| FR-ENV-01-2 | The system shall not transmit, inject, or otherwise alter any signal on a monitored interface while operating in passive monitoring mode. | Must | Electrical/timing measurements on tapped interfaces show no measurable deviation from baseline DUT behavior during passive monitoring. |
+| FR-ENV-01-3 | The system shall visually indicate to the analyst which mode is currently active — passive monitoring or active reconnaissance (per FR-ACT). | Should | The active mode is clearly and unambiguously displayed in the interface at all times. |
+| FR-ENV-01-4 | The system shall exclude active reconnaissance actions performed under FR-ACT-01/03 from the non-interference constraint, since those are explicitly intended to affect the DUT. | Must | Active reconnaissance actions execute normally and are not blocked or flagged by non-interference checks. |
+| FR-ENV-02-1 | The system's runtime — including live monitoring, correlation, session recording, and active reconnaissance — shall function fully with no outbound or inbound internet connection. | Must | All core runtime functions operate correctly with the test-bench network disconnected from the internet. |
+| FR-ENV-02-2 | The system shall not depend on any internet-hosted service (e.g., license checks, telemetry, update checks) during normal operation. | Must | No outbound requests to external/internet-hosted endpoints are observed during normal operation. |
+| FR-ENV-02-3 | The system's time synchronization mechanism (per FR-MON-04) shall use only a local network time reference, not an internet-hosted NTP/PTP source. | Must | The configured time reference server resides within the isolated test-bench network. |
+| FR-ENV-02-4 | The system may require internet access solely during initial installation/setup (e.g., pulling container images per BR-DEP-01), and this exception shall be explicitly documented. | Must | Documentation clearly states which setup steps require internet access and confirms no such dependency exists post-setup. |
 
 ### Assumptions & Dependencies
--
+- The monitoring hardware is correctly connected to the DUT.
+- The deployment environment provides local networking between the Brain and Capture Nodes.
+- Docker images and required dependencies are downloaded before deployment into an air-gapped environment.
 
 ### Open Questions
--
+- Will software updates also support fully offline installation?
+- What operating systems are officially supported for deployment?
+- What quantitative threshold (e.g., timing/electrical tolerance) defines "no interference" for passive taps on each protocol?
+- Is there a need to detect and alert if an outbound internet call is attempted during normal operation, or is documentation-only compliance sufficient for the first release?
 
 ---
 
-## BR-ACC — Accessibility
+## BR-ACC — Acceptance, Adoption & Support
 
-**Source BR:** 
-**Assignee:** YS
-**Status:** Not started
+**Source BR:**  BR-ACC-01 to BR-ACC-02 ,
+**Assignee:** YS ,
+**Status:** Completed.
 
 ### Summary
-_One or two sentences restating the business need in plain language._
+Before the system is considered delivered, it must pass a formal User Acceptance Testing process against real DUT scenarios, and analysts must receive training material to support onboarding and full adoption.
 
+### Acceptance & Adoption Pipeline
+```mermaid
+flowchart LR
+    UAT["User Acceptance Testing"]  --> Decision{Pass ?}
+    DEV["Development<br/>Complete"] --> UAT["User Acceptance Testing"]
+    Decision -->|No| Fixes["Defect Resolution"]
+    Fixes -->  UAT["User Acceptance Testing"]
+    Decision -->|Yes| Acceptance["Customer Acceptance"]
+    Acceptance --> Training["Analyst Training"]
+    Training --> Deployment["Operational Use"]
+```
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-ACC-01 | | Must / Should / Could | |
-| FR-ACC-02 | | | |
+| FR-ACC-01-1 | The system shall be validated through a documented UAT test plan covering all Must-priority business requirements, executed against real DUT scenarios. | Must | A UAT test plan exists mapping test cases to Must-priority BRs, and all cases are executed against a real DUT. |
+| FR-ACC-01-2 | The system shall record UAT results (pass/fail per scenario, with evidence) for review. | Must | UAT results are documented per scenario with pass/fail status and supporting evidence (logs, screenshots, or captures). |
+| FR-ACC-01-3 | The system shall require formal stakeholder sign-off confirming UAT completion before being considered delivered. | Must | A signed/recorded acceptance confirmation exists from the designated stakeholder(s) referencing the completed UAT results. |
+| FR-ACC-02-1 | The project shall produce training material (e.g., user guide, quick-start guide, walkthrough) covering core system operation. | Should | Training material exists and covers, at minimum, session setup, live monitoring, snapshot triggering, and session export/reporting. |
+| FR-ACC-02-2 | The project shall deliver an onboarding session or equivalent training activity to analysts prior to full system adoption. | Should | At least one training session is conducted and attendance/completion is recorded prior to declaring full adoption. |
+| FR-ACC-02-3 | The training material shall be reviewed for completeness and accuracy against the delivered system's actual functionality. | Could | A review/feedback checklist confirms training material matches current system behavior, with discrepancies logged and resolved. |
 
 ### Assumptions & Dependencies
--
+- Real DUT hardware is available for UAT execution, consistent with the assumption in Section 7 of the BRD.
+- UAT scenarios are derived from the Must-priority requirements across all BR categories (MON, ANA, ACT, SEC, ENV, DEP, EXT).
+- Designated stakeholder(s) authorized to grant sign-off are identified before UAT begins.
+- Training is delivered before production deployment.
 
 ### Open Questions
--
+- Who is responsible for approving UAT?
+- Will training be instructor-led, self-paced, or both?
+- What is the minimum number/coverage of real DUT scenarios required for UAT to be considered representative?
