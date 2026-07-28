@@ -207,10 +207,10 @@ Derived from Business Requirements **BR-ACT-01** and **BR-ACT-03**.
 
 **Source BR:** BR-SEC-01 to BR-SEC-03
 **Assignee:** RA
-**Status:** In progress
+**Status:** Completed
 
 ### Summary
-The system shall protect captured session data — including any live credentials or secrets it may contain — by encrypting and password-protecting each session as a single unit. This encryption also serves as tamper-proofing: a modified session file cannot be successfully decrypted/opened, so no separate detection mechanism is needed. The system shall also support role-based access control with predefined roles (Admin, Analyst, Viewer).
+The system shall protect captured session data by encrypting and password-protecting each session as a single unit. This encryption also serves as tamper-proofing: a modified session file cannot be successfully decrypted/opened, so no separate detection mechanism is needed. The system shall also support role-based access control with predefined roles (Admin, Analyst, Viewer).
 
 ### Functional Requirements
 
@@ -228,6 +228,8 @@ The system shall protect captured session data — including any live credential
 ### Open Questions
 - Who sets the session password — the system automatically, or the analyst manually — and what happens if it's lost?
 - Are Admin / Analyst / Viewer the only roles needed, or are additional roles expected later?
+
+---
 
 ## BR-DEP — Deployment
 
