@@ -324,32 +324,24 @@ The system must behave as a passive observer during normal monitoring — never 
 flowchart LR
 
     Analyst --> Brain
-
     Brain --> CaptureNodes["Capture Nodes"]
-
     CaptureNodes --> DUT["Device Under Test"]
+    DUT -. "Passive Monitoring (listen-only)" .-> CaptureNodes
 
-    DUT -.Passive Monitoring 
-    (listen-only).-> CaptureNodes
-
-    Brain --> Storage
-
-    Brain --> Timeline
-
-    subgraph Deployment Environment
+    subgraph AirGap["Isolated / Air-Gapped Test Bench"]
+        Analyst
         Brain
         CaptureNodes
-        Storage
-        Timeline
+        DUT
     end
 
     Internet[(Internet)]
+    Installer["Initial Installation"]
 
-    Internet -. Required only during 
-    installation .-> Installer["Initial Installation"]
+    Internet -. "Required only during installation" .-> Installer
+    Installer --> Brain
 
-    Internet -. No dependency 
-    during runtime .-x Brain
+    Internet -. "No dependency during runtime" .-x Brain
 ```
 ### Functional Requirements
 
@@ -358,11 +350,15 @@ flowchart LR
 | FR-ENV-01-1 | The system shall operate in a listen-only (passive) mode on all monitored interfaces — network, onboard-bus, and wireless — during standard monitoring sessions. | Must | No outbound transmission, injection, or signal alteration occurs on any monitored interface while in passive monitoring mode. |
 | FR-ENV-01-2 | The system shall not transmit, inject, or otherwise alter any signal on a monitored interface while operating in passive monitoring mode. | Must | Electrical/timing measurements on tapped interfaces show no measurable deviation from baseline DUT behavior during passive monitoring. |
 | FR-ENV-01-3 | The system shall visually indicate to the analyst which mode is currently active — passive monitoring or active reconnaissance (per FR-ACT). | Should | The active mode is clearly and unambiguously displayed in the interface at all times. |
-| FR-ENV-01-4 | The system shall exclude active reconnaissance actions performed under FR-ACT-01/03 from the non-interference constraint, since those are explicitly intended to affect the DUT. | Must | Active reconnaissance actions execute normally and are not blocked or flagged by non-interference checks. |
-| FR-ENV-02-1 | The system's runtime — including live monitoring, correlation, session recording, and active reconnaissance — shall function fully with no outbound or inbound internet connection. | Must | All core runtime functions operate correctly with the test-bench network disconnected from the internet. |
-| FR-ENV-02-2 | The system shall not depend on any internet-hosted service (e.g., license checks, telemetry, update checks) during normal operation. | Must | No outbound requests to external/internet-hosted endpoints are observed during normal operation. |
-| FR-ENV-02-3 | The system's time synchronization mechanism (per FR-MON-04) shall use only a local network time reference, not an internet-hosted NTP/PTP source. | Must | The configured time reference server resides within the isolated test-bench network. |
-| FR-ENV-02-4 | The system may require internet access solely during initial installation/setup (e.g., pulling container images per BR-DEP-01), and this exception shall be explicitly documented. | Must | Documentation clearly states which setup steps require internet access and confirms no such dependency exists post-setup. |
+| FR-ENV-01-4 | The system shall apply the non-interference constraint only while operating in Passive Monitoring mode. When operating in Active Reconnaissance mode the system shall permit authorized actions that intentionally interact with the Device Under Test (DUT), provided they have been explicitly confirmed by the analyst. | Must | Active reconnaissance actions execute normally and are not blocked or flagged by non-interference checks. |
+| FR-ENV-02-1 | The system shall support live monitoring without requiring an outbound or inbound internet connection during runtime. | Must | Live monitoring operates correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-2 | The system shall perform event correlation without requiring an outbound or inbound internet connection during runtime. | Must | Event correlation functions correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-3 | The system shall record sessions without requiring an outbound or inbound internet connection during runtime. | Must | Session recording operates correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-4 | The system shall execute active reconnaissance functions without requiring an outbound or inbound internet connection during runtime. | Must | Active reconnaissance functions operate correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-5 | The system shall not require an outbound or inbound internet connection for normal runtime operation. | Must | All runtime functions remain fully operational with the test-bench network disconnected from the internet. |
+| FR-ENV-02-6 | The system shall not depend on any internet-hosted service (e.g., license checks, telemetry, update checks) during normal operation. | Must | No outbound requests to external/internet-hosted endpoints are observed during normal operation. |
+| FR-ENV-02-7 | The system's time synchronization mechanism (per FR-MON-04) shall use only a local network time reference, not an internet-hosted PTP source. | Must | The configured time reference server resides within the isolated test-bench network. |
+| FR-ENV-02-8 | The system may require internet access solely during initial installation/setup (e.g., pulling container images ), and this exception shall be explicitly documented. | Must | Documentation clearly states which setup steps require internet access and confirms no such dependency exists post-setup. |
 
 ### Assumptions & Dependencies
 - The monitoring hardware is correctly connected to the DUT.
