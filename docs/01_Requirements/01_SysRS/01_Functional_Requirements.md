@@ -203,37 +203,31 @@ Derived from Business Requirements **BR-ACT-01** and **BR-ACT-03**.
 
 ---
 
----
-
 ## BR-SEC — Security
 
-**Source BR:** BR-SEC-01 to BR-SEC-04
+**Source BR:** BR-SEC-01 to BR-SEC-03
 **Assignee:** RA
-**Status:** Completed
+**Status:** In progress
 
 ### Summary
-The system shall protect captured session data by encrypting and password-protecting each session as a single unit, and shall guarantee that recorded sessions cannot be silently altered after capture. The system shall also support role-based access control with predefined roles (Admin, Analyst, Viewer).
+The system shall protect captured session data — including any live credentials or secrets it may contain — by encrypting and password-protecting each session as a single unit. This encryption also serves as tamper-proofing: a modified session file cannot be successfully decrypted/opened, so no separate detection mechanism is needed. The system shall also support role-based access control with predefined roles (Admin, Analyst, Viewer).
 
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-SEC-01-1 | The system shall encrypt and password-protect each recorded session as a single unit. | Must | A recorded session cannot be opened or read without the correct password/key; the entire session is protected as one unit. |
-| FR-SEC-02-1 | The system shall generate a cryptographic hash (or equivalent integrity marker) for each recorded session at the time of capture. | Must | Each recorded session has an associated hash/integrity value generated and stored at capture time. |
-| FR-SEC-02-2 | The system shall detect and flag any post-capture modification to a recorded session. | Must | Deliberately modifying a captured session file causes a subsequent integrity check to fail and be flagged. |
-| FR-SEC-03-1 | The system shall support defining roles with distinct permissions for captured session data (e.g., Admin: full access; Analyst: view + export; Viewer: view only). | Could | At least the three defined roles (Admin, Analyst, Viewer) can be assigned to users, each with the permissions described. |
+| FR-SEC-01-1 | The system shall encrypt and password-protect each recorded session as a single unit. This encryption shall also serve as tamper-proofing, such that any modification to the encrypted file renders it unreadable/invalid. | Must | A recorded session cannot be opened or read without the correct password/key; a session file that has been modified after capture fails to decrypt/open correctly. |
+| FR-SEC-03-1 | The system shall support defining roles with distinct permissions for captured session data (e.g., Admin: full access; Analyst: view, export, run analysis engines, and annotate over the timeline; Viewer: view only). | Could | At least the three defined roles (Admin, Analyst, Viewer) can be assigned to users, each with the permissions described. |
 | FR-SEC-03-2 | The system shall enforce role-based restrictions such that a user can only view, export, or modify session data permitted by their assigned role. | Could | A user assigned a restricted role is blocked from performing an action outside their permissions. |
-| FR-SEC-03-3 | The system shall log role-based access attempts, including denied actions. | Could | Both successful and denied access attempts are recorded with user, role, action, and timestamp. |
 
 ### Assumptions & Dependencies
 - A password/key management approach (how the session password is generated, stored, and recovered) is defined before implementation.
 - Role definitions (Admin, Analyst, Viewer) and their exact permission sets are agreed upon with stakeholders prior to implementation.
+- No cloud-based server is available or used for storing logs or any other data; all logging/storage stays local to the deployment.
 
 ### Open Questions
 - Who sets the session password — the system automatically, or the analyst manually — and what happens if it's lost?
-- Is tamper detection sufficient (detect-only), or is tamper-proofing (prevent modification entirely) required?
 - Are Admin / Analyst / Viewer the only roles needed, or are additional roles expected later?
----
 
 ## BR-DEP — Deployment
 
