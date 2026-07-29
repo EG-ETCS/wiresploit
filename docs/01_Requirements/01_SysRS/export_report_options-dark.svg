@@ -1,0 +1,50 @@
+<svg width="100%" viewBox="0 0 380 340" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Consolidated report export options</title>
+<desc>An export panel letting the analyst choose which captured artifacts to include in a consolidated session report, plus the memory map as a separate binary export, and a format selector.</desc>
+
+<rect x="0" y="0" width="380" height="340" rx="12" fill="#1E1D1A" stroke="#3A3935" stroke-width="1"/>
+
+<text x="18" y="28" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#F0EEE6">Export session</text>
+<text x="18" y="46" font-family="Arial, sans-serif" font-size="11" fill="#85837A">Choose what to include in the report</text>
+<line x1="18" y1="58" x2="362" y2="58" stroke="#3A3935" stroke-width="1"/>
+
+<!-- item 1 -->
+<rect x="18" y="74" width="18" height="18" rx="4" fill="#C23B3B" stroke="#C23B3B" stroke-width="1"/>
+<path d="M 22 83 L 26 87 L 33 78" stroke="#1E1D1A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="46" y="87" font-family="Arial, sans-serif" font-size="12.5" fill="#F0EEE6">Session data</text>
+
+<!-- item 2 -->
+<rect x="18" y="106" width="18" height="18" rx="4" fill="#C23B3B" stroke="#C23B3B" stroke-width="1"/>
+<path d="M 22 115 L 26 119 L 33 110" stroke="#1E1D1A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="46" y="119" font-family="Arial, sans-serif" font-size="12.5" fill="#F0EEE6">Sensitive-data findings</text>
+
+<!-- item 3 -->
+<rect x="18" y="138" width="18" height="18" rx="4" fill="#C23B3B" stroke="#C23B3B" stroke-width="1"/>
+<path d="M 22 147 L 26 151 L 33 142" stroke="#1E1D1A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="46" y="151" font-family="Arial, sans-serif" font-size="12.5" fill="#F0EEE6">Custom search results</text>
+
+<!-- item 4 -->
+<rect x="18" y="170" width="18" height="18" rx="4" fill="#C23B3B" stroke="#C23B3B" stroke-width="1"/>
+<path d="M 22 179 L 26 183 L 33 174" stroke="#1E1D1A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="46" y="183" font-family="Arial, sans-serif" font-size="12.5" fill="#F0EEE6">Generated diagram</text>
+
+<line x1="18" y1="202" x2="362" y2="202" stroke="#3A3935" stroke-width="1"/>
+
+<!-- item 5: memory map, excluded, unchecked -->
+<rect x="18" y="216" width="18" height="18" rx="4" fill="#26251F" stroke="#5C5A52" stroke-width="1"/>
+<text x="46" y="229" font-family="Arial, sans-serif" font-size="12.5" fill="#85837A">Memory map</text>
+
+<line x1="18" y1="248" x2="362" y2="248" stroke="#3A3935" stroke-width="1"/>
+
+<!-- format selector -->
+<text x="18" y="270" font-family="Arial, sans-serif" font-size="11" fill="#A8A69E">Format</text>
+<rect x="18" y="278" width="64" height="28" rx="6" fill="#C23B3B" stroke="#C23B3B" stroke-width="1"/>
+<text x="50" y="296" font-family="Arial, sans-serif" font-size="11.5" fill="#F0EEE6" text-anchor="middle">PDF</text>
+<rect x="90" y="278" width="64" height="28" rx="6" fill="#26251F" stroke="#5C5A52" stroke-width="1"/>
+<text x="122" y="296" font-family="Arial, sans-serif" font-size="11.5" fill="#B8B6AC" text-anchor="middle">DOCX</text>
+
+<!-- export button -->
+<rect x="248" y="300" width="114" height="30" rx="6" fill="#C23B3B" stroke="#C23B3B" stroke-width="1"/>
+<text x="305" y="320" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#F0EEE6" text-anchor="middle">Export report</text>
+
+</svg>
