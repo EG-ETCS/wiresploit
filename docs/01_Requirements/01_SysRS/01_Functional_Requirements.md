@@ -14,21 +14,18 @@ The monitoring module provides a unified live view of DUT communications across 
 ```mermaid
 flowchart TD
     DUT["Device Under Test (DUT)"]
+
     NET["Network Traffic<br/>HTTP / TCP / Ethernet / Wi-Fi"]
-
     BUS["Onboard Communication<br/>I2C / SPI / UART / GPIO"]
-
     WIRELESS["Wireless Communication<br/>Bluetooth / LoRa / RFID"]
 
     NET_CAPTURE["Network Capture"]
-
     CN["Capture Nodes<br/>Onboard Bus Capture"]
-
     WIRELESS_CAPTURE["Wireless Capture"]
 
-    BRAIN["Brain<br/>Event Processing + Protocol Decoding"]
+    TIMESTAMP["Timestamping & Time Synchronization<br/>Common Time Reference"]
 
-    TIMESTAMP["Timestamping & Time Synchronization"]
+    BRAIN["Brain<br/>Event Processing + Protocol Decoding"]
 
     CORRELATION["Event Correlation<br/>Temporal + Logical Correlation"]
 
@@ -39,17 +36,21 @@ flowchart TD
     DUT --> NET
     DUT --> BUS
     DUT --> WIRELESS
+
     NET --> NET_CAPTURE
     BUS --> CN
     WIRELESS --> WIRELESS_CAPTURE
-    NET_CAPTURE --> BRAIN
-    CN --> BRAIN
-    WIRELESS_CAPTURE --> BRAIN
-    BRAIN --> TIMESTAMP
-    TIMESTAMP --> CORRELATION
+
+    NET_CAPTURE --> TIMESTAMP
+    CN --> TIMESTAMP
+    WIRELESS_CAPTURE --> TIMESTAMP
+
+    TIMESTAMP --> BRAIN
+    BRAIN --> CORRELATION
     CORRELATION --> TIMELINE
     TIMELINE --> ANALYST
 ```
+
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
@@ -61,10 +62,10 @@ flowchart TD
 | FR-MON-02-1 | The system shall order events. | Must | Events appear in correct time order on the timeline. |
 | FR-MON-03-1 | The system shall decode captured communication data from supported protocols. | Must | Captured data is decoded and displayed according to the selected protocol. |
 | FR-MON-03-2 | The system shall record system errors in a dedicated error log file. | Must | Each error is recorded with its timestamp, error type, and error message. |
-| FR-MON-04-1 | The system shall synchronize the Brain to the common time reference. | Must | The Brain uses the configured common time reference. |
-| FR-MON-04-2 | The system shall document the maximum clock drift between monitoring components. | Must | Maximum observed clock drift is measured and documented. |
+| FR-MON-04-1 | The system shall synchronize the Brain and all data-capturing devices, including Capture Nodes, Network Capture components, and Wireless Capture components, to a common time reference. | Must | The Brain and all data-capturing devices use the configured common time reference. |
+| FR-MON-04-2 | The system shall measure, document, and monitor the maximum clock drift between the Brain and all data-capturing devices. | Must | The maximum observed clock drift is measured, documented, and displayed in the monitoring interface. |
 | FR-MON-05-1 | The system shall support monitoring through multiple Capture Nodes. | Should | Multiple Capture Nodes can provide captured events to the monitoring system. |
-| FR-MON-05-2 | The system shall support simultaneous monitoring of the required communication protocols. | Must | The system can simultaneously capture and display events from all required communication protocols. |
+| FR-MON-05-2 | The system shall support monitoring of HTTP, TCP, Ethernet, Wi-Fi, I2C, SPI, UART, GPIO, Bluetooth, LoRa, and RFID communication protocols. | Must | The system can simultaneously capture and display events from all listed communication protocols. |
 | FR-MON-06-1 | The system shall support triggering a Snapshot Node after a defined delay. | Should | The Snapshot Node is triggered after the configured delay. |
 | FR-MON-06-2 | The system shall support triggering a Snapshot Node based on a detected packet or pattern. | Should | Detection of a packet or pattern activates the Snapshot Node. |
 | FR-MON-06-3 | The system shall capture the DUT state when a Snapshot Node is triggered. | Should | The  physical, electrical, or internal state is captured. |
@@ -83,7 +84,6 @@ flowchart TD
 - What is the target maximum latency for live event display?
 - What is the acceptable maximum clock drift?
 - Will NTP or PTP be used for time synchronization?
-- What communication protocols must the system support?
 - Which Snapshot Node types will be supported in the first release?
 - Which snapshot analysis capabilities will be available in the first release?
 
