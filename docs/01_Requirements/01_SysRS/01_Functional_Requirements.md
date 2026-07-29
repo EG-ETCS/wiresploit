@@ -246,68 +246,61 @@ flowchart TD
 ---
 
 ## BR-ACT — Actions
+Derived from Business Requirements **BR-ACT-01** and **BR-ACT-03**.
+---
 
-**Source BR:**
-**Assignee:** ME
-**Status:** Not started
+### 1. Active Reconnaissance Workflow
 
-### Summary
-_One or two sentences restating the business need in plain language._
+| ID | Functional Requirement | Priority |
+|---|---|---|
+| **FR-ACT-01.1** | The system shall provide a dedicated "Active Reconnaissance" mode, distinct from passive observation mode, which the analyst must explicitly enter before any active action can be initiated. | Must |
+| **FR-ACT-01.2** | Upon initiating any active reconnaissance action, the system shall display a confirmation dialog that clearly states: (a) the action to be performed, (b) the target DUT identifier, (c) the potential impact on DUT state, and (d) requires the analyst to explicitly confirm (e.g., typed confirmation or dual-button approval) before execution. | Must |
+| **FR-ACT-01.3** | The system shall log all active reconnaissance actions with timestamp, analyst identity, action type, DUT target, and confirmation event into an immutable audit trail. | Must |
+| **FR-ACT-01.4** | During and after an active reconnaissance action, the system shall simultaneously capture and record the DUT's response across all connected capture nodes (wired, wireless, on-board buses) for subsequent analysis. | Must |
+| **FR-ACT-01.5** | The system shall allow the analyst to abort an active reconnaissance action mid-execution if the action type supports interruption (e.g., canceling a signal replay), with an immediate notification of partial completion. | Should |
 
-### Functional Requirements
+---
 
-| FR ID | Requirement | Priority | Acceptance Criteria |
-|---|---|---|---|
-| FR-ACT-01 | | Must / Should / Could | |
-| FR-ACT-02 | | | |
+### 2. Trigger Output Mechanisms
 
-### Assumptions & Dependencies
--
+| ID | Functional Requirement | Priority |
+|---|---|---|
+| **FR-ACT-03.1** | The system shall provide a hardware control interface capable of asserting a reset signal or power-cycling the DUT via a controllable power switch/relay connected to the capture infrastructure. | Must |
+| **FR-ACT-03.2** | The system shall support generation of configurable GPIO pulses (level, duration, pin selection) to the DUT, with parameters editable by the analyst prior to confirmation. | Must |
+| **FR-ACT-03.3** | The system shall support generation or replay of wireless signals (e.g., WiFi, Bluetooth, Zigbee, proprietary RF) through connected SDR or radio capture nodes, using analyst-provided or pre-recorded signal profiles. | Must |
+| **FR-ACT-03.4** | The system shall support generation or replay of on-board protocol frames (e.g., SPI, I2C, UART, CAN, JTAG) through the capture nodes, with configurable payload, timing, and bus parameters. | Must |
+| **FR-ACT-03.5** | For each trigger action in FR-ACT-03.1–03.4, the system shall require the analyst to explicitly configure all parameters and review a summary before the confirmation step in FR-ACT-01.2 is presented. | Must |
+| **FR-ACT-03.6** | The system shall validate configured trigger parameters against the DUT's declared capabilities/connections and warn the analyst if a misconfiguration is detected (e.g., GPIO pin not connected, unsupported protocol). | Should |
+| **FR-ACT-03.7** | The system shall maintain a library of reusable trigger profiles (pre-configured signal/protocol templates) that analysts can select, modify, and save for repeated use. | Should |
 
-### Open Questions
--
 
 ---
 
 ## BR-SEC — Security
 
-**Source BR:** BR-SEC-01 to BR-SEC-04
+**Source BR:** BR-SEC-01 to BR-SEC-03
 **Assignee:** RA
-**Status:** In progress
+**Status:** Completed
 
 ### Summary
-The system shall protect captured data — including any live credentials or secrets it may contain — while at rest, guarantee that recorded sessions cannot be silently altered after capture, and support role-based access control. Where Capture Node–to-Brain communication is wireless, that link shall be encrypted and authenticated to prevent interception or spoofing.
+The system shall protect captured session data by encrypting and password-protecting each session as a single unit. This encryption also serves as tamper-proofing: a modified session file cannot be successfully decrypted/opened, so no separate detection mechanism is needed. The system shall also support role-based access control with predefined roles (Admin, Analyst, Viewer).
 
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-SEC-01-1 | The system shall encrypt captured session data at rest, including any embedded credentials or secrets. | Must | Data stored on disk is not readable in plaintext without the appropriate decryption key/credentials. |
-| FR-SEC-01-2 | The system shall restrict filesystem/storage-level access to captured data to authorized system processes and users only. | Must | Attempting to access stored session data outside authorized processes/accounts is denied. |
-| FR-SEC-01-3 | The system shall avoid persisting decrypted credentials/secrets in logs, temporary files, or caches. | Must | A review of logs, temp files, and caches after a capture session shows no plaintext credentials/secrets. |
-| FR-SEC-02-1 | The system shall generate a cryptographic hash (or equivalent integrity marker) for each recorded session at the time of capture. | Must | Each recorded session has an associated hash/integrity value generated and stored at capture time. |
-| FR-SEC-02-2 | The system shall detect and flag any post-capture modification to a recorded session. | Must | Deliberately modifying a captured session file causes a subsequent integrity check to fail and be flagged. |
-| FR-SEC-02-3 | The system shall maintain an auditable chain-of-custody record for each recorded session (e.g., capture time, hash, subsequent access/export events). | Must | A chain-of-custody log exists per session and reflects all recorded access/export events in order. |
-| FR-SEC-03-1 | The system shall support defining roles with distinct permissions (e.g., view, export, modify) for captured session data. | Could | At least two distinct roles can be configured with different permission sets. |
+| FR-SEC-01-1 | The system shall encrypt and password-protect each recorded session as a single unit. This encryption shall also serve as tamper-proofing, such that any modification to the encrypted file renders it unreadable/invalid. | Must | A recorded session cannot be opened or read without the correct password/key; a session file that has been modified after capture fails to decrypt/open correctly. |
+| FR-SEC-03-1 | The system shall support defining roles with distinct permissions for captured session data (e.g., Admin: full access; Analyst: view, export, run analysis engines, and annotate over the timeline; Viewer: view only). | Could | At least the three defined roles (Admin, Analyst, Viewer) can be assigned to users, each with the permissions described. |
 | FR-SEC-03-2 | The system shall enforce role-based restrictions such that a user can only view, export, or modify session data permitted by their assigned role. | Could | A user assigned a restricted role is blocked from performing an action outside their permissions. |
-| FR-SEC-03-3 | The system shall log role-based access attempts, including denied actions. | Could | Both successful and denied access attempts are recorded with user, role, action, and timestamp. |
-| FR-SEC-04-1 | The system shall encrypt communication between Capture Nodes and the Brain when the connection is wireless. | Could | Wireless Capture Node–Brain traffic is unreadable when intercepted without the decryption key. |
-| FR-SEC-04-2 | The system shall authenticate Capture Nodes to the Brain (and vice versa) over wireless connections to prevent spoofing. | Could | An unauthenticated/spoofed device attempting to connect wirelessly as a Capture Node is rejected. |
-| FR-SEC-04-3 | The system may rely on physical security in lieu of encryption/authentication for wired Capture Node–Brain connections. | Could | Wired-link deployments are documented as relying on physical security controls instead of link encryption. |
 
 ### Assumptions & Dependencies
-- A key management approach (storage, rotation, recovery) for at-rest encryption is defined before implementation.
-- Chain-of-custody logging depends on reliable time synchronization (per FR-MON-04 / FR-ENV-02-3).
-- Role definitions and permission sets are agreed upon with stakeholders prior to implementation.
-- Wireless Capture Node deployments are the primary driver for FR-SEC-04; wired-only deployments may deprioritize this requirement.
+- A password/key management approach (how the session password is generated, stored, and recovered) is defined before implementation.
+- Role definitions (Admin, Analyst, Viewer) and their exact permission sets are agreed upon with stakeholders prior to implementation.
+- No cloud-based server is available or used for storing logs or any other data; all logging/storage stays local to the deployment.
 
 ### Open Questions
-- What encryption standard/algorithm is required or preferred for data at rest (e.g., AES-256)?
-- Who manages encryption keys, and what is the key recovery process if lost?
-- What specific roles are needed (e.g., Analyst, Admin, Auditor), and what permissions does each have?
-- Is tamper detection sufficient (detect-only), or is tamper-proofing (prevent modification entirely) required?
-- What authentication mechanism is expected for wireless Capture Node–Brain links (e.g., mutual TLS, pre-shared keys, certificates)?
-- Does chain-of-custody need to meet a specific legal/evidentiary standard (e.g., for use in formal investigations)?
+- Who sets the session password — the system automatically, or the analyst manually — and what happens if it's lost?
+- Are Admin / Analyst / Viewer the only roles needed, or are additional roles expected later?
 
 ---
 
@@ -388,32 +381,24 @@ The system must behave as a passive observer during normal monitoring — never 
 flowchart LR
 
     Analyst --> Brain
-
     Brain --> CaptureNodes["Capture Nodes"]
-
     CaptureNodes --> DUT["Device Under Test"]
+    DUT -. "Passive Monitoring (listen-only)" .-> CaptureNodes
 
-    DUT -.Passive Monitoring 
-    (listen-only).-> CaptureNodes
-
-    Brain --> Storage
-
-    Brain --> Timeline
-
-    subgraph Deployment Environment
+    subgraph AirGap["Isolated / Air-Gapped Test Bench"]
+        Analyst
         Brain
         CaptureNodes
-        Storage
-        Timeline
+        DUT
     end
 
     Internet[(Internet)]
+    Installer["Initial Installation"]
 
-    Internet -. Required only during 
-    installation .-> Installer["Initial Installation"]
+    Internet -. "Required only during installation" .-> Installer
+    Installer --> Brain
 
-    Internet -. No dependency 
-    during runtime .-x Brain
+    Internet -. "No dependency during runtime" .-x Brain
 ```
 ### Functional Requirements
 
@@ -422,11 +407,15 @@ flowchart LR
 | FR-ENV-01-1 | The system shall operate in a listen-only (passive) mode on all monitored interfaces — network, onboard-bus, and wireless — during standard monitoring sessions. | Must | No outbound transmission, injection, or signal alteration occurs on any monitored interface while in passive monitoring mode. |
 | FR-ENV-01-2 | The system shall not transmit, inject, or otherwise alter any signal on a monitored interface while operating in passive monitoring mode. | Must | Electrical/timing measurements on tapped interfaces show no measurable deviation from baseline DUT behavior during passive monitoring. |
 | FR-ENV-01-3 | The system shall visually indicate to the analyst which mode is currently active — passive monitoring or active reconnaissance (per FR-ACT). | Should | The active mode is clearly and unambiguously displayed in the interface at all times. |
-| FR-ENV-01-4 | The system shall exclude active reconnaissance actions performed under FR-ACT-01/03 from the non-interference constraint, since those are explicitly intended to affect the DUT. | Must | Active reconnaissance actions execute normally and are not blocked or flagged by non-interference checks. |
-| FR-ENV-02-1 | The system's runtime — including live monitoring, correlation, session recording, and active reconnaissance — shall function fully with no outbound or inbound internet connection. | Must | All core runtime functions operate correctly with the test-bench network disconnected from the internet. |
-| FR-ENV-02-2 | The system shall not depend on any internet-hosted service (e.g., license checks, telemetry, update checks) during normal operation. | Must | No outbound requests to external/internet-hosted endpoints are observed during normal operation. |
-| FR-ENV-02-3 | The system's time synchronization mechanism (per FR-MON-04) shall use only a local network time reference, not an internet-hosted NTP/PTP source. | Must | The configured time reference server resides within the isolated test-bench network. |
-| FR-ENV-02-4 | The system may require internet access solely during initial installation/setup (e.g., pulling container images per BR-DEP-01), and this exception shall be explicitly documented. | Must | Documentation clearly states which setup steps require internet access and confirms no such dependency exists post-setup. |
+| FR-ENV-01-4 | The system shall apply the non-interference constraint only while operating in Passive Monitoring mode. When operating in Active Reconnaissance mode the system shall permit authorized actions that intentionally interact with the Device Under Test (DUT), provided they have been explicitly confirmed by the analyst. | Must | Active reconnaissance actions execute normally and are not blocked or flagged by non-interference checks. |
+| FR-ENV-02-1 | The system shall support live monitoring without requiring an outbound or inbound internet connection during runtime. | Must | Live monitoring operates correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-2 | The system shall perform event correlation without requiring an outbound or inbound internet connection during runtime. | Must | Event correlation functions correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-3 | The system shall record sessions without requiring an outbound or inbound internet connection during runtime. | Must | Session recording operates correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-4 | The system shall execute active reconnaissance functions without requiring an outbound or inbound internet connection during runtime. | Must | Active reconnaissance functions operate correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-5 | The system shall not require an outbound or inbound internet connection for normal runtime operation. | Must | All runtime functions remain fully operational with the test-bench network disconnected from the internet. |
+| FR-ENV-02-6 | The system shall not depend on any internet-hosted service (e.g., license checks, telemetry, update checks) during normal operation. | Must | No outbound requests to external/internet-hosted endpoints are observed during normal operation. |
+| FR-ENV-02-7 | The system's time synchronization mechanism (per FR-MON-04) shall use only a local network time reference, not an internet-hosted PTP source. | Must | The configured time reference server resides within the isolated test-bench network. |
+| FR-ENV-02-8 | The system may require internet access solely during initial installation/setup (e.g., pulling container images ), and this exception shall be explicitly documented. | Must | Documentation clearly states which setup steps require internet access and confirms no such dependency exists post-setup. |
 
 ### Assumptions & Dependencies
 - The monitoring hardware is correctly connected to the DUT.
