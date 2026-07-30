@@ -87,7 +87,7 @@ flowchart TD
 
 **Source BR:** BR-ANA-01 to BR-ANA-08
 **Assignee:** HK
-**Status:** In progress
+**Status:** Completed
 
 ### Summary
 The analytics module lets analysts search recorded sessions for sensitive data, generate report-ready diagrams and exports, automatically flag clear-text secrets, reconstruct device memory from bus captures, and track usage/ROI metrics.
@@ -120,38 +120,116 @@ flowchart TD
 
 ### Functional Requirements
 
+#### FR-ANA-01 — Session Recording & Replay
+
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
 | FR-ANA-01-1 | The system shall record all captured communication events from an active session, beginning when the analyst starts the session and ending when they stop it. | Must | Starting a session begins capture; all events from active Capture Nodes are present in the saved session. |
 | FR-ANA-01-2 | The system shall record a timestamp for each captured event. | Must | Each recorded event has an associated timestamp. |
 | FR-ANA-01-3 | The system shall persist a session to storage when the analyst stops it. | Must | A stopped session remains available after the application restarts. |
-| FR-ANA-01-4 | The system shall allow an analyst to replay a previously recorded session. | Must | A stored session can be reloaded and played back. |
+| FR-ANA-01-4 | The system shall allow an analyst to play back a previously recorded session. | Must | A stored session can be reloaded and played back. |
 | FR-ANA-01-5 | The system shall preserve the original chronological order and timestamps of recorded events during replay. | Must | Replayed events appear in their original order and display their original capture timestamps, not replay time. |
-| FR-ANA-02-1 | The system shall allow an analyst to search a recorded session for sensitive information, using either known sensitive-data patterns (e.g., credential/token formats) or a custom search phrase. | Must | An analyst-initiated search using either a known pattern or a custom phrase returns matching results from the recorded session. |
+
+
+
+---
+
+#### FR-ANA-02 — Search & Navigation
+
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
+| FR-ANA-02-1 | The system shall allow an analyst to search a recorded session using a custom search phrase. | Must | An analyst-entered search phrase returns matching results from the recorded session. |
 | FR-ANA-02-2 | The system shall display the exact location (packet/timestamp/protocol) of each search match. | Must | Each result links back to its precise position on the timeline. |
 | FR-ANA-02-3 | The system shall allow an analyst to navigate directly from a search result to its corresponding timeline event. | Must | Selecting a result jumps the view to that event on the timeline. |
-| FR-ANA-03-1 | The system shall generate a visual diagram of observed device communications from a recorded session. | Should | A diagram is produced reflecting the session's captured events. |
-| FR-ANA-03-2 | The system shall group or link correlated communication events within the generated diagram. | Should | Correlated events appear visually grouped or connected in the diagram. |
-| FR-ANA-03-3 | The system shall export the generated diagram in a report-ready format (e.g., PNG/SVG/PDF). | Should | The diagram can be exported and opened in a standard viewer. |
-| FR-ANA-04-1 | The system shall allow an analyst to export recorded session data. | Should | An export file containing session data is produced. |
-| FR-ANA-04-2 | The system shall allow an analyst to export detected findings. | Should | An export file containing findings (e.g., flagged secrets) is produced. |
-| FR-ANA-04-3 | The system shall support one or more report-ready export formats. | Should | Export completes successfully in a supported format. |
-| FR-ANA-04-4 | Exported output shall include timestamps, protocol source, and flagged findings for each relevant entry. | Should | Exported files contain all three fields where applicable. |
-| FR-ANA-05-1 | The system shall inspect captured packets for predefined clear-text sensitive data patterns. | Should | Plaintext credentials/tokens in a session are detected without manual search. |
-| FR-ANA-05-2 | The system shall automatically flag packets containing detected sensitive information. | Should | Detected packets are marked as flagged without analyst action. |
-| FR-ANA-05-3 | The system shall visually distinguish flagged packets on the session timeline. | Should | Flagged packets are visually distinguishable from unflagged ones. |
-| FR-ANA-05-4 | The system shall provide a filterable "Findings" view separate from the full timeline. | Should | Findings can be viewed/filtered independently of the main timeline. |
-| FR-ANA-06-1 | The system shall track the number of completed analysis sessions. | Should | A running count of completed sessions is tracked. |
-| FR-ANA-06-2 | The system shall calculate the average time required to identify findings. | Should | An average time-to-finding value is computed and available. |
-| FR-ANA-06-3 | The system shall track the number of automatically detected sensitive-data findings. | Should | A running count of auto-detected findings is tracked. |
-| FR-ANA-06-4 | The system shall present the tracked usage metrics in a dashboard, filterable by a selectable time period. | Should | A dashboard shows the tracked metrics and supports date-range filtering. |
+
+![Session search interface](./session_search_interface_v2-dark.svg)
+
+---
+
+#### FR-ANA-03 — Behavior Diagram Generation
+
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
+| FR-ANA-03-1 | The system shall generate a Mermaid-based visual behavior diagram (e.g., a sequence diagram) from a recorded session's captured events, so analysts can understand a device's communication flow at a glance instead of manually reading the raw timeline, and so the diagram can be dropped directly into a client report. | Should | A Mermaid diagram is produced that reflects the session's captured events and renders correctly in a standard Mermaid viewer. |
+| FR-ANA-03-2 | The system shall represent correlated communication events as linked steps within the diagram (e.g., in a sequence diagram, a login attempt's HTTP request and the I2C read it triggers on the DUT appear as connected messages between the same pair of lifelines), so analysts can easily see how events are connected without checking the raw session. | Should | For a known correlated event pair in the test session, both events appear in the diagram as visually linked/connected elements rather than disconnected entries. |
+
+
+---
+
+#### FR-ANA-04 — Export & Reporting
+
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
+| FR-ANA-04-1 | The system shall allow an analyst to export recorded session data (e.g., as JSON or CSV). | Should | An export file containing session data is produced. |
+| FR-ANA-04-2 | The system shall allow an analyst to export detected sensitive-data findings (e.g., as JSON or CSV). | Should | An export file containing findings (e.g., flagged secrets) is produced. |
+| FR-ANA-04-3 | The system shall allow an analyst to export custom search results (e.g., as JSON or CSV). | Should | An export file containing the custom search results (each with its matched location, timestamp, and protocol) is produced. |
+| FR-ANA-04-4 | The system shall export the generated diagram (e.g., a Mermaid sequence diagram of the session) in a report-ready format (e.g., PNG/SVG). | Should | The exported diagram opens correctly in a standard image viewer and matches what was rendered in-app. |
+| FR-ANA-04-5 | The system shall allow an analyst to export the reconstructed memory map (e.g., binary/hex dump). | Should | The memory map can be exported and opened externally. |
+| FR-ANA-04-6 | The system shall allow an analyst to choose which of the following to include in a single consolidated report: recorded session data, detected sensitive-data findings , custom search results , and the generated diagram  — exported in one or more report-ready formats (e.g., PDF, DOCX). | Should | The analyst can select any combination of session data, findings, custom search results, and generated diagrams, and the exported file, in a supported report-ready format, contains only the selected items. |
+
+![Export Session Options](./export_report_options-dark.svg)
+
+
+---
+
+#### FR-ANA-05 — Sensitive-Data Flagging
+
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
+| FR-ANA-05-1 | The system shall inspect captured packets for predefined clear-text sensitive data patterns and automatically flag matching packets, without analyst action. | Should | Plaintext credentials/tokens are automatically detected and flagged without analyst action. |
+| FR-ANA-05-2 | The system shall provide a "Findings" control that toggles a contextual highlight mode on the timeline, emphasizing communication blocks containing flagged findings and fading unrelated blocks when active. | Should | Clicking the "Findings" control switches the timeline into highlight mode (flagged blocks emphasized, others faded, no separate view); clicking again returns to the normal view. |
+
+![Findings toggle button](./findings_toggle_button_v2-dark.svg)
+
+---
+
+#### FR-ANA-06 — Usage Metrics
+
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
+| FR-ANA-06-1 | The system shall display a running timer showing elapsed time for the current active session. | Should | While a session is active, an elapsed-time timer is visible and updates continuously. |
+| FR-ANA-06-2 | The system shall track the number of completed analysis sessions. | Should | A running count of completed sessions is tracked. |
+| FR-ANA-06-3 | The system shall calculate the average time required to identify findings. | Should | An average time-to-finding value is computed and available. |
+| FR-ANA-06-4 | The system shall track the number of automatically detected sensitive-data findings. | Should | A running count of auto-detected findings is tracked. |
+| FR-ANA-06-5 | The system shall present the tracked usage metrics (e.g., session count, average time, average session time, findings detected) in a dashboard, filterable by a selectable time period. | Should | A dashboard shows session count, average time-to-finding, average session time, and findings detected, and supports date-range filtering. |
+
+![Session timer and usage metrics dashboard](./br_ana_06_combined_mockup-dark.svg)
+
+---
+
+#### FR-ANA-07 — Memory Reconstruction
+
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
 | FR-ANA-07-1 | The system shall extract address/data pairs from captured (e.g., SPI/I2C) bus transactions. | Should | Address/data pairs are correctly parsed from bus capture data. |
 | FR-ANA-07-2 | The system shall aggregate extracted address/data pairs into a unified reconstructed memory map. | Should | A reconstructed memory map is generated from a session with bus captures. |
 | FR-ANA-07-3 | The system shall allow an analyst to view the reconstructed memory map. | Should | The memory map is viewable within the application. |
-| FR-ANA-07-4 | The system shall allow an analyst to export the reconstructed memory map (e.g., binary/hex dump). | Should | The memory map can be exported and opened externally. |
+
+
+
+---
+
+#### FR-ANA-08 — Reconstruction Completeness
+
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
 | FR-ANA-08-1 | The system shall classify each observed memory address range as fully observed, partially observed, or never captured. | Should | Every address range in the reconstructed memory map is correctly classified into one of the three states. |
 | FR-ANA-08-2 | The system shall visually distinguish fully observed, partially observed, and never-captured ranges in the memory map. | Should | The three states are visually distinct in the reconstructed map. |
 | FR-ANA-08-3 | The system shall display a completeness summary statistic (e.g., % of address space fully observed) alongside the memory map. | Should | A summary percentage is shown with the map. |
+
+![Reconstructed memory map view with export control](./memory_map_export_view-dark.svg)
+
+---
+
+#### FR-ANA-09 — Snapshot Behavior Descriptions
+
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
+| FR-ANA-09-1 | The system shall analyze Snapshot Node captured outputs to identify observable device behavior. | Should | Supported snapshot data is processed to identify observable device behavior. |
+| FR-ANA-09-2 | The system shall generate descriptive information from analyzed snapshot outputs. | Should | The system generates a description of the observed device state or behavior. |
+| FR-ANA-09-3 | The system shall display generated descriptions on the unified timeline. | Should | Generated descriptions appear at the corresponding timeline position. |
+
+---
 
 ### Assumptions & Dependencies
 - Accurate search/flagging depends on reliable timestamps from time sync (FR-MON-04).
@@ -163,12 +241,7 @@ flowchart TD
 - What default credential/token patterns should auto-flagging (FR-ANA-05-1) detect out of the box?
 - What diagram type(s)/tooling will be used to generate behavior diagrams (FR-ANA-03-1)?
 - Which export formats will be supported for v1 (FR-ANA-04-3)?
-- What counts as "time-to-finding" — from session start, or from first relevant event?
-- Should the "Findings" view (FR-ANA-05-4) also surface analyst-run search results (FR-ANA-02), or are auto-flagged findings and search results two distinct views?
-- Are FR-ANA-04-1 (export session data) and FR-ANA-04-2 (export findings) intended as independently triggerable exports, or one combined export action?
-- Should FR-ANA-05-1 (inspect) and FR-ANA-05-2 (flag) remain separate, or be merged similarly to the BR-ANA-01 group?
 - BR-ANA-01 does not define behavior if an analyst leaves a session running indefinitely (e.g., forgets to stop it) — should there be a maximum session duration, an idle timeout, or is indefinite recording acceptable?
-- Should diagram generation (FR-ANA-03-1) also be available during a live, in-progress session, or only after a session has been recorded/stopped as currently scoped by AC-ANA-03.1?
 
 ---
 
