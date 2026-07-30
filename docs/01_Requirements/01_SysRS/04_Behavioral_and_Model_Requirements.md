@@ -53,9 +53,11 @@ sequenceDiagram
     storage-->>system: Session successfully persisted
     system-->>analyst: Confirm session stopped and saved
 ```
-# Use Case Diagram
-# Monitoring
-``` plantuml
+
+## Use Case Diagram
+### Monitoring
+
+```plantuml
 @startuml
 left to right direction
 skinparam packageStyle rectangle
@@ -92,8 +94,10 @@ UC2 -- CaptureNodes
 UC4 -- CaptureNodes
 @enduml
 ```
- # Analytics & Forensics
-``` plantuml
+
+### Analytics & Forensics
+
+```plantuml
 @startuml
 left to right direction
 skinparam packageStyle rectangle
@@ -136,7 +140,91 @@ Analyst --> UC5
 UC1 -- CaptureNodes
 @enduml
 ```
-# Overall
+
+### Active Recon
+
+```plantuml
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "User\n(Base Actor)" as BaseUser
+actor "Viewer" as Viewer
+actor "Analyst" as Analyst
+actor "Admin" as Admin
+actor "Capture Nodes\n(Secondary Actor)" as CaptureNodes
+
+' Cascading Inheritance
+BaseUser <|-- Viewer
+Viewer <|-- Analyst
+Analyst <|-- Admin
+
+package "Active Reconnaissance Module (BR-ACT)" {
+  usecase "Enable Active Reconnaissance Mode" as UC1
+  usecase "Execute Hardware Power-Cycle / Reset" as UC2
+  usecase "Inject Signals / Frames" as UC3
+  usecase "Abort Active Action" as UC4
+  usecase "Manage Trigger Profiles" as UC5
+}
+
+' All active actions are mapped to the Analyst (and implicitly the Admin)
+Analyst --> UC1
+Analyst --> UC2
+Analyst --> UC3
+Analyst --> UC4
+Analyst --> UC5
+
+' Secondary actor integrations
+UC2 -- CaptureNodes
+UC3 -- CaptureNodes
+UC4 -- CaptureNodes
+@enduml
+Analytics & Forensics
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "User\n(Base Actor)" as BaseUser
+actor "Viewer" as Viewer
+actor "Analyst" as Analyst
+actor "Admin" as Admin
+actor "Capture Nodes\n(Secondary Actor)" as CaptureNodes
+
+' Cascading Inheritance
+BaseUser <|-- Viewer
+Viewer <|-- Analyst
+Analyst <|-- Admin
+
+package "Analytics & Forensics Module (BR-ANA)" {
+  usecase "Manage Capture Session" as UC1
+  usecase "Replay Session" as UC2
+  usecase "Search Session Data" as UC3
+  usecase "Generate Behavior Diagram" as UC4
+  usecase "Export Artifacts" as UC5
+  usecase "Toggle Findings View" as UC6
+  usecase "View Reconstructed Memory" as UC7
+  usecase "Track Usage Metrics" as UC8
+}
+
+' Base viewing and navigation actions
+BaseUser --> UC2
+BaseUser --> UC3
+BaseUser --> UC6
+BaseUser --> UC7
+BaseUser --> UC8
+
+' Elevated analyst capabilities
+Analyst --> UC1
+Analyst --> UC4
+Analyst --> UC5
+
+' Secondary actor integrations
+UC1 -- CaptureNodes
+@enduml
+```
+
+### Overall System Use Case
+
 ``` plantuml
 @startuml
 left to right direction
@@ -182,4 +270,3 @@ UC5 -- ExtTools
 
 @enduml
 ```
-
