@@ -53,4 +53,133 @@ sequenceDiagram
     storage-->>system: Session successfully persisted
     system-->>analyst: Confirm session stopped and saved
 ```
+# Use Case Diagram
+# Monitoring
+``` plantuml
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "User\n(Base Actor)" as BaseUser
+actor "Viewer" as Viewer
+actor "Analyst" as Analyst
+actor "Admin" as Admin
+actor "Capture Nodes\n(Secondary Actor)" as CaptureNodes
+
+' Cascading Inheritance
+BaseUser <|-- Viewer
+Viewer <|-- Analyst
+Analyst <|-- Admin
+
+package "Monitoring Module (BR-MON)" {
+  usecase "Monitor Live Communications" as UC1
+  usecase "Trigger Device Snapshot" as UC2
+  usecase "View Snapshot Analysis" as UC3
+  usecase "Synchronize Time Reference" as UC4
+}
+
+' Base viewing actions (Viewer inherits these automatically)
+BaseUser --> UC1
+BaseUser --> UC3
+
+' Elevated actions (Admin inherits Analyst actions automatically)
+Analyst --> UC2
+Admin --> UC4
+
+' Secondary actor integrations
+UC1 -- CaptureNodes
+UC2 -- CaptureNodes
+UC4 -- CaptureNodes
+@enduml
+```
+ # Analytics & Forensics
+``` plantuml
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "User\n(Base Actor)" as BaseUser
+actor "Viewer" as Viewer
+actor "Analyst" as Analyst
+actor "Admin" as Admin
+actor "Capture Nodes\n(Secondary Actor)" as CaptureNodes
+
+' Cascading Inheritance
+BaseUser <|-- Viewer
+Viewer <|-- Analyst
+Analyst <|-- Admin
+
+package "Analytics & Forensics Module (BR-ANA)" {
+  usecase "Manage Capture Session" as UC1
+  usecase "Replay Session" as UC2
+  usecase "Search Session Data" as UC3
+  usecase "Generate Behavior Diagram" as UC4
+  usecase "Export Artifacts" as UC5
+  usecase "Toggle Findings View" as UC6
+  usecase "View Reconstructed Memory" as UC7
+  usecase "Track Usage Metrics" as UC8
+}
+
+' Base viewing and navigation actions
+BaseUser --> UC2
+BaseUser --> UC3
+BaseUser --> UC6
+BaseUser --> UC7
+BaseUser --> UC8
+
+' Elevated analyst capabilities
+Analyst --> UC1
+Analyst --> UC4
+Analyst --> UC5
+
+' Secondary actor integrations
+UC1 -- CaptureNodes
+@enduml
+```
+# Overall
+``` plantuml
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+' Primary Actors
+actor "User\n(Base Actor)" as BaseUser
+actor "Viewer" as Viewer
+actor "Analyst" as Analyst
+actor "Admin" as Admin
+
+' Secondary Actors
+actor "Capture Nodes\n(Native Hardware)" as CaptureNodes
+actor "External Tools\n(API Actor)" as ExtTools
+
+' Cascading Role Inheritance
+BaseUser <|-- Viewer
+Viewer <|-- Analyst
+Analyst <|-- Admin
+
+package "Wiresploit Core System" {
+  usecase "Perform Passive Monitoring\n(BR-MON)" as UC1
+  usecase "Conduct Analytics & Forensics\n(BR-ANA)" as UC2
+  usecase "Execute Active Reconnaissance\n(BR-ACT)" as UC3
+  usecase "Manage Deployment & Security\n(BR-DEP & BR-SEC)" as UC4
+  usecase "Ingest External Data\n(BR-EXT)" as UC5
+}
+
+' Role-to-Module Mapping
+BaseUser --> UC1
+BaseUser --> UC2
+Analyst --> UC3
+Analyst --> UC5
+Admin --> UC4
+
+' Secondary Actor Integration
+UC1 -- CaptureNodes
+UC2 -- CaptureNodes
+UC3 -- CaptureNodes
+
+UC5 -- ExtTools
+
+@enduml
+```
 
