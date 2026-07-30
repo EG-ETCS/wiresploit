@@ -318,21 +318,18 @@ _The system shall run on Docker with fixed, predictable versions, and let users 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
 | FR-DEP-01-1 | System components (Brain + all dependencies) shall be packaged as Docker images defined via Dockerfile(s) and orchestrated via Docker Compose. | Must | Each system component has a corresponding Dockerfile and is defined as a service in `docker compose build` and that it completes successfully with exit code 0. |
-| FR-DEP-01-2 | All image versions shall be pinned (no :`latest tags`; locked dependency versions via committed lockfiles) | Must | Every `FROM` in all Dockerfiles and every image: in `docker-compose.yml` — has an explicit version tag (e.g. postgres:16.3), not latest . |
-| FR-DEP-01-3 | All Dockerfile install steps shall install strictly from the lockfile. | Must | No use of npm install, or unpinned pip install in place of their lockfile-strict equivalents.
+| FR-DEP-01-2 | All image versions shall be pinned (no :`latest tags`; only locked dependency versions) | Must | Every `FROM` in all Dockerfiles and every image: in `docker-compose.yml` — has an explicit version tag (e.g. postgres:16.3), not latest . |
+| FR-DEP-01-3 | All Dockerfile install steps shall install strictly from the lockfile or requirments.txt with specified versions. | Must | No use of npm install, or unpinned pip install in place of their lockfile-strict equivalents.
 | FR-DEP-02-1 | The system shall provide a function to export the current configuration and recorded session data to a file stored outside the container's writable layer  | Should | Confirm persistence after the container is stopped/removed. |
 | FR-DEP-02-2 | The system shall provide a function to import previously exported configuration and recorded session data into a running or newly deployed instance. | Should | Import a previously exported data into both  a running instance and  a freshly deployed instance; confirm the operation completes successfully in both cases. |
-| FR-DEP-02-3 | The system shall validate imported data for integrity and compatibility (e.g., correct format/schema). | Should |  Confirm validation runs before any data is applied. |
-| FR-DEP-02-4| The system shall log export and import operations, including timestamp and outcome (success/failure). | Should | Perform successful and failed export/import operations; confirm each is recorded. |
+| FR-DEP-02-3| The system shall log export and import operations, including timestamp and outcome (failure only). | Should | Perform successful and failed export/import operations; confirm failed operations are recorded. |
 
 ### Assumptions & Dependencies
 - The application has a defined, versioned schema for configuration and session data to support import validation.
 - Exported files are stored on a host-accessible path that persists independently of the container.
 
 ### Open Questions
-- Does import into a running instance hot-apply the config/session data, or does it require a restart?
-- On import, is the behavior full overwrite or merge with existing session data?
-- What happens if validation (FR-DEP-02-3) fails partway through an import?
+- What are the configurations needed in import/export?
 - What export/import formats are required (JSON, SQL dump, encrypted archive)?
 
 
@@ -345,25 +342,18 @@ _The system shall run on Docker with fixed, predictable versions, and let users 
 **Status:** Completed
 
 ### Summary
-_The system shall grow to support new communication protocols over time, and let external capture nodes plug in as an additional data source._
+_The system shall grow to support new sniffed protocols over time, and let external capture nodes plug in as an additional data source._
 
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-EXT-01-1 | Implement communication protocol via a modular architecture, allowing new protocol modules without modifying the core system codebase. | Should | Isolate protocol handling in separate modules with a defined interface. |
+| FR-EXT-01-1 | Implement sniffed protocol via a modular architecture, allowing new protocol modules without modifying the core system codebase. | Should | Isolate protocol handling in separate modules with a defined interface. |
 | FR-EXT-01-2 | Define a standard protocol module interface (e.g., required methods/functions for connect, parse, send, disconnect) that any new protocol implementation must conform to. | Should | Review documentation/code for a defined protocol interface (abstract class, contract, or schema); confirm an existing protocol module implements it fully. |
 | FR-EXT-02-1 | Provide a documented API (e.g., REST, or similar) enabling external hardware capture tools to submit captured data to the system. | Could | Call the documented API from an external tool/script and confirm data is accepted. |
 | FR-EXT-02-2 | Treat data received from external capture tools as an additional data source, processed through the same correlation/monitoring pipeline as data from native Capture Nodes. | Could | Equivalent handling for data from both the external integration interface and a native Capture Node.|
-| FR-EXT-02-3 | Validate data submitted by external capture tools for correct format/schema before ingesting it into the pipeline. | Could | Reject invalid payloads without disrupting the pipeline. |  
-| FR-EXT-02-4 | Log all connections and data submissions from external capture tools, including source identity, timestamp, and outcome (success/failure). | Could | Submited data via the integration interface is logged with source, timestamp, and outcome. |
-
-
-### Assumptions & Dependencies
-- External capture nodes are assumed to be semi-trusted; hence explicit validation and logging requirements (FR-EXT-02-3, 02-4).
-
-### Open Questions
-- Should rejected/invalid payloads (FR-EXT-02-3) be queued for review, or simply dropped with an error response to the sender?
+| FR-EXT-02-3 | Validate data submitted by external capture tools and mark them in view if malformed. | Could | Mark in red malformed payloads. |  
+| FR-EXT-02-4 | Log failed connections and data submissions from external capture tools, including source identity, timestamp, and outcome. | Could | Failed data via the integration interface is logged with source, timestamp, and outcome. |
 
 ---
 
