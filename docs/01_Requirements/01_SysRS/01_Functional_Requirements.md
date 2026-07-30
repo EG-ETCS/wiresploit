@@ -85,73 +85,149 @@ flowchart TD
 
 ## BR-ANA — Analytics
 
-**Source BR:**
+**Source BR:** BR-ANA-01 to BR-ANA-08
 **Assignee:** HK
-**Status:** Not started
+**Status:** In progress
 
 ### Summary
-_One or two sentences restating the business need in plain language._
+The analytics module lets analysts search recorded sessions for sensitive data, generate report-ready diagrams and exports, automatically flag clear-text secrets, reconstruct device memory from bus captures, and track usage/ROI metrics.
+
+### Analytics Module Data Flow
+```mermaid
+flowchart TD
+
+    SESSION["Recorded Session"]
+
+    RECORD["Record & Replay<br/>Events + Timestamps"]
+    SEARCH["Search & Flagging<br/>Secrets, Custom Search"]
+    MEMORY["Memory Reconstruction<br/> Bus Address Map"]
+    DIAGRAM["Behavior Diagram<br/>Visual Flow Diagram"]
+    METRICS["Usage Metrics<br/>Sessions, Time-to-Finding"]
+
+    EXPORT["Export & Reporting"]
+
+    SESSION --> RECORD
+    RECORD --> SEARCH
+    RECORD --> MEMORY
+    RECORD --> DIAGRAM
+    RECORD --> METRICS
+
+    SEARCH --> EXPORT
+    MEMORY --> EXPORT
+    DIAGRAM --> EXPORT
+    METRICS --> EXPORT
+```
 
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-ANA-01 | | Must / Should / Could | |
-| FR-ANA-02 | | | |
+| FR-ANA-01-1 | The system shall record all captured communication events from an active session, beginning when the analyst starts the session and ending when they stop it. | Must | Starting a session begins capture; all events from active Capture Nodes are present in the saved session. |
+| FR-ANA-01-2 | The system shall record a timestamp for each captured event. | Must | Each recorded event has an associated timestamp. |
+| FR-ANA-01-3 | The system shall persist a session to storage when the analyst stops it. | Must | A stopped session remains available after the application restarts. |
+| FR-ANA-01-4 | The system shall allow an analyst to replay a previously recorded session. | Must | A stored session can be reloaded and played back. |
+| FR-ANA-01-5 | The system shall preserve the original chronological order and timestamps of recorded events during replay. | Must | Replayed events appear in their original order and display their original capture timestamps, not replay time. |
+| FR-ANA-02-1 | The system shall allow an analyst to search a recorded session for sensitive information, using either known sensitive-data patterns (e.g., credential/token formats) or a custom search phrase. | Must | An analyst-initiated search using either a known pattern or a custom phrase returns matching results from the recorded session. |
+| FR-ANA-02-2 | The system shall display the exact location (packet/timestamp/protocol) of each search match. | Must | Each result links back to its precise position on the timeline. |
+| FR-ANA-02-3 | The system shall allow an analyst to navigate directly from a search result to its corresponding timeline event. | Must | Selecting a result jumps the view to that event on the timeline. |
+| FR-ANA-03-1 | The system shall generate a visual diagram of observed device communications from a recorded session. | Should | A diagram is produced reflecting the session's captured events. |
+| FR-ANA-03-2 | The system shall group or link correlated communication events within the generated diagram. | Should | Correlated events appear visually grouped or connected in the diagram. |
+| FR-ANA-03-3 | The system shall export the generated diagram in a report-ready format (e.g., PNG/SVG/PDF). | Should | The diagram can be exported and opened in a standard viewer. |
+| FR-ANA-04-1 | The system shall allow an analyst to export recorded session data. | Should | An export file containing session data is produced. |
+| FR-ANA-04-2 | The system shall allow an analyst to export detected findings. | Should | An export file containing findings (e.g., flagged secrets) is produced. |
+| FR-ANA-04-3 | The system shall support one or more report-ready export formats. | Should | Export completes successfully in a supported format. |
+| FR-ANA-04-4 | Exported output shall include timestamps, protocol source, and flagged findings for each relevant entry. | Should | Exported files contain all three fields where applicable. |
+| FR-ANA-05-1 | The system shall inspect captured packets for predefined clear-text sensitive data patterns. | Should | Plaintext credentials/tokens in a session are detected without manual search. |
+| FR-ANA-05-2 | The system shall automatically flag packets containing detected sensitive information. | Should | Detected packets are marked as flagged without analyst action. |
+| FR-ANA-05-3 | The system shall visually distinguish flagged packets on the session timeline. | Should | Flagged packets are visually distinguishable from unflagged ones. |
+| FR-ANA-05-4 | The system shall provide a filterable "Findings" view separate from the full timeline. | Should | Findings can be viewed/filtered independently of the main timeline. |
+| FR-ANA-06-1 | The system shall track the number of completed analysis sessions. | Should | A running count of completed sessions is tracked. |
+| FR-ANA-06-2 | The system shall calculate the average time required to identify findings. | Should | An average time-to-finding value is computed and available. |
+| FR-ANA-06-3 | The system shall track the number of automatically detected sensitive-data findings. | Should | A running count of auto-detected findings is tracked. |
+| FR-ANA-06-4 | The system shall present the tracked usage metrics in a dashboard, filterable by a selectable time period. | Should | A dashboard shows the tracked metrics and supports date-range filtering. |
+| FR-ANA-07-1 | The system shall extract address/data pairs from captured (e.g., SPI/I2C) bus transactions. | Should | Address/data pairs are correctly parsed from bus capture data. |
+| FR-ANA-07-2 | The system shall aggregate extracted address/data pairs into a unified reconstructed memory map. | Should | A reconstructed memory map is generated from a session with bus captures. |
+| FR-ANA-07-3 | The system shall allow an analyst to view the reconstructed memory map. | Should | The memory map is viewable within the application. |
+| FR-ANA-07-4 | The system shall allow an analyst to export the reconstructed memory map (e.g., binary/hex dump). | Should | The memory map can be exported and opened externally. |
+| FR-ANA-08-1 | The system shall classify each observed memory address range as fully observed, partially observed, or never captured. | Should | Every address range in the reconstructed memory map is correctly classified into one of the three states. |
+| FR-ANA-08-2 | The system shall visually distinguish fully observed, partially observed, and never-captured ranges in the memory map. | Should | The three states are visually distinct in the reconstructed map. |
+| FR-ANA-08-3 | The system shall display a completeness summary statistic (e.g., % of address space fully observed) alongside the memory map. | Should | A summary percentage is shown with the map. |
 
 ### Assumptions & Dependencies
--
+- Accurate search/flagging depends on reliable timestamps from time sync (FR-MON-04).
+- Session storage/format depends on BR-DEP export-import design (FR-DEP-02-x).
+- At-rest protection of exported findings depends on FR-SEC-01 (encryption at rest).
+- The finding count metric (FR-ANA-06-3) depends on the flagging logic defined in FR-ANA-05-2; changes to detection patterns will affect the reported count.
 
 ### Open Questions
-- 
+- What default credential/token patterns should auto-flagging (FR-ANA-05-1) detect out of the box?
+- What diagram type(s)/tooling will be used to generate behavior diagrams (FR-ANA-03-1)?
+- Which export formats will be supported for v1 (FR-ANA-04-3)?
+- What counts as "time-to-finding" — from session start, or from first relevant event?
+- Should the "Findings" view (FR-ANA-05-4) also surface analyst-run search results (FR-ANA-02), or are auto-flagged findings and search results two distinct views?
+- Are FR-ANA-04-1 (export session data) and FR-ANA-04-2 (export findings) intended as independently triggerable exports, or one combined export action?
+- Should FR-ANA-05-1 (inspect) and FR-ANA-05-2 (flag) remain separate, or be merged similarly to the BR-ANA-01 group?
+- BR-ANA-01 does not define behavior if an analyst leaves a session running indefinitely (e.g., forgets to stop it) — should there be a maximum session duration, an idle timeout, or is indefinite recording acceptable?
+- Should diagram generation (FR-ANA-03-1) also be available during a live, in-progress session, or only after a session has been recorded/stopped as currently scoped by AC-ANA-03.1?
 
 ---
 
 ## BR-ACT — Actions
+Derived from Business Requirements **BR-ACT-01** and **BR-ACT-03**.
+---
 
-**Source BR:**
-**Assignee:** ME
-**Status:** Not started
+### 1. Active Reconnaissance Workflow
 
-### Summary
-_One or two sentences restating the business need in plain language._
+| ID | Functional Requirement | Priority |
+|---|---|---|
+| **FR-ACT-01.1** | The system shall provide a dedicated "Active Reconnaissance" mode, distinct from passive observation mode, which the analyst must explicitly enter before any active action can be initiated. | Must |
+| **FR-ACT-01.2** | Upon initiating any active reconnaissance action, the system shall display a confirmation dialog that clearly states: (a) the action to be performed, (b) the target DUT identifier, (c) the potential impact on DUT state, and (d) requires the analyst to explicitly confirm (e.g., typed confirmation or dual-button approval) before execution. | Must |
+| **FR-ACT-01.3** | The system shall log all active reconnaissance actions with timestamp, analyst identity, action type, DUT target, and confirmation event into an immutable audit trail. | Must |
+| **FR-ACT-01.4** | During and after an active reconnaissance action, the system shall simultaneously capture and record the DUT's response across all connected capture nodes (wired, wireless, on-board buses) for subsequent analysis. | Must |
+| **FR-ACT-01.5** | The system shall allow the analyst to abort an active reconnaissance action mid-execution if the action type supports interruption (e.g., canceling a signal replay), with an immediate notification of partial completion. | Should |
 
-### Functional Requirements
+---
 
-| FR ID | Requirement | Priority | Acceptance Criteria |
-|---|---|---|---|
-| FR-ACT-01 | | Must / Should / Could | |
-| FR-ACT-02 | | | |
+### 2. Trigger Output Mechanisms
 
-### Assumptions & Dependencies
--
+| ID | Functional Requirement | Priority |
+|---|---|---|
+| **FR-ACT-03.1** | The system shall provide a hardware control interface capable of asserting a reset signal or power-cycling the DUT via a controllable power switch/relay connected to the capture infrastructure. | Must |
+| **FR-ACT-03.2** | The system shall support generation of configurable GPIO pulses (level, duration, pin selection) to the DUT, with parameters editable by the analyst prior to confirmation. | Must |
+| **FR-ACT-03.3** | The system shall support generation or replay of wireless signals (e.g., WiFi, Bluetooth, Zigbee, proprietary RF) through connected SDR or radio capture nodes, using analyst-provided or pre-recorded signal profiles. | Must |
+| **FR-ACT-03.4** | The system shall support generation or replay of on-board protocol frames (e.g., SPI, I2C, UART, CAN, JTAG) through the capture nodes, with configurable payload, timing, and bus parameters. | Must |
+| **FR-ACT-03.5** | For each trigger action in FR-ACT-03.1–03.4, the system shall require the analyst to explicitly configure all parameters and review a summary before the confirmation step in FR-ACT-01.2 is presented. | Must |
+| **FR-ACT-03.6** | The system shall validate configured trigger parameters against the DUT's declared capabilities/connections and warn the analyst if a misconfiguration is detected (e.g., GPIO pin not connected, unsupported protocol). | Should |
+| **FR-ACT-03.7** | The system shall maintain a library of reusable trigger profiles (pre-configured signal/protocol templates) that analysts can select, modify, and save for repeated use. | Should |
 
-### Open Questions
--
 
 ---
 
 ## BR-SEC — Security
 
-**Source BR:**
+**Source BR:** BR-SEC-01 to BR-SEC-03
 **Assignee:** RA
-**Status:** Not started
+**Status:** Completed
 
 ### Summary
-_One or two sentences restating the business need in plain language._
+The system shall protect captured session data by encrypting and password-protecting each session as a single unit. This encryption also serves as tamper-proofing: a modified session file cannot be successfully decrypted/opened, so no separate detection mechanism is needed. The system shall also support role-based access control with predefined roles (Admin, Analyst, Viewer).
 
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-SEC-01 | | Must / Should / Could | |
-| FR-SEC-02 | | | |
+| FR-SEC-01-1 | The system shall encrypt and password-protect each recorded session as a single unit. This encryption shall also serve as tamper-proofing, such that any modification to the encrypted file renders it unreadable/invalid. | Must | A recorded session cannot be opened or read without the correct password/key; a session file that has been modified after capture fails to decrypt/open correctly. |
+| FR-SEC-03-1 | The system shall support defining roles with distinct permissions for captured session data (e.g., Admin: full access; Analyst: view, export, run analysis engines, and annotate over the timeline; Viewer: view only). | Could | At least the three defined roles (Admin, Analyst, Viewer) can be assigned to users, each with the permissions described. |
+| FR-SEC-03-2 | The system shall enforce role-based restrictions such that a user can only view, export, or modify session data permitted by their assigned role. | Could | A user assigned a restricted role is blocked from performing an action outside their permissions. |
 
 ### Assumptions & Dependencies
--
+- A password/key management approach (how the session password is generated, stored, and recovered) is defined before implementation.
+- Role definitions (Admin, Analyst, Viewer) and their exact permission sets are agreed upon with stakeholders prior to implementation.
+- No cloud-based server is available or used for storing logs or any other data; all logging/storage stays local to the deployment.
 
 ### Open Questions
--
+- Who sets the session password — the system automatically, or the analyst manually — and what happens if it's lost?
+- Are Admin / Analyst / Viewer the only roles needed, or are additional roles expected later?
 
 ---
 
@@ -208,48 +284,107 @@ _The system shall grow to support new sniffed protocols over time, and let exter
 
 ---
 
-## BR-ENV — Environment
+## BR-ENV — Non-Interference & Operating Environment
 
-**Source BR:**
-**Assignee:** YS
-**Status:** Not started
+**Source BR:** BR-ENV-01 to BR-ENV-02 ,
+**Assignee:** YS ,
+**Status:** Completed.
 
 ### Summary
-_One or two sentences restating the business need in plain language._
+The system must behave as a passive observer during normal monitoring — never altering the DUT's behavior — and must be fully deployable and operable inside an isolated, air-gapped test-bench network, with internet access confined to initial setup only.
 
+### Environment Operation Flow
+```mermaid
+flowchart LR
+
+    Analyst --> Brain
+    Brain --> CaptureNodes["Capture Nodes"]
+    CaptureNodes --> DUT["Device Under Test"]
+    DUT -. "Passive Monitoring (listen-only)" .-> CaptureNodes
+
+    subgraph AirGap["Isolated / Air-Gapped Test Bench"]
+        Analyst
+        Brain
+        CaptureNodes
+        DUT
+    end
+
+    Internet[(Internet)]
+    Installer["Initial Installation"]
+
+    Internet -. "Required only during installation" .-> Installer
+    Installer --> Brain
+
+    Internet -. "No dependency during runtime" .-x Brain
+```
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-ENV-01 | | Must / Should / Could | |
-| FR-ENV-02 | | | |
+| FR-ENV-01-1 | The system shall operate in a listen-only (passive) mode on all monitored interfaces — network, onboard-bus, and wireless — during standard monitoring sessions. | Must | No outbound transmission, injection, or signal alteration occurs on any monitored interface while in passive monitoring mode. |
+| FR-ENV-01-2 | The system shall not transmit, inject, or otherwise alter any signal on a monitored interface while operating in passive monitoring mode. | Must | Electrical/timing measurements on tapped interfaces show no measurable deviation from baseline DUT behavior during passive monitoring. |
+| FR-ENV-01-3 | The system shall visually indicate to the analyst which mode is currently active — passive monitoring or active reconnaissance (per FR-ACT). | Should | The active mode is clearly and unambiguously displayed in the interface at all times. |
+| FR-ENV-01-4 | The system shall apply the non-interference constraint only while operating in Passive Monitoring mode. When operating in Active Reconnaissance mode the system shall permit authorized actions that intentionally interact with the Device Under Test (DUT), provided they have been explicitly confirmed by the analyst. | Must | Active reconnaissance actions execute normally and are not blocked or flagged by non-interference checks. |
+| FR-ENV-02-1 | The system shall support live monitoring without requiring an outbound or inbound internet connection during runtime. | Must | Live monitoring operates correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-2 | The system shall perform event correlation without requiring an outbound or inbound internet connection during runtime. | Must | Event correlation functions correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-3 | The system shall record sessions without requiring an outbound or inbound internet connection during runtime. | Must | Session recording operates correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-4 | The system shall execute active reconnaissance functions without requiring an outbound or inbound internet connection during runtime. | Must | Active reconnaissance functions operate correctly while the test-bench network is disconnected from the internet. |
+| FR-ENV-02-5 | The system shall not require an outbound or inbound internet connection for normal runtime operation. | Must | All runtime functions remain fully operational with the test-bench network disconnected from the internet. |
+| FR-ENV-02-6 | The system shall not depend on any internet-hosted service (e.g., license checks, telemetry, update checks) during normal operation. | Must | No outbound requests to external/internet-hosted endpoints are observed during normal operation. |
+| FR-ENV-02-7 | The system's time synchronization mechanism (per FR-MON-04) shall use only a local network time reference, not an internet-hosted PTP source. | Must | The configured time reference server resides within the isolated test-bench network. |
+| FR-ENV-02-8 | The system may require internet access solely during initial installation/setup (e.g., pulling container images ), and this exception shall be explicitly documented. | Must | Documentation clearly states which setup steps require internet access and confirms no such dependency exists post-setup. |
 
 ### Assumptions & Dependencies
--
+- The monitoring hardware is correctly connected to the DUT.
+- The deployment environment provides local networking between the Brain and Capture Nodes.
+- Docker images and required dependencies are downloaded before deployment into an air-gapped environment.
 
 ### Open Questions
--
+- Will software updates also support fully offline installation?
+- What operating systems are officially supported for deployment?
+- What quantitative threshold (e.g., timing/electrical tolerance) defines "no interference" for passive taps on each protocol?
+- Is there a need to detect and alert if an outbound internet call is attempted during normal operation, or is documentation-only compliance sufficient for the first release?
 
 ---
 
-## BR-ACC — Accessibility
+## BR-ACC — Acceptance, Adoption & Support
 
-**Source BR:** 
-**Assignee:** YS
-**Status:** Not started
+**Source BR:**  BR-ACC-01 to BR-ACC-02 ,
+**Assignee:** YS ,
+**Status:** Completed.
 
 ### Summary
-_One or two sentences restating the business need in plain language._
+Before the system is considered delivered, it must pass a formal User Acceptance Testing process against real DUT scenarios, and analysts must receive training material to support onboarding and full adoption.
 
+### Acceptance & Adoption Pipeline
+```mermaid
+flowchart LR
+    UAT["User Acceptance Testing"]  --> Decision{Pass ?}
+    DEV["Development<br/>Complete"] --> UAT["User Acceptance Testing"]
+    Decision -->|No| Fixes["Defect Resolution"]
+    Fixes -->  UAT["User Acceptance Testing"]
+    Decision -->|Yes| Acceptance["Customer Acceptance"]
+    Acceptance --> Training["Analyst Training"]
+    Training --> Deployment["Operational Use"]
+```
 ### Functional Requirements
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-ACC-01 | | Must / Should / Could | |
-| FR-ACC-02 | | | |
+| FR-ACC-01-1 | The system shall be validated through a documented UAT test plan covering all Must-priority business requirements, executed against real DUT scenarios. | Must | A UAT test plan exists mapping test cases to Must-priority BRs, and all cases are executed against a real DUT. |
+| FR-ACC-01-2 | The system shall record UAT results (pass/fail per scenario, with evidence) for review. | Must | UAT results are documented per scenario with pass/fail status and supporting evidence (logs, screenshots, or captures). |
+| FR-ACC-01-3 | The system shall require formal stakeholder sign-off confirming UAT completion before being considered delivered. | Must | A signed/recorded acceptance confirmation exists from the designated stakeholder(s) referencing the completed UAT results. |
+| FR-ACC-02-1 | The project shall produce training material (e.g., user guide, quick-start guide, walkthrough) covering core system operation. | Should | Training material exists and covers, at minimum, session setup, live monitoring, snapshot triggering, and session export/reporting. |
+| FR-ACC-02-2 | The project shall deliver an onboarding session or equivalent training activity to analysts prior to full system adoption. | Should | At least one training session is conducted and attendance/completion is recorded prior to declaring full adoption. |
+| FR-ACC-02-3 | The training material shall be reviewed for completeness and accuracy against the delivered system's actual functionality. | Could | A review/feedback checklist confirms training material matches current system behavior, with discrepancies logged and resolved. |
 
 ### Assumptions & Dependencies
--
+- Real DUT hardware is available for UAT execution, consistent with the assumption in Section 7 of the BRD.
+- UAT scenarios are derived from the Must-priority requirements across all BR categories (MON, ANA, ACT, SEC, ENV, DEP, EXT).
+- Designated stakeholder(s) authorized to grant sign-off are identified before UAT begins.
+- Training is delivered before production deployment.
 
 ### Open Questions
--
+- Who is responsible for approving UAT?
+- Will training be instructor-led, self-paced, or both?
+- What is the minimum number/coverage of real DUT scenarios required for UAT to be considered representative?
