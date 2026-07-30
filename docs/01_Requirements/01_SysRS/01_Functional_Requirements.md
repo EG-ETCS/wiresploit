@@ -176,7 +176,7 @@ flowchart TD
 Derived from Business Requirements **BR-ACT-01** and **BR-ACT-03**.
 ---
 
-### 1. Active Reconnaissance Workflow
+### 1. Active Reconnaissance Requirements
 
 | ID | Functional Requirement | Priority |
 |---|---|---|
@@ -188,7 +188,7 @@ Derived from Business Requirements **BR-ACT-01** and **BR-ACT-03**.
 
 ---
 
-### 2. Trigger Output Mechanisms
+### 2. Trigger Output Requirements
 
 | ID | Functional Requirement | Priority |
 |---|---|---|
