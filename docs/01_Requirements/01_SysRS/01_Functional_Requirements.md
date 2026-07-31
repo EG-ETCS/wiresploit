@@ -178,33 +178,30 @@ Derived from Business Requirements **BR-ACT-01** and **BR-ACT-03**.
 
 ### 1. Active Reconnaissance Requirements
 
-| ID | Functional Requirement | Priority |
-|---|---|---|
-| **FR-ACT-01.1** | The system shall provide a dedicated "Active Reconnaissance" mode, distinct from passive observation mode, which the analyst must explicitly enter before any active action can be initiated. | Must |
-| **FR-ACT-01.2** | Upon initiating any active reconnaissance action, the system shall display a confirmation dialog that clearly states: (a) the action to be performed, (b) the target DUT identifier, (c) the potential impact on DUT state, and (d) requires the analyst to explicitly confirm (e.g., typed confirmation or dual-button approval) before execution. | Must |
-| **FR-ACT-01.3** | The system shall log all active reconnaissance actions with timestamp, analyst identity, action type, DUT target, and confirmation event into an immutable audit trail. | Must |
-| **FR-ACT-01.4** | During and after an active reconnaissance action, the system shall simultaneously capture and record the DUT's response across all connected capture nodes (wired, wireless, on-board buses) for subsequent analysis. | Must |
-| **FR-ACT-01.5** | The system shall allow the analyst to abort an active reconnaissance action mid-execution if the action type supports interruption (e.g., canceling a signal replay), with an immediate notification of partial completion. | Should |
+| FR ID       | Requirement                                                                                                                                                                                                                                                                     | Priority | Acceptance Criteria                                                                                                                   |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-ACT-01-1 | The system shall provide a dedicated "Active Reconnaissance" mode, distinct from passive observation mode, which the analyst must explicitly enter before any active action can be initiated.                                                                                   | Must     | The analyst cannot initiate any active action without first entering Active Reconnaissance mode.                                      |
+| FR-ACT-01-2 | Upon initiating any active reconnaissance action, the system shall display a confirmation dialog that clearly states the action to be performed, the target DUT identifier, the potential impact on DUT state, and requires the analyst to explicitly confirm before execution. | Must     | The confirmation dialog displays all four required elements and the action does not execute without explicit analyst confirmation.    |
+| FR-ACT-01-3 | The system shall log all active reconnaissance actions with timestamp, analyst identity, action type, DUT target, and confirmation event into an immutable audit trail.                                                                                                         | Must     | Each logged entry contains all five required fields and the audit trail cannot be modified or deleted.                                |
+| FR-ACT-01-4 | During and after an active reconnaissance action, the system shall simultaneously capture and record the DUT's response across all connected capture nodes for subsequent analysis.                                                                                             | Must     | The DUT response is captured from all connected wired, wireless, and on-board bus capture nodes and is available for replay.          |
+| FR-ACT-01-5 | The system shall allow the analyst to abort an active reconnaissance action mid-execution if the action type supports interruption, with an immediate notification of partial completion.                                                                                       | Should   | An abort command stops the action immediately, a partial completion notification is displayed, and no further DUT interaction occurs. |
+
 
 ---
 
 ### 2. Trigger Output Requirements
 
-| ID | Functional Requirement | Priority |
-|---|---|---|
-| **FR-ACT-03.1** | The system shall provide a hardware control interface capable of asserting a reset signal or power-cycling the DUT via a controllable power switch/relay connected to the capture infrastructure. | Must |
-| **FR-ACT-03.2** | The system shall support generation of configurable GPIO pulses (level, duration, pin selection) to the DUT, with parameters editable by the analyst prior to confirmation. | Must |
-| **FR-ACT-03.3** | The system shall support generation or replay of wireless signals (e.g., WiFi, Bluetooth, Zigbee, proprietary RF) through connected SDR or radio capture nodes, using analyst-provided or pre-recorded signal profiles. | Must |
-| **FR-ACT-03.4** | The system shall support generation or replay of on-board protocol frames (e.g., SPI, I2C, UART, CAN, JTAG) through the capture nodes, with configurable payload, timing, and bus parameters. | Must |
-| **FR-ACT-03.5** | For each trigger action in FR-ACT-03.1–03.4, the system shall require the analyst to explicitly configure all parameters and review a summary before the confirmation step in FR-ACT-01.2 is presented. | Must |
-| **FR-ACT-03.6** | The system shall validate configured trigger parameters against the DUT's declared capabilities/connections and warn the analyst if a misconfiguration is detected (e.g., GPIO pin not connected, unsupported protocol). | Should |
-| **FR-ACT-03.7** | The system shall maintain a library of reusable trigger profiles (pre-configured signal/protocol templates) that analysts can select, modify, and save for repeated use. | Should |
-
-
----
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
+| FR-ACT-03-1 | The system shall provide a hardware control interface capable of asserting a reset signal or power-cycling the DUT via a controllable power switch or relay connected to the capture infrastructure. | Must | The analyst can trigger a DUT reset or power-cycle through the hardware control interface and the DUT responds accordingly. |
+| FR-ACT-03-2 | The system shall support generation of configurable GPIO pulses to the DUT, with editable level, duration, and pin selection parameters. | Must | GPIO pulses are generated with the configured level, duration, and pin as specified by the analyst prior to execution. |
+| FR-ACT-03-3 | The system shall support generation or replay of wireless signals through connected SDR or radio capture nodes, using analyst-provided or pre-recorded signal profiles. | Must | Wireless signals are generated or replayed through SDR or radio capture nodes using the selected signal profile. |
+| FR-ACT-03-4 | The system shall support generation or replay of on-board protocol frames through the capture nodes, with configurable payload, timing, and bus parameters. | Must | Protocol frames are generated or replayed with the configured payload, timing, and bus parameters as specified by the analyst. |
+| FR-ACT-03-5 | For each trigger action, the system shall require the analyst to explicitly configure all parameters and review a summary before the confirmation step is presented. | Must | All parameters for the selected trigger action are configured and a summary is reviewed by the analyst before the confirmation dialog appears. |
+| FR-ACT-03-6 | The system shall validate configured trigger parameters against the DUT's declared capabilities and connections and warn the analyst if a misconfiguration is detected. | Should | A warning is displayed when a configured parameter does not match the DUT's declared capabilities or connections. |
+| FR-ACT-03-7 | The system shall maintain a library of reusable trigger profiles that analysts can select, modify, and save for repeated use. | Should | Pre-configured trigger profiles are available for selection, can be modified by the analyst, and saved changes persist for future sessions. |
 
 ---
-
 ## BR-SEC — Security
 
 **Source BR:** BR-SEC-01 to BR-SEC-04
