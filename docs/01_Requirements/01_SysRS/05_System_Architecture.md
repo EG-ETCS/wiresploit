@@ -587,26 +587,26 @@ Security is implemented across authentication, authorization, data protection, a
 
 
 ```mermaid
-flowchart TB
+flowchart LR
 
-    User["User"] --> Auth["Authentication"] --> RBAC["RBAC Enforcement"]
+    User["User"] --> Auth["Authentication"] --> RBAC["RBAC"]
 
-    subgraph ROLES["Roles"]
-        Viewer["Viewer<br/>Passive Monitoring + View"]
-        Analyst["Analyst<br/>Passive Monitoring + Analysis + Active Actions"]
-        Admin["Admin<br/>Full Access + Administration"]
+    subgraph Roles["Roles"]
+        Viewer["Viewer"]
+        Analyst["Analyst"]
+        Admin["Admin"]
     end
 
     RBAC --> Viewer
     RBAC --> Analyst
     RBAC --> Admin
 
-    subgraph CAPABILITIES["Capabilities"]
-        Passive["Passive Monitoring<br/>Network / Bus / Wireless"]
-        Sessions["Recorded Sessions<br/>Encrypted"]
+    subgraph Capabilities["Capabilities"]
+        Passive["Passive Monitoring"]
+        Sessions["Recorded Sessions"]
         Findings["Findings / Exports"]
-        Active["Active Reconnaissance<br/>Reset / GPIO / RF / Bus"]
-        Config["Configuration Management"]
+        Active["Active Reconnaissance"]
+        Config["Configuration"]
     end
 
     Viewer --> Passive
@@ -672,59 +672,53 @@ flowchart LR
 The system is designed to run in an isolated test-bench environment.
 
 ```mermaid
-flowchart TB
+flowchart LR
 
-    subgraph Internet["Internet"]
-        Registry["Container Registry / Package Sources"]
-    end
+    %% Initial Installation
+    Internet["Internet<br/>Container Registry / Package Sources"]
+    Docker["Docker / Docker Compose"]
 
-    subgraph Installation["Initial Installation"]
-        Docker["Docker / Docker Compose"]
-    end
-
+    %% Air-Gapped Test Bench
     subgraph AirGap["Air-Gapped Test Bench"]
 
         subgraph Host["Wiresploit Host"]
-            Brain["Wiresploit Brain Container"]
-            UI["UI Container"]
-            Storage["Persistent Storage Volume"]
+            UI["Web User Interface"]
+            Brain["Wiresploit Brain"]
+            Storage[("Persistent Storage")]
         end
 
-        Time["Local PTP Server"]
+        Time["Local PTP Time Reference"]
 
-        Capture["Capture Nodes"]
+        subgraph CaptureInfrastructure["Capture & Interaction Infrastructure"]
+            Capture["Capture Nodes"]
+            Network["Network Capture"]
+            Wireless["Wireless Capture"]
+            Snapshot["Snapshot Nodes"]
+        end
 
-        Network["Network Capture"]
+        DUT["Device Under Test (DUT)"]
 
-        Wireless["Wireless Capture"]
-
-        Snapshot["Snapshot Nodes"]
-
-        DUT["Device Under Test"]
     end
 
-    Registry -. "Initial Setup" .-> Docker
-
+    %% Installation
+    Internet -. "Initial Setup" .-> Docker
     Docker --> Brain
     Docker --> UI
 
-    Brain --> Storage
+    %% Storage
+    Brain <--> Storage
 
-    Time --> Brain
-    Time --> Capture
-    Time --> Network
-    Time --> Wireless
-    Time --> Snapshot
+    %% Core Connections
+    Brain --> CaptureInfrastructure
 
+    %% DUT Connections
     DUT --> Capture
     DUT --> Network
     DUT --> Wireless
 
-    Brain --> Capture
-    Brain --> Network
-    Brain --> Wireless
-
-    Brain --> Snapshot
+    %% Time Synchronization
+    Time -.-> Brain
+    Time -.-> CaptureInfrastructure
 ```
 
 Runtime operation must not depend on:
