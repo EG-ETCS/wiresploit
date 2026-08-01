@@ -165,19 +165,41 @@ flowchart LR
         Bus["Onboard Bus Capture"]
         Wireless["Wireless Capture"]
         External["External Capture Tools"]
-        Snapshot["Snapshot Nodes"]
     end
 
     subgraph Processing["Brain Processing Pipeline"]
+
         Ingest["Data Ingestion"]
+
         Validate["Schema / Format Validation"]
+
+        ErrorLogger["Error Logging Service"]
+
+        ErrorStore["Error Log Storage"]
+
         Timestamp["Timestamp Validation"]
+
         Decode["Protocol Decoding"]
+
         Normalize["Event Normalization"]
+
+        Detect["Packet / Pattern Detection"]
+
+        Trigger["Snapshot Trigger Engine"]
+
+        Delay["Delay-Based Trigger"]
+
+        Pattern["Packet / Pattern Trigger"]
+
         Correlate["Temporal + Logical Correlation"]
+
         Order["Chronological Ordering"]
+
         Block["Communication / Snapshot Block Creation"]
+
     end
+
+    Snapshot["Snapshot Nodes"]
 
     Timeline["Unified Live Timeline"]
 
@@ -185,17 +207,35 @@ flowchart LR
     Bus --> Ingest
     Wireless --> Ingest
     External --> Ingest
-    Snapshot --> Ingest
 
     Ingest --> Validate
+
     Validate --> Timestamp
+    Validate -. Validation Error .-> ErrorLogger
+
     Timestamp --> Decode
     Decode --> Normalize
-    Normalize --> Correlate
+
+    Normalize --> Detect
+
+    Detect --> Correlate
+
+    Detect --> Trigger
+    Trigger --> Delay
+    Trigger --> Pattern
+
+    Delay --> Snapshot
+    Pattern --> Snapshot
+
+    Snapshot --> Correlate
+
     Correlate --> Order
     Order --> Block
     Block --> Timeline
+
+    ErrorLogger --> ErrorStore
 ```
+
 
 The pipeline ensures that events from different communication layers are processed consistently.
 
@@ -260,7 +300,41 @@ The time reference must operate locally within the isolated test-bench network a
 
 ---
 
-## 7. Session Recording Architecture
+## 7. Snapshot Analysis Architecture
+
+The Snapshot Analysis Architecture processes outputs captured by Snapshot Nodes to identify observable device behavior and generate descriptive information. The generated descriptions are correlated with captured events and displayed on the Unified Timeline.
+
+```mermaid
+flowchart LR
+
+    Snapshot["Snapshot Node"]
+
+    Processor["Image / Data Processor"]
+
+    Analyzer["Behavior Analyzer"]
+
+    Description["Description Generator"]
+
+    Correlation["Event Correlation"]
+
+    Timeline["Unified Timeline"]
+
+    Storage[("Snapshot Analysis Storage")]
+
+    Report["Report"]
+
+    Snapshot --> Processor
+    Processor --> Analyzer
+    Analyzer --> Description
+    Description --> Correlation
+
+    Correlation --> Timeline
+    Correlation --> Storage
+    Correlation --> Report
+```
+---
+
+## 8. Session Recording Architecture
 
 Session recording is responsible for creating a persistent representation of a monitoring or active reconnaissance session.
 
@@ -313,18 +387,19 @@ A recorded session contains sufficient information to:
 * Export artifacts.
 
 ---
-## 8. Analytics Architecture
+## 9. Analytics Architecture
 
 Analytics operates primarily on recorded sessions.
 
 ```mermaid
+
 flowchart TD
 
     Session["Encrypted Recorded Session"]
 
     Replay["Session Replay"]
 
-    Search["Sensitive Data Search"]
+    Search["Session Search"]
 
     AutoDetect["Automatic Sensitive Data Detection"]
 
@@ -332,30 +407,56 @@ flowchart TD
 
     Memory["Memory Reconstruction"]
 
-    Behavior["Behavior Diagram Generation"]
+    Diagram["Mermaid Diagram Generator"]
+
+    Correlation["Correlation Mapper"]
+
+    Sequence["Sequence Diagram Builder"]
+
+    Renderer["Diagram Renderer"]
 
     Metrics["Usage & ROI Metrics"]
 
-    Export["Export & Reporting"]
+    Export["Export Engine"]
+
+    SearchExport["Search Results Export"]
+
+    DiagramExport["Diagram Export (PNG / SVG / Mermaid)"]
+
+    MemoryExport["Memory Export"]
+
+    FindingsExport["Findings Export"]
 
     Session --> Replay
+
     Session --> Search
     Session --> AutoDetect
     Session --> Memory
-    Session --> Behavior
+    Session --> Diagram
     Session --> Metrics
 
     Search --> Findings
     AutoDetect --> Findings
 
-    Findings --> Export
-    Memory --> Export
-    Behavior --> Export
+    Diagram --> Correlation
+    Correlation --> Sequence
+    Sequence --> Renderer
+
+    Search --> SearchExport
+    Findings --> FindingsExport
+    Memory --> MemoryExport
+    Renderer --> DiagramExport
+
+    SearchExport --> Export
+    FindingsExport --> Export
+    MemoryExport --> Export
+    DiagramExport --> Export
     Metrics --> Export
 ```
 
 ---
-## 9. Sensitive Data Detection
+
+## 10. Sensitive Data Detection
 
 The system supports both analyst-driven searching and automatic detection.
 
@@ -401,48 +502,7 @@ Each finding should retain traceability to:
 * Detection method.
 
 ---
-## 10. Memory Reconstruction Architecture
 
-Memory reconstruction processes captured bus transactions to reconstruct a logical memory map.
-
-```mermaid
-flowchart LR
-
-    Session["Recorded Session"]
-
-    BusEvents["SPI / I2C Bus Transactions"]
-
-    Parser["Address / Data Pair Parser"]
-
-    Aggregator["Memory Map Aggregator"]
-
-    Classification["Coverage Classification"]
-
-    MemoryMap["Reconstructed Memory Map"]
-
-    Summary["Completeness Summary"]
-
-    Export["Memory Export"]
-
-    Session --> BusEvents
-    BusEvents --> Parser
-    Parser --> Aggregator
-    Aggregator --> Classification
-    Classification --> MemoryMap
-
-    MemoryMap --> Summary
-    MemoryMap --> Export
-```
-
-Memory ranges are classified as:
-
-* Fully observed.
-* Partially observed.
-* Never captured.
-
-The reconstructed memory map is not intended to perform firmware disassembly or static binary analysis.
-
----
 ## 11. Active Reconnaissance Architecture
 
 Active reconnaissance is isolated logically from passive monitoring.
