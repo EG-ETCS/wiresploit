@@ -40,148 +40,116 @@ The following diagram presents the overall system context.
 ```mermaid
 flowchart LR
 
+    %% User
     Analyst["Analyst / User"]
 
-    subgraph Wiresploit["Wiresploit System"]
+    %% Wiresploit Docker Container
+    subgraph Docker["Wiresploit Docker Container"]
+        direction TB
+
         UI["Web User Interface"]
-        Brain["Wiresploit Brain"]
+        Core["Wiresploit Core"]
+        DB[("Local Secure Storage")]
+
+        UI --> Core
+        Core <--> DB
     end
 
+    %% Capture & Interaction Infrastructure
     subgraph CaptureInfrastructure["Capture & Interaction Infrastructure"]
-        NetworkCapture["Network Capture<br/> HTTP / TCP / Ethernet / Wi-Fi"]
-        CaptureNodes["Onboard Capture Nodes<br/> I2C / SPI / UART / GPIO"]
-        WirelessCapture["Wireless Capture<br/> BLE / LoRa / RFID"]
-        SnapshotNodes["Snapshot Nodes<br/> Visual / Electrical / Logical"]
-        InjectionNodes["Injection / Active Control<br/> Reset / GPIO / RF / Bus Frame"]
+        direction TB
+
+        NetworkCapture["Network Capture<br/>HTTP / TCP / Ethernet / Wi-Fi"]
+        CaptureNodes["Onboard Capture Nodes<br/>I2C / SPI / UART / GPIO"]
+        WirelessCapture["Wireless Capture<br/>BLE / LoRa / RFID"]
+        SnapshotNodes["Snapshot Nodes<br/>Visual / Electrical / Logical"]
+        InjectionNodes["Injection / Active Control<br/>Reset / GPIO / RF / Bus Frame"]
         TimeReference["Local PTP Time Reference"]
     end
 
+    %% External Components
+    ExternalTools["External Capture Tools<br/>"]
     DUT["Device Under Test (DUT)"]
 
-    ExternalTools["External Capture Tools<br/>(Semi-Trusted)"]
-
-    Storage["Local Secure Storage"]
-
-    subgraph Installation["Initial Installation"]
-        Internet["Internet<br/>(Setup)"]
-        Installer["Docker Installation"]
-    end
-
-
+    %% Main Left-to-Right Flow
     Analyst --> UI
-    UI <--> Brain
+    Core --> CaptureInfrastructure
 
-    NetworkCapture --> Brain
-    CaptureNodes --> Brain
-    WirelessCapture --> Brain
-    SnapshotNodes --> Brain
-
-    Brain --> SnapshotNodes
-    Brain --> InjectionNodes
-
+    %% Capture Flow
+    NetworkCapture --> DUT
+    CaptureNodes --> DUT
+    WirelessCapture --> DUT
     SnapshotNodes --> DUT
     InjectionNodes --> DUT
 
-    DUT --> NetworkCapture
-    DUT --> CaptureNodes
-    DUT --> WirelessCapture
+    %% External Tools
+    ExternalTools --> Core
 
-    TimeReference --> Brain
-    TimeReference --> CaptureNodes
-    TimeReference --> NetworkCapture
-    TimeReference --> WirelessCapture
-    TimeReference --> SnapshotNodes
-
-    Brain <--> Storage
-
-    ExternalTools --> Brain
-
-    Internet -. "Initial setup" .-> Installer
-    Installer -. "Install Wiresploit" .-> Brain
+    %% Time Synchronization
+    TimeReference -.-> Core
+    TimeReference -.-> NetworkCapture
+    TimeReference -.-> CaptureNodes
+    TimeReference -.-> WirelessCapture
+    TimeReference -.-> SnapshotNodes
 ```
 ---
+
+
 ## 4. Architectural Boundary
 
 The Wiresploit architecture is divided into the following major boundaries:
 
 ```mermaid
-flowchart TB
+flowchart LR
 
+    %% External Environment
     subgraph ExternalEnvironment["External Environment"]
-        Analyst["Analyst"]
+        Analyst["Analyst / User"]
         ExternalTools["External Capture Tools"]
-        DUT["Device Under Test"]
+        DUT["Device Under Test (DUT)"]
     end
 
+    %% Wiresploit Platform
     subgraph WiresploitPlatform["Wiresploit Platform"]
-        
+
         subgraph Presentation["Presentation Layer"]
             UI["Unified User Interface"]
         end
 
         subgraph Core["Core Brain"]
-            API["API / Application Gateway"]
-            Monitoring["Monitoring & Correlation"]
-            Session["Session Management"]
-            Analytics["Analytics & Forensics"]
-            Active["Active Reconnaissance"]
-            Security["Security & Access Control"]
-            Integration["External Integration API"]
+            CoreBrain["Monitoring & Correlation<br/>Passive Reconnaissance<br/>Active Reconnaissance<br/>Session Management<br/>Analytics<br/>Security & Access Control"]
         end
 
         subgraph Data["Data Layer"]
-            SessionStore["Encrypted Session Store"]
-            ConfigStore["Configuration Store"]
-            ExportStore["Export / Artifact Store"]
+            Storage[("Secure Storage")]
         end
 
-        subgraph Hardware["Capture & Hardware Layer"]
-            Capture["Capture Nodes"]
-            Network["Network Capture"]
-            Wireless["Wireless Capture"]
-            Snapshot["Snapshot Nodes"]
-            Injection["Injection / Control Nodes"]
+        subgraph Hardware["Capture & Interaction Layer"]
+            Capture["Network / Onboard / Wireless Capture"]
+            Interaction["Snapshot / Injection & Active Control"]
         end
 
-        TimeSync["Local Time Synchronization"]
+        TimeSync["Local PTP Time Reference"]
+
+        UI --> CoreBrain
+        CoreBrain <--> Storage
+        CoreBrain --> Capture
+        CoreBrain --> Interaction
+
     end
 
+    %% External Connections
     Analyst --> UI
-    ExternalTools --> Integration
-    DUT --> Capture
-    DUT --> Network
-    DUT --> Wireless
+    ExternalTools --> CoreBrain
 
-    UI --> API
+    %% DUT Connections
+    Capture --> DUT
+    Interaction --> DUT
 
-    API --> Monitoring
-    API --> Session
-    API --> Analytics
-    API --> Active
-    API --> Security
-
-    Monitoring --> Session
-    Monitoring --> Analytics
-
-    Active --> Injection
-    Active --> Snapshot
-
-    Capture --> Monitoring
-    Network --> Monitoring
-    Wireless --> Monitoring
-
-    Monitoring --> SessionStore
-    Session --> SessionStore
-
-    Analytics --> SessionStore
-    Analytics --> ExportStore
-
-    Security --> SessionStore
-    TimeSync --> Capture
-    TimeSync --> Network
-    TimeSync --> Wireless
-    TimeSync --> Snapshot
-    TimeSync --> Monitoring
+    %% Time Synchronization
+    TimeSync -.-> CoreBrain
+    TimeSync -.-> Capture
+    TimeSync -.-> Interaction
 ```
 ---
 
@@ -345,7 +313,7 @@ A recorded session contains sufficient information to:
 * Export artifacts.
 
 ---
-## 8. Analytics and Forensics Architecture
+## 8. Analytics Architecture
 
 Analytics operates primarily on recorded sessions.
 
