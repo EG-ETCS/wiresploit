@@ -30,22 +30,24 @@ Define the Software interface of the system, including screen layouts and intera
 
 | Interface ID | Interface Name | Description |
 |---|---|---|
-| IF-UI-01 | Dashboard | Display DUT live state  |
-| IF-UI-02 | Sessions | List all recorded sessions |
-| IF-UI-03 | Snapshots | List all recorded Snapshots |
-| IF-UI-04 | Snapshot | Display detailed snapshot data |
-| IF-UI-05 | Settings | Display systems settings |
-| IF-UI-06 | Logs | List all failed logs |
-| IF-UI-07 | Login | Login page |
-| IF-UI-08 | Register | Register page |
-| IF-UI-09 | Report | Display report before exporting |
-| IF-UI-10 | Export-Report | Display report exporting options |
+| IF-UI-01 | Register | Register page |
+| IF-UI-02 | Login | Login page |
+| IF-UI-03 | Dashboard | Display DUT live state  |
+| IF-UI-04 | Sessions | List all recorded sessions |
+| IF-UI-05 | Snapshots | List all recorded Snapshots |
+| IF-UI-06 | Snapshot | Display detailed snapshot data |
+| IF-UI-07 | Logs | List all failed logs |
+| IF-UI-08 | Report | Display report before exporting |
+| IF-UI-09 | Export-Report | Display report exporting options |
+| IF-UI-10 | Settings | Display systems settings |
+
+---
 
 ---
 
 ## 3. User Interface (UI) Requirements
 
-### 3.1 DashBoard
+### 3.1 Register
 
 Provide a general description of this screen or component, its purpose, and where it fits in the application.
 
@@ -55,11 +57,11 @@ Provide a general description of this screen or component, its purpose, and wher
 
 | Field | Value |
 |---|---|
-| Screen / Component Name | [Name] |
-| Interface ID | [IF-UI-XXX] |
+| Screen / Component Name | Register |
+| Interface ID | IF-UI-01 |
 | Interface Type | User Interface |
-| Parent Screen / Module | [e.g., Dashboard, Settings] |
-| User Role(s) | [e.g., Admin, Guest, Registered User] |
+| Parent Screen / Module | [e.g., Auth Module] |
+| User Role(s) | [e.g., Guest] |
 | Platform | [Web / Mobile / Desktop] |
 | Trigger / Entry Point | [How the user reaches this screen] |
 
@@ -83,9 +85,9 @@ Insert a screenshot, wireframe, or mockup illustrating this screen below.
 
 | Req. ID | Requirement | Description / Notes |
 |---|---|---|
-| [IF-UI-XXX-01] | [Requirement statement] | [Notes / rationale] |
-| [IF-UI-XXX-02] | [Requirement statement] | [Notes / rationale] |
-| [IF-UI-XXX-03] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-01-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-01-02] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-01-03] | [Requirement statement] | [Notes / rationale] |
 
 #### 3.1.5 Validation & Error States
 
@@ -102,19 +104,21 @@ Insert a screenshot, wireframe, or mockup illustrating this screen below.
 
 ---
 
-### 3.2 [Screen / Page / Component Name]
+### 3.2 Login
 
-*(Repeat the structure from 3.1 for each additional screen or UI component.)*
+Provide a general description of this screen or component, its purpose, and where it fits in the application.
+
+*[Describe the screen purpose, scope, and context here.]*
 
 #### 3.2.1 Interface Overview
 
 | Field | Value |
 |---|---|
-| Screen / Component Name | [Name] |
-| Interface ID | [IF-UI-XXX] |
+| Screen / Component Name | Login |
+| Interface ID | IF-UI-02 |
 | Interface Type | User Interface |
-| Parent Screen / Module | [e.g., Dashboard, Settings] |
-| User Role(s) | [e.g., Admin, Guest, Registered User] |
+| Parent Screen / Module | [e.g., Auth Module] |
+| User Role(s) | [e.g., Guest] |
 | Platform | [Web / Mobile / Desktop] |
 | Trigger / Entry Point | [How the user reaches this screen] |
 
@@ -135,12 +139,476 @@ Insert a screenshot, wireframe, or mockup illustrating this screen below.
 
 | Req. ID | Requirement | Description / Notes |
 |---|---|---|
-| [IF-UI-XXX-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-02-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-02-02] | [Requirement statement] | [Notes / rationale] |
 
-#### 3.2.5 Additional Notes
+#### 3.2.5 Validation & Error States
+
+*[Describe input validation rules, error messages, and edge cases.]*
+
+> ![Error State Mockup](path/to/error-state-image.png)
+> *[ INSERT IMAGE HERE ] — Optional: error/empty/loading state mockup*
+
+#### 3.2.6 Accessibility Notes
+*[Describe accessibility requirements — contrast, keyboard navigation, screen reader labels, etc.]*
+
+#### 3.2.7 Additional Notes
 *[Add constraints, assumptions, or dependencies here.]*
 
 ---
+
+### 3.3 Dashboard
+
+Provide a general description of this screen or component, its purpose, and where it fits in the application.
+
+*[Describe the screen purpose, scope, and context here.]*
+
+#### 3.3.1 Interface Overview
+
+| Field | Value |
+|---|---|
+| Screen / Component Name | Dashboard |
+| Interface ID | IF-UI-03 |
+| Interface Type | User Interface |
+| Parent Screen / Module | [e.g., Main Module] |
+| User Role(s) | [e.g., Registered User] |
+| Platform | [Web / Mobile / Desktop] |
+| Trigger / Entry Point | [How the user reaches this screen] |
+
+#### 3.3.2 Visual Reference
+
+> ![Screen Mockup](path/to/image.png)
+> *[ INSERT IMAGE HERE ] — Recommended size: 6.25" x 3.5" (or similar) | Format: PNG/JPG*
+
+**Figure 3.3.1:** *[Caption describing the screen/mockup]*
+
+#### 3.3.3 Layout & Elements
+
+| Element ID | Element Name | Type | Description / Behavior |
+|---|---|---|---|
+| [EL-01] | [Element name] | [Type] | [Expected behavior] |
+
+#### 3.3.4 Requirements
+
+| Req. ID | Requirement | Description / Notes |
+|---|---|---|
+| [IF-UI-03-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-03-02] | [Requirement statement] | [Notes / rationale] |
+
+#### 3.3.5 Validation & Error States
+
+*[Describe input validation rules, error messages, and edge cases.]*
+
+> ![Error State Mockup](path/to/error-state-image.png)
+> *[ INSERT IMAGE HERE ] — Optional: error/empty/loading state mockup*
+
+#### 3.3.6 Accessibility Notes
+*[Describe accessibility requirements — contrast, keyboard navigation, screen reader labels, etc.]*
+
+#### 3.3.7 Additional Notes
+*[Add constraints, assumptions, or dependencies here.]*
+
+---
+
+### 3.4 Sessions
+
+Provide a general description of this screen or component, its purpose, and where it fits in the application.
+
+*[Describe the screen purpose, scope, and context here.]*
+
+#### 3.4.1 Interface Overview
+
+| Field | Value |
+|---|---|
+| Screen / Component Name | Sessions |
+| Interface ID | IF-UI-04 |
+| Interface Type | User Interface |
+| Parent Screen / Module | [e.g., Sessions Module] |
+| User Role(s) | [e.g., Registered User] |
+| Platform | [Web / Mobile / Desktop] |
+| Trigger / Entry Point | [How the user reaches this screen] |
+
+#### 3.4.2 Visual Reference
+
+> ![Screen Mockup](path/to/image.png)
+> *[ INSERT IMAGE HERE ] — Recommended size: 6.25" x 3.5" (or similar) | Format: PNG/JPG*
+
+**Figure 3.4.1:** *[Caption describing the screen/mockup]*
+
+#### 3.4.3 Layout & Elements
+
+| Element ID | Element Name | Type | Description / Behavior |
+|---|---|---|---|
+| [EL-01] | [Element name] | [Type] | [Expected behavior] |
+
+#### 3.4.4 Requirements
+
+| Req. ID | Requirement | Description / Notes |
+|---|---|---|
+| [IF-UI-04-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-04-02] | [Requirement statement] | [Notes / rationale] |
+
+#### 3.4.5 Validation & Error States
+
+*[Describe input validation rules, error messages, and edge cases.]*
+
+> ![Error State Mockup](path/to/error-state-image.png)
+> *[ INSERT IMAGE HERE ] — Optional: error/empty/loading state mockup*
+
+#### 3.4.6 Accessibility Notes
+*[Describe accessibility requirements — contrast, keyboard navigation, screen reader labels, etc.]*
+
+#### 3.4.7 Additional Notes
+*[Add constraints, assumptions, or dependencies here.]*
+
+---
+
+### 3.5 Snapshots
+
+The Snapshots screen serves as a central repository for all captured Snapshot Blocks (SB) within the system. 
+
+#### 3.5.1 Interface Overview
+
+| Field | Value |
+|---|---|
+| Screen / Component Name | Snapshots |
+| Interface ID | IF-UI-05 |
+| Interface Type | User Interface |
+| Parent Screen / Module | [e.g., Snapshots Module] |
+| User Role(s) | [e.g., Registered User] |
+| Platform | [Web / Mobile / Desktop] |
+| Trigger / Entry Point | [How the user reaches this screen] |
+
+#### 3.5.2 Visual Reference
+
+> ![Screen Mockup](path/to/image.png)
+> *[ INSERT IMAGE HERE ] — Recommended size: 6.25" x 3.5" (or similar) | Format: PNG/JPG*
+
+**Figure 3.5.1:** *[Caption describing the screen/mockup]*
+
+#### 3.5.3 Layout & Elements
+
+| Element ID | Element Name | Type | Description / Behavior |
+|---|---|---|---|
+| [EL-01] | [Element name] | [Type] | [Expected behavior] |
+
+#### 3.5.4 Requirements
+
+| Req. ID | Requirement | Description / Notes |
+|---|---|---|
+| [IF-UI-05-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-05-02] | [Requirement statement] | [Notes / rationale] |
+
+#### 3.5.5 Validation & Error States
+
+*[Describe input validation rules, error messages, and edge cases.]*
+
+> ![Error State Mockup](path/to/error-state-image.png)
+> *[ INSERT IMAGE HERE ] — Optional: error/empty/loading state mockup*
+
+#### 3.5.6 Accessibility Notes
+*[Describe accessibility requirements — contrast, keyboard navigation, screen reader labels, etc.]*
+
+#### 3.5.7 Additional Notes
+*[Add constraints, assumptions, or dependencies here.]*
+
+---
+
+### 3.6 Snapshot
+
+The Snapshot detail screen is the dedicated interface for viewing, analyzing, and interacting with a single Snapshot Block (SB). When an analyst selects a snapshot from the list, this page opens to display the full details of the captured data. 
+
+#### 3.6.1 Interface Overview
+
+| Field | Value |
+|---|---|
+| Screen / Component Name | Snapshot |
+| Interface ID | IF-UI-06 |
+| Interface Type | User Interface |
+| Parent Screen / Module | [e.g., Snapshots Module] |
+| User Role(s) | [e.g., Registered User] |
+| Platform | [Web / Mobile / Desktop] |
+| Trigger / Entry Point | [How the user reaches this screen] |
+
+#### 3.6.2 Visual Reference
+
+> ![Screen Mockup](path/to/image.png)
+> *[ INSERT IMAGE HERE ] — Recommended size: 6.25" x 3.5" (or similar) | Format: PNG/JPG*
+
+**Figure 3.6.1:** *[Caption describing the screen/mockup]*
+
+#### 3.6.3 Layout & Elements
+
+| Element ID | Element Name | Type | Description / Behavior |
+|---|---|---|---|
+| [EL-01] | [Element name] | [Type] | [Expected behavior] |
+
+#### 3.6.4 Requirements
+
+| Req. ID | Requirement | Description / Notes |
+|---|---|---|
+| [IF-UI-06-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-06-02] | [Requirement statement] | [Notes / rationale] |
+
+#### 3.6.5 Validation & Error States
+
+*[Describe input validation rules, error messages, and edge cases.]*
+
+> ![Error State Mockup](path/to/error-state-image.png)
+> *[ INSERT IMAGE HERE ] — Optional: error/empty/loading state mockup*
+
+#### 3.6.6 Accessibility Notes
+*[Describe accessibility requirements — contrast, keyboard navigation, screen reader labels, etc.]*
+
+#### 3.6.7 Additional Notes
+*[Add constraints, assumptions, or dependencies here.]*
+
+---
+
+### 3.7 Logs
+
+The Logs page provides a view of all significant events, errors, and system messages generated by the Wiresploit platform. It lists failed operations, system warnings, validation errors, and other diagnostic information.
+
+#### 3.7.1 Interface Overview
+
+| Field | Value |
+|---|---|
+| Screen Name | Logs |
+| Interface ID | IF-UI-07 |
+| Trigger / Entry Point | From the navigation bar|
+
+#### 3.7.2 Visual Reference
+
+
+> ![Logs-light](ui-logs-light-theme.png)
+
+**Figure 3.7.1:** *Light Theme*
+
+> ![Logs-dark](ui-logs-dark-theme.png)
+
+**Figure 3.7.1:** *Dark Theme*
+
+#### 3.7.3 Layout & Elements
+
+| Element ID | Element Name | Type | Description / Behavior |
+|---|---|---|---|
+| EL-01 | Failed Logs Counter Badge | Badge | Displays total count of failed logs (e.g., "12"); updates in real time as new failures are logged |
+| EL-02 | Search Bar | Text Field | Filters rows by source or DUT ID as the user types |
+| EL-03 | Log Type Filter | Dropdown | Filters rows by log type (Session Integrity, Capture Node, Malformed Data, Active Recon, Export/Import); default "All" |
+| EL-04 | Severity Filter | Dropdown | Filters rows by severity (Critical, Warning, Info); default "All" |
+| EL-05 | Export Logs Button | Button | Exports the currently filtered log list |
+| EL-06 | Log Table | Data Table | Columns: Timestamp, Log Type, Source, Outcome/Error Message, Severity, Actions |
+| EL-07 | Severity Indicator | Icon + Label | Color-coded marker (● Critical, ▲ Warning, ⓘ Info) shown per row |
+| EL-08 | View Action Icon | Icon Button | Opens the Log Detail panel for that row |
+| EL-09 | Log Detail Side Panel | Panel/Drawer | Slide-in panel with full detail of the selected log |
+| EL-10 | Panel Close Button | Icon Button | Closes the Log Detail panel |
+| EL-11 | Log ID Tag | Badge | Unique log identifier (e.g., "ID: 44021-X") |
+| EL-12 | Analyst ID | Read-only Field | User sign in ID |
+| EL-13 | Raw Error Detail Block | Code Block | Raw JSON payload (error_code, interface, trace, etc.) |
+| EL-14 | Copy JSON Button | Icon Button | Copies raw error detail JSON to clipboard |
+
+#### 3.7.4 Requirements
+
+| Req. ID | Requirement | Description / Notes | Satisfies (FR) |
+|---|---|---|---|
+| IF-UI-07-01 | The system shall display all failed log entries in a filterable, real-time table with timestamp, log type, source, message, severity, and actions. | Table refreshes as new failures are generated | **FR-DEP-02-3, FR-EXT-02-4** |
+| IF-UI-07-02 | The system shall visually flag malformed data received from external capture tools by marking the row/message in red. | No manual step required to spot a bad submission | **FR-EXT-02-3** |
+| IF-UI-07-03 | The system shall log every failed external submission with source identity, timestamp, and outcome, and surface it in this view. | Failure is persisted even when the payload is rejected | **FR-EXT-02-4** |
+| IF-UI-07-04 | The system shall allow an analyst to view raw error detail as structured JSON and copy it to the clipboard. | Non-blocking side panel; no navigation away from the list | — traceability support |
+| IF-UI-07-05 | The system shall filter/search the log list by severity, log type, time window, and source/DUT ID text. | Filters combine with AND logic | — usability |
+
+#### 3.7.5 Validation & Error States
+
+Abstraction of error in user interface by user friendly text.
+
+- **Malformed payload validation (FR-EXT-02-3 / FR-EXT-02-4):** an external submission is checked against a required-field schema. If validation fails, the submission is still logged — not silently dropped — but flagged `malformed = true` so the UI renders it with a red row and a `[MALFORMED]` prefix on the message.
+- **Empty state:** show "No failed logs in the selected time window" when filters return zero results.
+- **Search with no matches:** show "No results found for '[query]'" beneath the search bar.
+- **Raw error detail fails to load:** show "Unable to load raw error detail" instead of a blank code block.
+
+<table>
+  <tr>
+    <td align="center">
+      <br>
+      <img src="error2.png" alt="Error State" width="200"/>
+      <br><em>Figure 3.7.1a: Search with no matches</em>
+    </td>
+    <td align="center">
+      <br>
+      <img src="error3.png" alt="Empty State" width="200"/>
+      <br><em>Figure 3.7.1b: Raw error detail fails to load</em>
+    </td>
+    <td align="center">
+      <br>
+      <img src="error.png" alt="Loading State" width="200"/>
+      <br><em>Figure 3.7.1c: No logs to search </em>
+    </td>
+  </tr>
+</table>
+
+#### 3.7.6 Accessibility Notes
+
+- Severity is never conveyed by color alone — paired with icon + text label (● CRITICAL / ▲ WARNING / ⓘ INFO).
+
+
+---
+
+### 3.8 Report
+
+Provide a general description of this screen or component, its purpose, and where it fits in the application.
+
+*[Describe the screen purpose, scope, and context here.]*
+
+#### 3.8.1 Interface Overview
+
+| Field | Value |
+|---|---|
+| Screen / Component Name | Report |
+| Interface ID | IF-UI-08 |
+| Interface Type | User Interface |
+| Parent Screen / Module | [e.g., Reports Module] |
+| User Role(s) | [e.g., Registered User] |
+| Platform | [Web / Mobile / Desktop] |
+| Trigger / Entry Point | [How the user reaches this screen] |
+
+#### 3.8.2 Visual Reference
+
+> ![Screen Mockup](path/to/image.png)
+> *[ INSERT IMAGE HERE ] — Recommended size: 6.25" x 3.5" (or similar) | Format: PNG/JPG*
+
+**Figure 3.8.1:** *[Caption describing the screen/mockup]*
+
+#### 3.8.3 Layout & Elements
+
+| Element ID | Element Name | Type | Description / Behavior |
+|---|---|---|---|
+| [EL-01] | [Element name] | [Type] | [Expected behavior] |
+
+#### 3.8.4 Requirements
+
+| Req. ID | Requirement | Description / Notes |
+|---|---|---|
+| [IF-UI-08-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-08-02] | [Requirement statement] | [Notes / rationale] |
+
+#### 3.8.5 Validation & Error States
+
+*[Describe input validation rules, error messages, and edge cases.]*
+
+> ![Error State Mockup](path/to/error-state-image.png)
+> *[ INSERT IMAGE HERE ] — Optional: error/empty/loading state mockup*
+
+#### 3.8.6 Accessibility Notes
+*[Describe accessibility requirements — contrast, keyboard navigation, screen reader labels, etc.]*
+
+#### 3.8.7 Additional Notes
+*[Add constraints, assumptions, or dependencies here.]*
+
+---
+
+### 3.9 Export-Report
+
+Provide a general description of this screen or component, its purpose, and where it fits in the application.
+
+*[Describe the screen purpose, scope, and context here.]*
+
+#### 3.9.1 Interface Overview
+
+| Field | Value |
+|---|---|
+| Screen / Component Name | Export-Report |
+| Interface ID | IF-UI-09 |
+| Interface Type | User Interface |
+| Parent Screen / Module | [e.g., Reports Module] |
+| User Role(s) | [e.g., Registered User] |
+| Platform | [Web / Mobile / Desktop] |
+| Trigger / Entry Point | [How the user reaches this screen] |
+
+#### 3.9.2 Visual Reference
+
+> ![Screen Mockup](path/to/image.png)
+> *[ INSERT IMAGE HERE ] — Recommended size: 6.25" x 3.5" (or similar) | Format: PNG/JPG*
+
+**Figure 3.9.1:** *[Caption describing the screen/mockup]*
+
+#### 3.9.3 Layout & Elements
+
+| Element ID | Element Name | Type | Description / Behavior |
+|---|---|---|---|
+| [EL-01] | [Element name] | [Type] | [Expected behavior] |
+
+#### 3.9.4 Requirements
+
+| Req. ID | Requirement | Description / Notes |
+|---|---|---|
+| [IF-UI-09-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-09-02] | [Requirement statement] | [Notes / rationale] |
+
+#### 3.9.5 Validation & Error States
+
+*[Describe input validation rules, error messages, and edge cases.]*
+
+> ![Error State Mockup](path/to/error-state-image.png)
+> *[ INSERT IMAGE HERE ] — Optional: error/empty/loading state mockup*
+
+#### 3.9.6 Accessibility Notes
+*[Describe accessibility requirements — contrast, keyboard navigation, screen reader labels, etc.]*
+
+#### 3.9.7 Additional Notes
+*[Add constraints, assumptions, or dependencies here.]*
+
+---
+
+### 3.10 Settings
+
+Provide a general description of this screen or component, its purpose, and where it fits in the application.
+
+*[Describe the screen purpose, scope, and context here.]*
+
+#### 3.10.1 Interface Overview
+
+| Field | Value |
+|---|---|
+| Screen / Component Name | Settings |
+| Interface ID | IF-UI-10 |
+| Interface Type | User Interface |
+| Parent Screen / Module | [e.g., Settings Module] |
+| User Role(s) | [e.g., Registered User, Admin] |
+| Platform | [Web / Mobile / Desktop] |
+| Trigger / Entry Point | [How the user reaches this screen] |
+
+#### 3.10.2 Visual Reference
+
+> ![Screen Mockup](path/to/image.png)
+> *[ INSERT IMAGE HERE ] — Recommended size: 6.25" x 3.5" (or similar) | Format: PNG/JPG*
+
+**Figure 3.10.1:** *[Caption describing the screen/mockup]*
+
+#### 3.10.3 Layout & Elements
+
+| Element ID | Element Name | Type | Description / Behavior |
+|---|---|---|---|
+| [EL-01] | [Element name] | [Type] | [Expected behavior] |
+
+#### 3.10.4 Requirements
+
+| Req. ID | Requirement | Description / Notes |
+|---|---|---|
+| [IF-UI-10-01] | [Requirement statement] | [Notes / rationale] |
+| [IF-UI-10-02] | [Requirement statement] | [Notes / rationale] |
+
+#### 3.10.5 Validation & Error States
+
+*[Describe input validation rules, error messages, and edge cases.]*
+
+> ![Error State Mockup](path/to/error-state-image.png)
+> *[ INSERT IMAGE HERE ] — Optional: error/empty/loading state mockup*
+
+#### 3.10.6 Accessibility Notes
+*[Describe accessibility requirements — contrast, keyboard navigation, screen reader labels, etc.]*
+
+#### 3.10.7 Additional Notes
+*[Add constraints, assumptions, or dependencies here.]*
 
 ## 4. User Experience (UX) Requirements
 
