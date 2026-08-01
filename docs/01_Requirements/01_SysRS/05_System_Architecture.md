@@ -503,7 +503,49 @@ Each finding should retain traceability to:
 
 ---
 
-## 11. Active Reconnaissance Architecture
+## 11. Memory Reconstruction Architecture
+
+Memory reconstruction processes captured bus transactions to reconstruct a logical memory map.
+
+```mermaid
+flowchart LR
+
+    Session["Recorded Session"]
+
+    BusEvents["SPI / I2C Bus Transactions"]
+
+    Parser["Address / Data Pair Parser"]
+
+    Aggregator["Memory Map Aggregator"]
+
+    Classification["Coverage Classification"]
+
+    MemoryMap["Reconstructed Memory Map"]
+
+    Summary["Completeness Summary"]
+
+    Export["Memory Export"]
+
+    Session --> BusEvents
+    BusEvents --> Parser
+    Parser --> Aggregator
+    Aggregator --> Classification
+    Classification --> MemoryMap
+
+    MemoryMap --> Summary
+    MemoryMap --> Export
+```
+
+Memory ranges are classified as:
+
+* Fully observed.
+* Partially observed.
+* Never captured.
+
+The reconstructed memory map is not intended to perform firmware disassembly or static binary analysis.
+
+---
+## 12. Active Reconnaissance Architecture
 
 Active reconnaissance is isolated logically from passive monitoring.
 
@@ -515,6 +557,8 @@ flowchart TB
     UI["Active Reconnaissance UI"]
 
     Mode["Active Reconnaissance Mode"]
+
+    Profile["Trigger Profile Library"]
 
     Config["Trigger Configuration"]
 
@@ -530,6 +574,10 @@ flowchart TB
 
     Injection["Injection / Control Node"]
 
+    Wireless["Wireless Replay Engine"]
+
+    SDR["SDR / Radio Controller"]
+
     Snapshot["Snapshot Node"]
 
     DUT["Device Under Test"]
@@ -544,21 +592,30 @@ flowchart TB
 
     Analyst --> UI
     UI --> Mode
-    Mode --> Config
-    Config --> Validate
 
+    Mode --> Profile
+    Profile --> Config
+
+    Mode --> Config
+
+    Config --> Validate
     Validate --> Summary
     Summary --> Confirm
 
     Confirm -->|No| Abort["Cancel Action"]
+
     Confirm -->|Yes| Audit
 
     Audit --> Execute
 
     Execute --> Injection
-    Execute --> Snapshot
+    Execute --> Wireless
+    Wireless --> SDR
+    SDR --> DUT
 
+    Execute --> Snapshot
     Injection --> DUT
+
     Snapshot --> DUT
 
     DUT --> Response
@@ -591,7 +648,7 @@ All active operations require:
 
 ---
 
-## 12. Passive vs Active Operational Modes
+## 13. Passive vs Active Operational Modes
 
 ```mermaid
 flowchart LR
@@ -641,7 +698,44 @@ In Active Reconnaissance mode:
 * DUT responses are captured and analyzed.
 
 ---
-## 13. Security Architecture
+
+## 14. Reporting Architecture
+
+```mermaid
+flowchart LR
+
+    Analyst["Analyst"]
+
+    subgraph Sources["Report Sources"]
+        Session["Recorded Session Data"]
+        Findings["Sensitive-Data Findings"]
+        Search["Custom Search Results"]
+        Diagram["Generated Diagram"]
+    end
+
+    Builder["Report Builder"]
+
+    subgraph Formats["Report-Ready Formats"]
+        PDF["PDF"]
+        DOCX["DOCX"]
+    end
+
+    Analyst --> Session
+    Analyst --> Findings
+    Analyst --> Search
+    Analyst --> Diagram
+
+    Session --> Builder
+    Findings --> Builder
+    Search --> Builder
+    Diagram --> Builder
+
+    Builder --> PDF
+    Builder --> DOCX
+```
+---
+
+## 15. Security Architecture
 
 Security is implemented across authentication, authorization, data protection, and auditability.
 
@@ -697,11 +791,13 @@ Role permissions:
 | Admin   |  Yes |     Yes |    Yes |            Yes |            Yes |
 
 ---
-## 14. Extensibility Architecture
+
+## 16. Extensibility Architecture
 
 ```mermaid
 flowchart LR
-    subgraph CORE["Core System (unchanged)"]
+
+    subgraph CORE["Core System (Unchanged)"]
         PIPELINE["Correlation & Monitoring Pipeline"]
     end
 
@@ -710,7 +806,7 @@ flowchart LR
         P2["SPI Module"]
         P3["UART Module"]
         P4["Bluetooth Module"]
-        P5["...new protocol module"]
+        P5["...New Protocol Module"]
     end
 
     IFACE{{"Standard Protocol Interface\nconnect / parse / send / disconnect"}}
@@ -718,16 +814,75 @@ flowchart LR
     P1 & P2 & P3 & P4 & P5 -.->|"implements"| IFACE
     IFACE --> PIPELINE
 
-    EXTAPI["Documented External API\n(REST)"]
+    EXTAPI["Documented External API (REST)"]
+
     EXTTOOL["External Capture Tool"]
-    VALID["Schema/Format Validation"]
+
+    VALID["Schema / Format Validation"]
+
+    DECISION{"Payload Valid?"}
+
+    MALFORMED["Malformed Payload Marker"]
+
     LOG["Connection & Submission Log"]
 
-    EXTTOOL --> EXTAPI --> VALID --> LOG --> PIPELINE
+    PIPELINE
+
+    EXTTOOL --> EXTAPI
+    EXTAPI --> VALID
+    VALID --> DECISION
+
+    DECISION -->|Valid| LOG
+    LOG --> PIPELINE
+
+    DECISION -->|Invalid| MALFORMED
+    MALFORMED --> LOG
+    MALFORMED -.Marked in Monitoring View.-> PIPELINE
 ```
 
+Runtime operation must not depend on:
+
+* Internet access.
+* Cloud services.
+* Cloud-based storage.
+* Online license checks.
+* External telemetry.
+* Internet-hosted time synchronization.
+
+Internet connectivity may only be required during initial installation or image acquisition.
+
 ---
-## 15. Deployment Architecture
+
+## 17. Usage Metrics Architecture
+
+The Usage Metrics Architecture collects and presents system usage and analysis performance metrics through a dedicated dashboard.
+
+```mermaid
+flowchart LR
+
+    Events["Session & Analysis Events"]
+
+    Collector["Metrics Collector"]
+
+    Statistics["Statistics Engine"]
+
+    Dashboard["Usage Metrics Dashboard"]
+
+    Filter["Time Period Filter"]
+
+    Reports["Metrics Reports"]
+
+    Events --> Collector
+    Collector --> Statistics
+    Statistics --> Dashboard
+
+    Filter --> Dashboard
+
+    Dashboard --> Reports
+```
+---
+
+## 18. Deployment Architecture
 
 The system is designed to run in an isolated test-bench environment.
 
@@ -793,7 +948,8 @@ Runtime operation must not depend on:
 Internet connectivity may only be required during initial installation or image acquisition.
 
 ---
-## 16. Docker Deployment Model
+
+## 19. Docker Deployment Model
 
 The recommended deployment model uses Docker Compose.
 
@@ -802,20 +958,33 @@ flowchart TB
 
     Compose["Docker Compose"]
 
+    Build["Container Build Process"]
+
+    Lock["Dependency Lock Validation"]
+
     UI["UI Service"]
+
     Brain["Brain Service"]
+
     Database["Local Data Service"]
+
     Storage["Persistent Volume"]
+
     Network["Network / Capture Integration"]
 
-    Compose --> UI
-    Compose --> Brain
-    Compose --> Database
+    Compose --> Build
+
+    Build --> Lock
+
+    Lock --> UI
+    Lock --> Brain
+    Lock --> Database
 
     Brain --> Database
     Database --> Storage
 
     Brain --> Network
+
 ```
 
 The deployment must ensure:
@@ -832,7 +1001,7 @@ The deployment must ensure:
 
 ---
 
-## 17. Final Architecture Summary
+## 20. Final Architecture Summary
 
 The Wiresploit architecture is centered around the **Brain**, which provides the core processing and orchestration capabilities of the system.
 
