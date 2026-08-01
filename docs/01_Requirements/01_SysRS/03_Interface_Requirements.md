@@ -265,52 +265,86 @@ Provide a general description of this screen or component, its purpose, and wher
 
 ### 3.5 Snapshots
 
-The Snapshots screen serves as a central repository for all captured Snapshot Blocks (SB) within the system. 
+The Snapshots screen serves as a central repository for all captured Snapshot Blocks (SB) within the system.
 
 #### 3.5.1 Interface Overview
 
 | Field | Value |
 |---|---|
-| Screen / Component Name | Snapshots |
+| Screen Name | Snapshots |
 | Interface ID | IF-UI-05 |
-| Interface Type | User Interface |
-| Parent Screen / Module | [e.g., Snapshots Module] |
-| User Role(s) | [e.g., Registered User] |
-| Platform | [Web / Mobile / Desktop] |
-| Trigger / Entry Point | [How the user reaches this screen] |
+| Trigger / Entry Point | Left Side Panel |
 
 #### 3.5.2 Visual Reference
+Snapshot Library shows list of captured Snapshot Blocks with search, time filter, storage usage, and active hardware status.
+> ![Screen Mockup](snapshots-lib-light.png)
+**Figure 3.5.1:** Light Mode
 
-> ![Screen Mockup](path/to/image.png)
-> *[ INSERT IMAGE HERE ] — Recommended size: 6.25" x 3.5" (or similar) | Format: PNG/JPG*
-
-**Figure 3.5.1:** *[Caption describing the screen/mockup]*
+> ![Screen Mockup](snapshots-lib-dark.png)
+**Figure 3.5.1:** Dark Mode
 
 #### 3.5.3 Layout & Elements
 
 | Element ID | Element Name | Type | Description / Behavior |
 |---|---|---|---|
-| [EL-01] | [Element name] | [Type] | [Expected behavior] |
+| EL-01 | Search Bar | Text Field | Filters list by snapshot title,or hardware ID |
+| EL-02 | Time Filter | Dropdown | Filters list by time window (e.g., "All Time") |
+| EL-03 | Sort Control | Icon Button | Toggles sort order of the list |
+| EL-04 | Snapshot Table | Data Table | Columns: Snapshot Title, Timestamp, Actions |
+| EL-05 | Snapshot Status Icon | Icon | Document icon for normal snapshots; red warning triangle for a snapshot flagged with an integrity/state issue (e.g., `EEPROM_STATE_CORRUPT_001`) |
+| EL-06 | Open Link | Text Link | Navigates to the detailed Snapshot view for that row |
+| EL-07 | Pagination Controls | Pagination | Previous/Next and numbered pages; shows "Showing X of Y historical snapshots" |
+| EL-08 | Total Storage Card | Stat Card | Displays cumulative storage used by snapshots with a usage bar |
+| EL-09 | Active Hardware ID Card | Stat Card | Displays the currently connected capture hardware ID and connection status (e.g., "Stable connection") |
 
 #### 3.5.4 Requirements
 
-| Req. ID | Requirement | Description / Notes |
-|---|---|---|
-| [IF-UI-05-01] | [Requirement statement] | [Notes / rationale] |
-| [IF-UI-05-02] | [Requirement statement] | [Notes / rationale] |
+| Req. ID | Requirement | Description / Notes | Satisfies (FR) |
+|---|---|---|---|
+| IF-UI-05-01 | The system shall list all recorded Snapshot Block outputs with their title and timestamp. | List all saved snapshots  | **FR-MON-07-1**|
+| IF-UI-05-02 | The system shall allow the analyst to search snapshots by title, or hardware ID. | Free-text search across fields | — (usability) |
+| IF-UI-05-03 | The system shall allow the analyst to filter the snapshot list by a time window. | e.g., "All Time", custom range | — (usability) |
+| IF-UI-05-04 | The system shall visually flag a snapshot whose captured state indicates a corruption or integrity issue. | Red warning icon on the affected row | — (usability)|
+| IF-UI-05-05 | The system shall allow the analyst to open a snapshot to view its detailed data. | Navigates to a specific snapshot | **FR-ANA-09-1** |
+| IF-UI-05-06 | The system shall display total storage consumed by recorded snapshots and its recent growth. | Supports capacity awareness/monitoring | — (operational visibility) |
+| IF-UI-05-07 | The system shall display the currently active capture hardware ID and its connection status. | Supports the analyst confirming the correct DUT/hardware is connected | — (operational visibility) |
 
 #### 3.5.5 Validation & Error States
 
-*[Describe input validation rules, error messages, and edge cases.]*
+Abstraction of error in user interface by user friendly text.
 
-> ![Error State Mockup](path/to/error-state-image.png)
-> *[ INSERT IMAGE HERE ] — Optional: error/empty/loading state mockup*
+- **Empty state:** show "No snapshots found" when the library is empty or filters return zero results.
+- **Search with no matches:** show "No results found for '[query]'" beneath the search bar.
+- **Corrupted/partial snapshot** (per `EEPROM_STATE_CORRUPT_001` in the mockup): row displays a red warning icon instead of the default document icon; "Open" shouldn't work.
+- **Hardware disconnected:** "Active Hardware ID" card should reflect a non-"Stable connection" status (e.g., "Disconnected") rather than showing stable state.
+- **Storage near capacity:** total storage card should support a near-limit warning state, consistent with the "storage at capacity" condition referenced elsewhere in the system (Logs screen, IF-UI-07).
 
-#### 3.5.6 Accessibility Notes
-*[Describe accessibility requirements — contrast, keyboard navigation, screen reader labels, etc.]*
+<table>
+  <tr>
+    <td align="center">
+      <br>
+      <img src="error-snapshots3.png" alt="Error State" width="200"/>
+      <br><em>Figure 3.7.1a: Search with no matches</em>
+    </td>
+    <td align="center">
+      <br>
+      <img src="error-snapshots2.png" alt="Empty State" width="200"/>
+      <br><em>Figure 3.7.1b: Error detail fails to load</em>
+    </td>
+    <td align="center">
+      <br>
+      <img src="error-snapshots4.png" alt="Loading State" width="200"/>
+      <br><em>Figure 3.7.1c: No snapshots to search </em>
+    </td>
+  </tr>
+</table>
+
 
 #### 3.5.7 Additional Notes
-*[Add constraints, assumptions, or dependencies here.]*
+
+- Assumes snapshot metadata (title, timestamp, hardware ID) is written by the Brain when a Snapshot Node is triggered and correlated with communication events.
+- "Active Hardware ID" depend on runtime from the Brain/Capture Node layer being exposed to the UI.
+
 
 ---
 
