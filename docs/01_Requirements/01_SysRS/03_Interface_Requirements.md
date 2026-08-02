@@ -8,7 +8,7 @@
 | Document Status   | `V0.0.1`                             |
 | Date              | 1-8-2026                                                    |
 | Prepared by       | Mariam Essam / Hoda Khaled            |
-
+| Demo Link           | [Wiresploit Demo](https://smooth-nav-styles.lovable.app) |
 
 
 ## Table of Contents
