@@ -428,7 +428,7 @@ BaseUser <|-- Viewer
 Viewer <|-- Analyst
 Analyst <|-- Admin
 
-package "Analytics & Forensics Module (BR-ANA)" {
+package "Analytics Module (BR-ANA)" {
   usecase "Manage Capture Session" as UC1
   usecase "Replay Session" as UC2
   usecase "Search Session Data" as UC3
