@@ -23,11 +23,9 @@ flowchart TD
     CN["Capture Nodes<br/>Onboard Bus Capture"]
     WIRELESS_CAPTURE["Wireless Capture"]
 
-<<<<<<< HEAD
     CORE["Core<br/>Event Processing + Correlation<br/>Time Synchronization"]
-=======
     TIMESTAMP["Timestamping & Time Synchronization<br/>Common Time Reference"]
->>>>>>> 863bbd217750f30a909561d07324cc2c49e8fd44
+
 
     BRAIN["Brain<br/>Event Processing + Protocol Decoding"]
 
@@ -45,10 +43,8 @@ flowchart TD
     BUS --> CN
     WIRELESS --> WIRELESS_CAPTURE
 
-<<<<<<< HEAD
     CN --> CORE
     CORE --> TIMELINE
-=======
     NET_CAPTURE --> TIMESTAMP
     CN --> TIMESTAMP
     WIRELESS_CAPTURE --> TIMESTAMP
@@ -56,7 +52,6 @@ flowchart TD
     TIMESTAMP --> BRAIN
     BRAIN --> CORRELATION
     CORRELATION --> TIMELINE
->>>>>>> 863bbd217750f30a909561d07324cc2c49e8fd44
     TIMELINE --> ANALYST
 ```
 
