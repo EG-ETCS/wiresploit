@@ -1723,7 +1723,7 @@
 </tr>
 <tr>
 <td>BR-MON-04</td>
-<td>All Capture Nodes and the Brain shall synchronize to a common time reference (e.g., a local/on-premises NTP or PTP server hosted within the isolated test-bench network) with documented maximum clock drift, to ensure correlation accuracy claims are valid. This time reference shall not depend on external internet connectivity, consistent with BR-ENV-02.</td>
+<td>All Capture Nodes and the core shall synchronize to a common time reference (e.g., a local/on-premises NTP or PTP server hosted within the isolated test-bench network) with documented maximum clock drift, to ensure correlation accuracy claims are valid. This time reference shall not depend on external internet connectivity, consistent with BR-ENV-02.</td>
 <td>Must</td>
 </tr>
 <tr>
@@ -1847,17 +1847,12 @@
 </tr>
 <tr>
 <td>BR-SEC-02</td>
-<td>The system shall preserve the integrity of recorded sessions such that any post-capture modification is detectable, to maintain evidentiary chain of custody</td>
+<td>The system shall preserve the integrity of recorded sessions to maintain evidentiary chain of custody</td>
 <td>Must</td>
 </tr>
 <tr>
 <td>BR-SEC-03</td>
 <td>The system shall support role-based access control to restrict who can view, export, or modify captured session data</td>
-<td>Could</td>
-</tr>
-<tr>
-<td>BR-SEC-04</td>
-<td>Communication between Capture Nodes and the Brain (whether wired or wireless) shall be encrypted and authenticated to prevent interception or spoofing of captured data in transit. (Note: applies primarily where wireless connectivity is used; wired links may rely on physical security instead.)</td>
 <td>Could</td>
 </tr>
 </tbody>
@@ -1918,7 +1913,7 @@
 <tbody>
 <tr>
 <td>BR-DEP-01</td>
-<td>The system shall be packaged and delivered as a containerized, reproducible deployment (e.g., Docker/Docker Compose), allowing the Brain and its dependencies to be installed and run consistently across different environments without manual environment setup. Internet access may be used during initial setup/installation, but is not required afterward for normal operation, in line with BR-ENV-02.</td>
+<td>The system shall be packaged and delivered as a containerized, reproducible deployment (e.g., Docker/Docker Compose), allowing the core and its dependencies to be installed and run consistently across different environments without manual environment setup. Internet access may be used during initial setup/installation, but is not required afterward for normal operation, in line with BR-ENV-02.</td>
 <td>Must</td>
 </tr>
 <tr>

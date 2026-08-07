@@ -1664,7 +1664,7 @@
 </ul>
 <h2 id="3-github-branches-workflow-and-rules">3. GitHub Branches, Workflow, and Rules</h2>
 <h3 id="31-branches">3.1 Branches</h3>
-<p>This section defines the standard naming convention for Git branches in the <strong>Wiresploit</strong> repository. makes it clear at a glance which part of the project (brain, firmware, hardware, or docs) a branch touches, and links code changes directly back to Business Requirements (BR-IDs) for traceability in reports and audits.</p>
+<p>This section defines the standard naming convention for Git branches in the <strong>Wiresploit</strong> repository. makes it clear at a glance which part of the project (core, firmware, hardware, or docs) a branch touches, and links code changes directly back to Business Requirements (BR-IDs) for traceability in reports and audits.</p>
 <pre class="mermaid"><code>gitGraph
     commit id: "init repo"
     branch develop
@@ -1744,6 +1744,24 @@ fix/core/BR-ANA-08-memory-overlap
 <li><strong class="_red">Merge:</strong> Only after all required approvals pass, PRs are merged to the main.</li>
 <li><strong class="_red">Delete branch:</strong> After merging, delete the feature/fix branch.</li>
 </ol>
+<pre class="mermaid"><code>gitGraph
+    commit id: "docs/develop"
+
+    branch "feature/task-123"
+    checkout "feature/task-123"
+
+    commit id: "Commit 1"
+    commit id: "Commit 2"
+    commit id: "Commit 3"
+
+    commit id: "PR Opened"
+    commit id: "Review Feedback"
+    commit id: "Commit 4 (Fixes)"
+    commit id: "Commit 5 (Fixes)"
+    commit id: "Review Approved"
+
+    checkout main
+    merge "feature/task-123" id: "Merge (Owner Only)"</code></pre>
 <h3 id="33-rules">3.3 Rules</h3>
 <ul>
 <li><strong>No direct pushes to <code>main</code> or <code>develop</code>.</strong> All changes enter via PRs.</li>
@@ -1755,6 +1773,23 @@ fix/core/BR-ANA-08-memory-overlap
 <li><strong>Documentation:</strong> Update relevant documentation with code changes.</li>
 <li><strong>Protected branches:</strong> <code>main</code> (and often <code>develop</code>) should be protected in repository settings to require PRs, passing checks, and approvals.</li>
 </ul>
+<pre class="mermaid"><code>flowchart TD
+    A[Create Task Branch] --&gt; B[Work on the Task]
+    B --&gt; C[Commit]
+    C --&gt; D{More Work?}
+
+    D --&gt;|Yes| B
+    D --&gt;|No| E[Open Pull Request]
+
+    E --&gt; F[Owner Reviews PR]
+    F --&gt; G{Changes Requested?}
+
+    G --&gt;|Yes| H[Fix Issues]
+    H --&gt; I[Push New Commits]
+    I --&gt; F
+
+    G --&gt;|No| J[Review Approved]
+    J --&gt; K[Owner Merges PR]</code></pre>
 <div class="admonition bug">
 <p class="admonition-title">important note</p>
 <p>All work should be done through Pull Requests (PRs), never by directly committing to <code>main</code> or <code>develop</code> or <code>docs</code>.</p>
@@ -1894,7 +1929,7 @@ fix/core/BR-ANA-08-memory-overlap
 <span class="sd">    unmatched (see BR-ANA-08 style completeness reporting).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        network_events: Timestamped events captured from the Brain's network tap.</span>
+<span class="sd">        network_events: Timestamped events captured from the core's network tap.</span>
 <span class="sd">        bus_events: Timestamped events reported by Capture Nodes (I2C/SPI/UART/GPIO).</span>
 
 <span class="sd">    Returns:</span>
