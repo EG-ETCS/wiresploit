@@ -4,7 +4,7 @@
 |-------------------|--------------------------------------------------------------|
 | Project Name      | IoT Reconnaissance & Communication-Block Monitoring System   |
 | Working Title     | Wiresploit                                                   |
-| Document Status   | `final V0.0`                              |
+| Document Status   | `final V0.1`                              |
 | Date              | 14-7-2026                                                    |
 | Prepared by       | Mohamed Salah-elden                                          |
 
@@ -109,7 +109,7 @@ The requirements listed below are prioritized using the MoSCoW framework. The Mo
 | BR-MON-01 | The system shall allow an analyst to observe a live, unified view of a device's communications across network, onboard-bus protocols and wireless communication simultaneously, without needing to operate multiple separate tools | Must |
 | BR-MON-02 | The system shall present related communications (e.g., a request and the internal operations it triggers) in correct time order, so an analyst can understand cause and effect | Must |
 | BR-MON-03 | The system shall display each event on the live timeline within a defined end-to-end latency value [end-to-end latency is measured from the moment the event happends at its source (e.g. UART Tx Trigger) to the moment it appears on the operator's live timeline (a new communication block appears on the screen)]. This latency value is to be documented and validated against the final chosen hardware/connectivity (wired vs. wireless Capture Nodes) | Should |
-| BR-MON-04 | All Capture Nodes and the Brain shall synchronize to a common time reference (e.g., a local/on-premises NTP or PTP server hosted within the isolated test-bench network) with documented maximum clock drift, to ensure correlation accuracy claims are valid. This time reference shall not depend on external internet connectivity, consistent with BR-ENV-02. | Must |
+| BR-MON-04 | All Capture Nodes and the core shall synchronize to a common time reference (e.g., a local/on-premises NTP or PTP server hosted within the isolated test-bench network) with documented maximum clock drift, to ensure correlation accuracy claims are valid. This time reference shall not depend on external internet connectivity, consistent with BR-ENV-02. | Must |
 | BR-MON-05 | The system shall document the maximum number of simultaneous Capture Nodes/protocols it supports without degradation in correlation accuracy or timeline responsiveness | Should |
 | BR-MON-06 | The system shall support triggering a Snapshot Node to capture the DUT's state (physical/visual, electrical/signal, or internal/logical) based on configurable conditions, including: (a) a defined trigger event/signal, (b) a defined delay period following a trigger, or (c) detection of a specific captured packet/pattern. The specific state captured (e.g., camera recording, GPIO/voltage reading, memory/register dump) shall depend on the type of Snapshot Node triggered. | Should |
 | BR-MON-07 | The system shall correlate the Snapshot Node's captured output (e.g., video segment, electrical/signal reading, or internal memory/register dump) with its corresponding communication events on the unified timeline, aligned by timestamp. | Should |
@@ -147,9 +147,8 @@ The requirements listed below are prioritized using the MoSCoW framework. The Mo
 | ID | Requirement | Priority |
 |---|---|---|
 | BR-SEC-01 | The system shall protect captured data (which may include live credentials/secrets) from unauthorized access while in rest | Must |
-| BR-SEC-02 | The system shall preserve the integrity of recorded sessions such that any post-capture modification is detectable, to maintain evidentiary chain of custody | Must |
+| BR-SEC-02 | The system shall preserve the integrity of recorded sessions to maintain evidentiary chain of custody | Must |
 | BR-SEC-03 | The system shall support role-based access control to restrict who can view, export, or modify captured session data | Could |
-| BR-SEC-04 | Communication between Capture Nodes and the Brain (whether wired or wireless) shall be encrypted and authenticated to prevent interception or spoofing of captured data in transit. (Note: applies primarily where wireless connectivity is used; wired links may rely on physical security instead.) | Could |
 
 ### 6.5 Non-Interference & Operating Environment
 
@@ -169,7 +168,7 @@ The requirements listed below are prioritized using the MoSCoW framework. The Mo
 
 | ID | Requirement | Priority |
 |---|---|---|
-| BR-DEP-01 | The system shall be packaged and delivered as a containerized, reproducible deployment (e.g., Docker/Docker Compose), allowing the Brain and its dependencies to be installed and run consistently across different environments without manual environment setup. Internet access may be used during initial setup/installation, but is not required afterward for normal operation, in line with BR-ENV-02. | Must |
+| BR-DEP-01 | The system shall be packaged and delivered as a containerized, reproducible deployment (e.g., Docker/Docker Compose), allowing the core and its dependencies to be installed and run consistently across different environments without manual environment setup. Internet access may be used during initial setup/installation, but is not required afterward for normal operation, in line with BR-ENV-02. | Must |
 | BR-DEP-02 | The system shall support exporting/importing its configuration and recorded session data independently of the container lifecycle, to allow backup and migration between deployments | Should |
 
 ### 6.8 Acceptance, Adoption & Support

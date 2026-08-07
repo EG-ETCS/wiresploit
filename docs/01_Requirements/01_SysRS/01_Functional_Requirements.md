@@ -21,7 +21,7 @@ flowchart TD
 
     CN["Capture Nodes<br/>Capture + Timestamp Events"]
 
-    BRAIN["Brain<br/>Event Processing + Correlation<br/>Time Synchronization"]
+    CORE["Core<br/>Event Processing + Correlation<br/>Time Synchronization"]
 
     TIMELINE["Unified Timeline<br/>Communication Blocks + Snapshot Blocks"]
 
@@ -35,8 +35,8 @@ flowchart TD
     BUS --> CN
     WIRELESS --> CN
 
-    CN --> BRAIN
-    BRAIN --> TIMELINE
+    CN --> CORE
+    CORE --> TIMELINE
     TIMELINE --> ANALYST
 ```
 ### Functional Requirements
@@ -51,7 +51,7 @@ flowchart TD
 | FR-MON-02-2 | The system shall order correlated events chronologically. | Must | Events appear in correct time order on the timeline. |
 | FR-MON-03-1 | The system shall display live events within a documented latency limit. | Should | Measured event-to-display latency is documented and validated. |
 | FR-MON-04-1 | The system shall synchronize Capture Nodes to a common time reference. | Must | All Capture Nodes use the configured common time reference. |
-| FR-MON-04-2 | The system shall synchronize the Brain to the common time reference. | Must | The Brain uses the configured common time reference. |
+| FR-MON-04-2 | The system shall synchronize the Core to the common time reference. | Must | The Core uses the configured common time reference. |
 | FR-MON-04-3 | The system shall document the maximum clock drift between monitoring components. | Must | Maximum observed clock drift is measured and documented. |
 | FR-MON-05-1 | The system shall document the maximum supported number of simultaneous Capture Nodes. | Should | Maximum supported Capture Nodes are identified through testing. |
 | FR-MON-05-2 | The system shall document the maximum supported number of simultaneous protocols. | Should | Maximum supported simultaneous protocols are identified through testing. |
@@ -67,7 +67,7 @@ flowchart TD
 | FR-MON-08-3 | The system shall display generated descriptions on the unified timeline. | Should | Generated descriptions appear at the corresponding timeline position. |
 
 ### Assumptions & Dependencies
-- Capture Nodes and the Brain can synchronize to a common local time reference.
+- Capture Nodes and the Core can synchronize to a common local time reference.
 - Required hardware for supported network, onboard-bus, wireless, and snapshot monitoring is available.
 - Snapshot capabilities depend on the type of Snapshot Node being used.
 - Maximum supported nodes, protocols, latency, and clock drift require validation on the final hardware configuration.
@@ -221,16 +221,6 @@ flowchart TD
 
 ---
 
-#### FR-ANA-09 — Snapshot Behavior Descriptions
-
-| FR ID | Requirement | Priority | Acceptance Criteria |
-|---|---|---|---|
-| FR-ANA-09-1 | The system shall analyze Snapshot Node captured outputs to identify observable device behavior. | Should | Supported snapshot data is processed to identify observable device behavior. |
-| FR-ANA-09-2 | The system shall generate descriptive information from analyzed snapshot outputs. | Should | The system generates a description of the observed device state or behavior. |
-| FR-ANA-09-3 | The system shall display generated descriptions on the unified timeline. | Should | Generated descriptions appear at the corresponding timeline position. |
-
----
-
 ### Assumptions & Dependencies
 - Accurate search/flagging depends on reliable timestamps from time sync (FR-MON-04).
 - Session storage/format depends on BR-DEP export-import design (FR-DEP-02-x).
@@ -317,7 +307,7 @@ _The system shall run on Docker with fixed, predictable versions, and let users 
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-DEP-01-1 | System components (Brain + all dependencies) shall be packaged as Docker images defined via Dockerfile(s) and orchestrated via Docker Compose. | Must | Each system component has a corresponding Dockerfile and is defined as a service in `docker compose build` and that it completes successfully with exit code 0. |
+| FR-DEP-01-1 | System components (Core + all dependencies) shall be packaged as Docker images defined via Dockerfile(s) and orchestrated via Docker Compose. | Must | Each system component has a corresponding Dockerfile and is defined as a service in `docker compose build` and that it completes successfully with exit code 0. |
 | FR-DEP-01-2 | All image versions shall be pinned (no :`latest tags`; only locked dependency versions) | Must | Every `FROM` in all Dockerfiles and every image: in `docker-compose.yml` — has an explicit version tag (e.g. postgres:16.3), not latest . |
 | FR-DEP-01-3 | All Dockerfile install steps shall install strictly from the lockfile or requirments.txt with specified versions. | Must | No use of npm install, or unpinned pip install in place of their lockfile-strict equivalents.
 | FR-DEP-02-1 | The system shall provide a function to export the current configuration and recorded session data to a file stored outside the container's writable layer  | Should | Confirm persistence after the container is stopped/removed. |
@@ -370,14 +360,14 @@ The system must behave as a passive observer during normal monitoring — never 
 ```mermaid
 flowchart LR
 
-    Analyst --> Brain
-    Brain --> CaptureNodes["Capture Nodes"]
+    Analyst --> Core
+    Core --> CaptureNodes["Capture Nodes"]
     CaptureNodes --> DUT["Device Under Test"]
     DUT -. "Passive Monitoring (listen-only)" .-> CaptureNodes
 
     subgraph AirGap["Isolated / Air-Gapped Test Bench"]
         Analyst
-        Brain
+        Core
         CaptureNodes
         DUT
     end
@@ -386,9 +376,9 @@ flowchart LR
     Installer["Initial Installation"]
 
     Internet -. "Required only during installation" .-> Installer
-    Installer --> Brain
+    Installer --> Core
 
-    Internet -. "No dependency during runtime" .-x Brain
+    Internet -. "No dependency during runtime" .-x Core
 ```
 ### Functional Requirements
 
@@ -409,7 +399,7 @@ flowchart LR
 
 ### Assumptions & Dependencies
 - The monitoring hardware is correctly connected to the DUT.
-- The deployment environment provides local networking between the Brain and Capture Nodes.
+- The deployment environment provides local networking between the Core and Capture Nodes.
 - Docker images and required dependencies are downloaded before deployment into an air-gapped environment.
 
 ### Open Questions

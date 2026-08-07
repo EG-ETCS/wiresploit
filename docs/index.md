@@ -124,7 +124,7 @@ flowchart TD
 
 ### 3.1 Branches
 
-This section defines the standard naming convention for Git branches in the **Wiresploit** repository. makes it clear at a glance which part of the project (brain, firmware, hardware, or docs) a branch touches, and links code changes directly back to Business Requirements (BR-IDs) for traceability in reports and audits.
+This section defines the standard naming convention for Git branches in the **Wiresploit** repository. makes it clear at a glance which part of the project (core, firmware, hardware, or docs) a branch touches, and links code changes directly back to Business Requirements (BR-IDs) for traceability in reports and audits.
 
 
 ```mermaid
@@ -213,6 +213,28 @@ gitGraph
 7. **Merge:**{._red} Only after all required approvals pass, PRs are merged to the main.
 8. **Delete branch:**{._red} After merging, delete the feature/fix branch.
 
+```mermaid
+gitGraph
+    commit id: "docs/develop"
+
+    branch "feature/task-123"
+    checkout "feature/task-123"
+
+    commit id: "Commit 1"
+    commit id: "Commit 2"
+    commit id: "Commit 3"
+
+    commit id: "PR Opened"
+    commit id: "Review Feedback"
+    commit id: "Commit 4 (Fixes)"
+    commit id: "Commit 5 (Fixes)"
+    commit id: "Review Approved"
+
+    checkout main
+    merge "feature/task-123" id: "Merge (Owner Only)"
+```
+
+
 ### 3.3 Rules
 
 - **No direct pushes to `main` or `develop`.** All changes enter via PRs.
@@ -225,6 +247,25 @@ gitGraph
 - **Protected branches:** `main` (and often `develop`) should be protected in repository settings to require PRs, passing checks, and approvals.
 
 
+```mermaid
+flowchart TD
+    A[Create Task Branch] --> B[Work on the Task]
+    B --> C[Commit]
+    C --> D{More Work?}
+
+    D -->|Yes| B
+    D -->|No| E[Open Pull Request]
+
+    E --> F[Owner Reviews PR]
+    F --> G{Changes Requested?}
+
+    G -->|Yes| H[Fix Issues]
+    H --> I[Push New Commits]
+    I --> F
+
+    G -->|No| J[Review Approved]
+    J --> K[Owner Merges PR]
+```
 
 !!! bug "important note" 
     All work should be done through Pull Requests (PRs), never by directly committing to `main` or `develop` or `docs`.
@@ -351,7 +392,7 @@ def correlate_events(network_events: list[Event], bus_events: list[Event]) -> li
     unmatched (see BR-ANA-08 style completeness reporting).
 
     Args:
-        network_events: Timestamped events captured from the Brain's network tap.
+        network_events: Timestamped events captured from the core's network tap.
         bus_events: Timestamped events reported by Capture Nodes (I2C/SPI/UART/GPIO).
 
     Returns:
