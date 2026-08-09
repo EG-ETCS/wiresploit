@@ -1,12 +1,13 @@
 # Wiresploit — System Architecture Document
 
-| Field | Value |
-|---|---|
-| Project | IoT Reconnaissance & Communication-Block Monitoring System (Wiresploit) |
-| Document Type | System Architecture |
-| Status | Draft v1.0 |
+| Field         | Value                                                               |
+| ------------- | ------------------------------------------------------------------- |
+| Project       | Reconnaissance & Communication-Block Monitoring System (Wiresploit) |
+| Document Type | System Architecture                                                 |
+| Status        | Draft v1.0                                                          |
 
 ---
+
 ## 1. Overview
 
 Wiresploit is an IoT/OT reconnaissance and communication-block monitoring system designed to provide security analysts with a unified platform for monitoring, recording, correlating, analyzing, and actively interacting with a Device Under Test (DUT).
@@ -33,1054 +34,132 @@ The architecture is designed to satisfy the following goals:
 12. Provide reproducible deployment using Docker and Docker Compose.
 
 ---
+
 ## 3. High-Level System Context
 
-The following diagram presents the overall system context.
+The system context shows Wiresploit as a unified monitoring and reconnaissance platform interacting with the analyst, the Device Under Test (DUT), capture infrastructure, external tools, and the local time reference.
 
-```mermaid
-flowchart LR
-
-    %% User
-    Analyst["Analyst / User"]
-
-    %% Wiresploit Docker Container
-    subgraph Docker["Wiresploit Docker Container"]
-        direction TB
-
-        UI["Web User Interface"]
-        Core["Wiresploit Core"]
-        DB[("Local Secure Storage")]
-
-        UI --> Core
-        Core <--> DB
-    end
-
-    %% Capture & Interaction Infrastructure
-    subgraph CaptureInfrastructure["Capture & Interaction Infrastructure"]
-        direction TB
-
-        NetworkCapture["Network Capture<br/>HTTP / TCP / Ethernet / Wi-Fi"]
-        CaptureNodes["Onboard Capture Nodes<br/>I2C / SPI / UART / GPIO"]
-        WirelessCapture["Wireless Capture<br/>BLE / LoRa / RFID"]
-        SnapshotNodes["Snapshot Nodes<br/>Visual / Electrical / Logical"]
-        InjectionNodes["Injection / Active Control<br/>Reset / GPIO / RF / Bus Frame"]
-        TimeReference["Local PTP Time Reference"]
-    end
-
-    %% External Components
-    ExternalTools["External Capture Tools<br/>"]
-    DUT["Device Under Test (DUT)"]
-
-    %% Main Left-to-Right Flow
-    Analyst --> UI
-    Core --> CaptureInfrastructure
-
-    %% Capture Flow
-    NetworkCapture --> DUT
-    CaptureNodes --> DUT
-    WirelessCapture --> DUT
-    SnapshotNodes --> DUT
-    InjectionNodes --> DUT
-
-    %% External Tools
-    ExternalTools --> Core
-
-    %% Time Synchronization
-    TimeReference -.-> Core
-    TimeReference -.-> NetworkCapture
-    TimeReference -.-> CaptureNodes
-    TimeReference -.-> WirelessCapture
-    TimeReference -.-> SnapshotNodes
-```
----
-
-
-## 4. Architectural Boundary
-
-The Wiresploit architecture is divided into the following major boundaries:
-
-```mermaid
-flowchart LR
-
-    %% External Environment
-    subgraph ExternalEnvironment["External Environment"]
-        Analyst["Analyst / User"]
-        ExternalTools["External Capture Tools"]
-        DUT["Device Under Test (DUT)"]
-    end
-
-    %% Wiresploit Platform
-    subgraph WiresploitPlatform["Wiresploit Platform"]
-
-        subgraph Presentation["Presentation Layer"]
-            UI["Unified User Interface"]
-        end
-
-        subgraph Core["Core Brain"]
-            CoreBrain["Monitoring & Correlation<br/>Passive Reconnaissance<br/>Active Reconnaissance<br/>Session Management<br/>Analytics<br/>Security & Access Control"]
-        end
-
-        subgraph Data["Data Layer"]
-            Storage[("Secure Storage")]
-        end
-
-        subgraph Hardware["Capture & Interaction Layer"]
-            Capture["Network / Onboard / Wireless Capture"]
-            Interaction["Snapshot / Injection & Active Control"]
-        end
-
-        TimeSync["Local PTP Time Reference"]
-
-        UI --> CoreBrain
-        CoreBrain <--> Storage
-        CoreBrain --> Capture
-        CoreBrain --> Interaction
-
-    end
-
-    %% External Connections
-    Analyst --> UI
-    ExternalTools --> CoreBrain
-
-    %% DUT Connections
-    Capture --> DUT
-    Interaction --> DUT
-
-    %% Time Synchronization
-    TimeSync -.-> CoreBrain
-    TimeSync -.-> Capture
-    TimeSync -.-> Interaction
-```
----
-
-## 5. Monitoring and Correlation Pipeline
-
-The monitoring pipeline transforms raw communication data into a unified timeline.
-
-```mermaid
-flowchart LR
-
-    subgraph Sources["Data Sources"]
-        Network["Network Capture"]
-        Bus["Onboard Bus Capture"]
-        Wireless["Wireless Capture"]
-        External["External Capture Tools"]
-    end
-
-    subgraph Processing["Brain Processing Pipeline"]
-
-        Ingest["Data Ingestion"]
-
-        Validate["Schema / Format Validation"]
-
-        ErrorLogger["Error Logging Service"]
-
-        ErrorStore["Error Log Storage"]
-
-        Timestamp["Timestamp Validation"]
-
-        Decode["Protocol Decoding"]
-
-        Normalize["Event Normalization"]
-
-        Detect["Packet / Pattern Detection"]
-
-        Trigger["Snapshot Trigger Engine"]
-
-        Delay["Delay-Based Trigger"]
-
-        Pattern["Packet / Pattern Trigger"]
-
-        Correlate["Temporal + Logical Correlation"]
-
-        Order["Chronological Ordering"]
-
-        Block["Communication / Snapshot Block Creation"]
-
-    end
-
-    Snapshot["Snapshot Nodes"]
-
-    Timeline["Unified Live Timeline"]
-
-    Network --> Ingest
-    Bus --> Ingest
-    Wireless --> Ingest
-    External --> Ingest
-
-    Ingest --> Validate
-
-    Validate --> Timestamp
-    Validate -. Validation Error .-> ErrorLogger
-
-    Timestamp --> Decode
-    Decode --> Normalize
-
-    Normalize --> Detect
-
-    Detect --> Correlate
-
-    Detect --> Trigger
-    Trigger --> Delay
-    Trigger --> Pattern
-
-    Delay --> Snapshot
-    Pattern --> Snapshot
-
-    Snapshot --> Correlate
-
-    Correlate --> Order
-    Order --> Block
-    Block --> Timeline
-
-    ErrorLogger --> ErrorStore
-```
-
-
-The pipeline ensures that events from different communication layers are processed consistently.
-
-For example, a single DUT operation may result in:
-
-1. An HTTP request.
-2. A TCP packet.
-3. An internal SPI transaction.
-4. An I2C transaction.
-5. A GPIO state change.
-
-The correlation engine groups logically related events into a Communication Block.
+![System Context](images/Context.drawio.svg)
 
 ---
 
-## 6. Time Synchronization Architecture
+## 4. Container Architecture
 
-Accurate time synchronization is a core architectural capability.
+The container architecture decomposes Wiresploit into its major deployable and independently manageable parts.
 
-The Brain and all relevant capture components synchronize against a local time reference.
-
-```mermaid
-flowchart TB
-
-    Time["Local PTP Time Reference"]
-
-    Brain["Wiresploit Brain"]
-    Network["Network Capture"]
-    Node1["Capture Node 1"]
-    Node2["Capture Node 2"]
-    Wireless["Wireless Capture"]
-    Snapshot["Snapshot Node"]
-
-    Time --> Brain
-    Time --> Network
-    Time --> Node1
-    Time --> Node2
-    Time --> Wireless
-    Time --> Snapshot
-
-    Brain --> Correlation["Event Correlation"]
-
-    Network --> Correlation
-    Node1 --> Correlation
-    Node2 --> Correlation
-    Wireless --> Correlation
-    Snapshot --> Correlation
-
-    Correlation --> Timeline["Unified Time-Ordered Timeline"]
-```
-
-The architecture must support:
-
-* A common local time reference.
-* Timestamped events.
-* Timestamped snapshots.
-* Clock drift measurement.
-* Maximum observed clock drift documentation.
-* Monitoring of clock synchronization status.
-
-The time reference must operate locally within the isolated test-bench network and must not depend on Internet connectivity.
+![Container Architecture](images/Container.drawio.svg)
 
 ---
 
-## 7. Snapshot Analysis Architecture
+## 5. Component Architecture
 
-The Snapshot Analysis Architecture processes outputs captured by Snapshot Nodes to identify observable device behavior and generate descriptive information. The generated descriptions are correlated with captured events and displayed on the Unified Timeline.
-
-```mermaid
-flowchart LR
-
-    Snapshot["Snapshot Node"]
-
-    Processor["Image / Data Processor"]
-
-    Analyzer["Behavior Analyzer"]
-
-    Description["Description Generator"]
-
-    Correlation["Event Correlation"]
-
-    Timeline["Unified Timeline"]
-
-    Storage[("Snapshot Analysis Storage")]
-
-    Report["Report"]
-
-    Snapshot --> Processor
-    Processor --> Analyzer
-    Analyzer --> Description
-    Description --> Correlation
-
-    Correlation --> Timeline
-    Correlation --> Storage
-    Correlation --> Report
-```
----
-
-## 8. Session Recording Architecture
-
-Session recording is responsible for creating a persistent representation of a monitoring or active reconnaissance session.
-
-```mermaid
-flowchart TD
-
-    Start["Analyst Starts Session"]
-
-    Capture["Capture Events"]
-
-    Timestamp["Timestamp Events"]
-
-    Process["Decode + Normalize + Correlate"]
-
-    Live["Unified Live Timeline"]
-
-    Record["Session Recorder"]
-
-    Secure["Encrypt + Protect Session"]
-
-    Store["Local Encrypted Session Storage"]
-
-    Stop["Analyst Stops Session"]
-
-    Persist["Persist Session"]
-
-    Start --> Capture
-    Capture --> Timestamp
-    Timestamp --> Process
-    Process --> Live
-    Process --> Record
-
-    Record --> Secure
-    Secure --> Store
-
-    Stop --> Persist
-    Persist --> Store
-```
-
-A recorded session contains sufficient information to:
-
-* Reconstruct the original event sequence.
-* Preserve original timestamps.
-* Review the session.
-* Search captured data.
-* Run analytics.
-* Generate behavior diagrams.
-* Reconstruct memory.
-* Generate findings.
-* Export artifacts.
-
----
-## 9. Analytics Architecture
-
-Analytics operates primarily on recorded sessions.
-
-```mermaid
-
-flowchart TD
-
-    Session["Encrypted Recorded Session"]
-
-    Replay["Session Replay"]
-
-    Search["Session Search"]
-
-    AutoDetect["Automatic Sensitive Data Detection"]
-
-    Findings["Findings Engine"]
-
-    Memory["Memory Reconstruction"]
-
-    Diagram["Mermaid Diagram Generator"]
-
-    Correlation["Correlation Mapper"]
-
-    Sequence["Sequence Diagram Builder"]
-
-    Renderer["Diagram Renderer"]
-
-    Metrics["Usage & ROI Metrics"]
-
-    Export["Export Engine"]
-
-    SearchExport["Search Results Export"]
-
-    DiagramExport["Diagram Export (PNG / SVG / Mermaid)"]
-
-    MemoryExport["Memory Export"]
-
-    FindingsExport["Findings Export"]
-
-    Session --> Replay
-
-    Session --> Search
-    Session --> AutoDetect
-    Session --> Memory
-    Session --> Diagram
-    Session --> Metrics
-
-    Search --> Findings
-    AutoDetect --> Findings
-
-    Diagram --> Correlation
-    Correlation --> Sequence
-    Sequence --> Renderer
-
-    Search --> SearchExport
-    Findings --> FindingsExport
-    Memory --> MemoryExport
-    Renderer --> DiagramExport
-
-    SearchExport --> Export
-    FindingsExport --> Export
-    MemoryExport --> Export
-    DiagramExport --> Export
-    Metrics --> Export
-```
+The component architecture decomposes the major containers into their internal components.
 
 ---
 
-## 10. Sensitive Data Detection
+### 5.1 Wiresploit Brain
 
-The system supports both analyst-driven searching and automatic detection.
+The Brain is the central processing and orchestration layer.
 
-```mermaid
-flowchart LR
+![Brain Component Architecture](images/Brain.drawio.svg)
 
-    Session["Recorded Session"]
+The Brain contains components responsible for:
 
-    SearchInput["Analyst Search Query"]
-
-    Patterns["Predefined Sensitive Data Patterns"]
-
-    SearchEngine["Search & Detection Engine"]
-
-    Matches["Matching Events"]
-
-    Findings["Findings"]
-
-    Timeline["Timeline Location"]
-
-    Session --> SearchEngine
-    SearchInput --> SearchEngine
-    Patterns --> SearchEngine
-
-    SearchEngine --> Matches
-    Matches --> Findings
-    Matches --> Timeline
-```
-
-The detection engine may identify:
-
-* Credentials.
-* Tokens.
-* API keys.
-* Other predefined sensitive-data patterns.
-
-Each finding should retain traceability to:
-
-* Packet/event.
-* Timestamp.
-* Protocol.
-* Timeline location.
-* Detection method.
+- Event Ingestion
+- Validation
+- Timestamp Validation
+- Protocol Decoding
+- Normalization
+- Detection
+- Trigger Engine
+- Correlation Engine
+- Event Ordering
+- Communication Block Creation
+- Session Management
+- Analytics
+- Reporting
+- Security and Authorization
+- Error Logging
 
 ---
 
-## 11. Memory Reconstruction Architecture
+### 5.2 Capture & Control Interface
 
-Memory reconstruction processes captured bus transactions to reconstruct a logical memory map.
+The Capture & Control Interface manages communication with capture, snapshot, and injection nodes.
 
-```mermaid
-flowchart LR
+![Capture Component Architecture](images/Capture.drawio.svg)
 
-    Session["Recorded Session"]
+Its responsibilities include:
 
-    BusEvents["SPI / I2C Bus Transactions"]
-
-    Parser["Address / Data Pair Parser"]
-
-    Aggregator["Memory Map Aggregator"]
-
-    Classification["Coverage Classification"]
-
-    MemoryMap["Reconstructed Memory Map"]
-
-    Summary["Completeness Summary"]
-
-    Export["Memory Export"]
-
-    Session --> BusEvents
-    BusEvents --> Parser
-    Parser --> Aggregator
-    Aggregator --> Classification
-    Classification --> MemoryMap
-
-    MemoryMap --> Summary
-    MemoryMap --> Export
-```
-
-Memory ranges are classified as:
-
-* Fully observed.
-* Partially observed.
-* Never captured.
-
-The reconstructed memory map is not intended to perform firmware disassembly or static binary analysis.
-
----
-## 12. Active Reconnaissance Architecture
-
-Active reconnaissance is isolated logically from passive monitoring.
-
-```mermaid
-flowchart TB
-
-    Analyst["Analyst"]
-
-    UI["Active Reconnaissance UI"]
-
-    Mode["Active Reconnaissance Mode"]
-
-    Profile["Trigger Profile Library"]
-
-    Config["Trigger Configuration"]
-
-    Validate["DUT Capability Validation"]
-
-    Summary["Action Summary"]
-
-    Confirm{"Explicit Confirmation?"}
-
-    Audit["Immutable Audit Log"]
-
-    Execute["Active Action Executor"]
-
-    Injection["Injection / Control Node"]
-
-    Wireless["Wireless Replay Engine"]
-
-    SDR["SDR / Radio Controller"]
-
-    Snapshot["Snapshot Node"]
-
-    DUT["Device Under Test"]
-
-    Response["DUT Response"]
-
-    Capture["Capture Infrastructure"]
-
-    Brain["Brain Correlation Engine"]
-
-    Timeline["Unified Timeline"]
-
-    Analyst --> UI
-    UI --> Mode
-
-    Mode --> Profile
-    Profile --> Config
-
-    Mode --> Config
-
-    Config --> Validate
-    Validate --> Summary
-    Summary --> Confirm
-
-    Confirm -->|No| Abort["Cancel Action"]
-
-    Confirm -->|Yes| Audit
-
-    Audit --> Execute
-
-    Execute --> Injection
-    Execute --> Wireless
-    Wireless --> SDR
-    SDR --> DUT
-
-    Execute --> Snapshot
-    Injection --> DUT
-
-    Snapshot --> DUT
-
-    DUT --> Response
-    Response --> Capture
-
-    Capture --> Brain
-    Brain --> Timeline
-```
-
-Active reconnaissance actions include:
-
-* Hardware reset.
-* Power-cycle.
-* GPIO pulse generation.
-* Wireless signal replay.
-* Onboard protocol frame replay.
-* Signal injection.
-
-All active operations require:
-
-1. Explicit Active Reconnaissance mode.
-2. Parameter configuration.
-3. Parameter validation.
-4. Action summary.
-5. Explicit analyst confirmation.
-6. Audit logging.
-7. Execution.
-8. DUT response capture.
-9. Correlation and analysis.
+- Managing Capture Nodes
+- Managing Snapshot Nodes
+- Managing Injection Nodes
+- Hardware communication
+- Protocol-specific communication
+- Trigger handling
+- Capture configuration
+- Snapshot triggering
+- Active signal generation
+- Capture status monitoring
 
 ---
 
-## 13. Passive vs Active Operational Modes
+### 5.3 Web Application
 
-```mermaid
-flowchart LR
+The Web Application provides the analyst-facing interface.
 
-    System["Wiresploit"]
+![Web Application Component Architecture](images/Web.drawio.svg)
 
-    Passive["Passive Monitoring Mode"]
+Its major responsibilities include:
 
-    Active["Active Reconnaissance Mode"]
-
-    PassiveCapture["Listen-only Capture"]
-    ActiveAction["Authorized DUT Interaction"]
-
-    NoInterference["No DUT Signal Alteration"]
-    Confirmation["Explicit Analyst Confirmation"]
-
-    System --> Passive
-    System --> Active
-
-    Passive --> PassiveCapture
-    PassiveCapture --> NoInterference
-
-    Active --> ActiveAction
-    ActiveAction --> Confirmation
-```
-
-### Passive Monitoring
-
-In Passive Monitoring mode:
-
-* The system listens to monitored interfaces.
-* No packets are injected.
-* No signals are transmitted.
-* No DUT state is intentionally modified.
-* Capture data is processed and correlated.
-
-### Active Reconnaissance
-
-In Active Reconnaissance mode:
-
-* The analyst explicitly enters active mode.
-* The analyst configures the action.
-* The system validates the configuration.
-* The system presents the expected impact.
-* The analyst explicitly confirms execution.
-* The system performs the authorized action.
-* DUT responses are captured and analyzed.
+- Dashboard
+- Live monitoring
+- Timeline visualization
+- Communication Block visualization
+- Session controls
+- Search and filtering
+- Findings visualization
+- Snapshot analysis
+- Memory reconstruction visualization
+- Report generation
+- Active reconnaissance controls
 
 ---
 
-## 14. Reporting Architecture
+### 5.4 External Capture Connector
 
-```mermaid
-flowchart LR
+The External Capture Connector integrates external capture tools with Wiresploit.
 
-    Analyst["Analyst"]
+![External Capture Component Architecture](images/External.drawio.svg)
 
-    subgraph Sources["Report Sources"]
-        Session["Recorded Session Data"]
-        Findings["Sensitive-Data Findings"]
-        Search["Custom Search Results"]
-        Diagram["Generated Diagram"]
-    end
+The connector is responsible for:
 
-    Builder["Report Builder"]
+- Receiving external events
+- Validating incoming data
+- Normalizing external event formats
+- Translating protocol-specific information
+- Forwarding events to the Brain
+- Reporting connector errors
 
-    subgraph Formats["Report-Ready Formats"]
-        PDF["PDF"]
-        DOCX["DOCX"]
-    end
-
-    Analyst --> Session
-    Analyst --> Findings
-    Analyst --> Search
-    Analyst --> Diagram
-
-    Session --> Builder
-    Findings --> Builder
-    Search --> Builder
-    Diagram --> Builder
-
-    Builder --> PDF
-    Builder --> DOCX
-```
----
-
-## 15. Security Architecture
-
-Security is implemented across authentication, authorization, data protection, and auditability.
-
-
-```mermaid
-flowchart LR
-
-    User["User"] --> Auth["Authentication"] --> RBAC["RBAC"]
-
-    subgraph Roles["Roles"]
-        Viewer["Viewer"]
-        Analyst["Analyst"]
-        Admin["Admin"]
-    end
-
-    RBAC --> Viewer
-    RBAC --> Analyst
-    RBAC --> Admin
-
-    subgraph Capabilities["Capabilities"]
-        Passive["Passive Monitoring"]
-        Sessions["Recorded Sessions"]
-        Findings["Findings / Exports"]
-        Active["Active Reconnaissance"]
-        Config["Configuration"]
-    end
-
-    Viewer --> Passive
-    Viewer --> Sessions
-
-    Analyst --> Passive
-    Analyst --> Sessions
-    Analyst --> Findings
-    Analyst --> Active
-
-    Admin --> Passive
-    Admin --> Sessions
-    Admin --> Findings
-    Admin --> Active
-    Admin --> Config
-
-    Active --> Audit["Immutable Audit Trail"]
-    Findings --> Audit
-    Config --> Audit
-```
-
-Role permissions:
-
-| Role    | View | Analyze | Export | Active Actions | Administration |
-| ------- | ---: | ------: | -----: | -------------: | -------------: |
-| Viewer  |  Yes | Limited |     Yes |             No |             No |
-| Analyst |  Yes |     Yes |    Yes |            Yes |             No |
-| Admin   |  Yes |     Yes |    Yes |            Yes |            Yes |
+This provides an extensibility mechanism without tightly coupling external tools to the Brain.
 
 ---
 
-## 16. Extensibility Architecture
+### 5.5 Security Architecture
 
-```mermaid
-flowchart LR
+Security is applied across the Web Application, Brain, storage, and active reconnaissance workflow.
 
-    subgraph CORE["Core System (Unchanged)"]
-        PIPELINE["Correlation & Monitoring Pipeline"]
-    end
+![Security Architecture](images/Security.drawio.svg)
 
-    subgraph PLUGINS["Protocol Plugin Modules"]
-        P1["I2C Module"]
-        P2["SPI Module"]
-        P3["UART Module"]
-        P4["Bluetooth Module"]
-        P5["...New Protocol Module"]
-    end
+The security architecture provides:
 
-    IFACE{{"Standard Protocol Interface\nconnect / parse / send / disconnect"}}
-
-    P1 & P2 & P3 & P4 & P5 -.->|"implements"| IFACE
-    IFACE --> PIPELINE
-
-    EXTAPI["Documented External API (REST)"]
-
-    EXTTOOL["External Capture Tool"]
-
-    VALID["Schema / Format Validation"]
-
-    DECISION{"Payload Valid?"}
-
-    MALFORMED["Malformed Payload Marker"]
-
-    LOG["Connection & Submission Log"]
-
-    PIPELINE
-
-    EXTTOOL --> EXTAPI
-    EXTAPI --> VALID
-    VALID --> DECISION
-
-    DECISION -->|Valid| LOG
-    LOG --> PIPELINE
-
-    DECISION -->|Invalid| MALFORMED
-    MALFORMED --> LOG
-    MALFORMED -.Marked in Monitoring View.-> PIPELINE
-```
-
-Runtime operation must not depend on:
-
-* Internet access.
-* Cloud services.
-* Cloud-based storage.
-* Online license checks.
-* External telemetry.
-* Internet-hosted time synchronization.
-
-Internet connectivity may only be required during initial installation or image acquisition.
+- Authentication
+- Role-Based Access Control (RBAC)
+- Session authorization
+- Data encryption
+- Secure storage
+- Audit logging
+- Active-operation authorization
+- Immutable active-operation records
 
 ---
-
-## 17. Usage Metrics Architecture
-
-The Usage Metrics Architecture collects and presents system usage and analysis performance metrics through a dedicated dashboard.
-
-```mermaid
-flowchart LR
-
-    Events["Session & Analysis Events"]
-
-    Collector["Metrics Collector"]
-
-    Statistics["Statistics Engine"]
-
-    Dashboard["Usage Metrics Dashboard"]
-
-    Filter["Time Period Filter"]
-
-    Reports["Metrics Reports"]
-
-    Events --> Collector
-    Collector --> Statistics
-    Statistics --> Dashboard
-
-    Filter --> Dashboard
-
-    Dashboard --> Reports
-```
----
-
-## 18. Deployment Architecture
-
-The system is designed to run in an isolated test-bench environment.
-
-```mermaid
-flowchart LR
-
-    %% Initial Installation
-    Internet["Internet<br/>Container Registry / Package Sources"]
-    Docker["Docker / Docker Compose"]
-
-    %% Air-Gapped Test Bench
-    subgraph AirGap["Air-Gapped Test Bench"]
-
-        subgraph Host["Wiresploit Host"]
-            UI["Web User Interface"]
-            Brain["Wiresploit Brain"]
-            Storage[("Persistent Storage")]
-        end
-
-        Time["Local PTP Time Reference"]
-
-        subgraph CaptureInfrastructure["Capture & Interaction Infrastructure"]
-            Capture["Capture Nodes"]
-            Network["Network Capture"]
-            Wireless["Wireless Capture"]
-            Snapshot["Snapshot Nodes"]
-        end
-
-        DUT["Device Under Test (DUT)"]
-
-    end
-
-    %% Installation
-    Internet -. "Initial Setup" .-> Docker
-    Docker --> Brain
-    Docker --> UI
-
-    %% Storage
-    Brain <--> Storage
-
-    %% Core Connections
-    Brain --> CaptureInfrastructure
-
-    %% DUT Connections
-    DUT --> Capture
-    DUT --> Network
-    DUT --> Wireless
-
-    %% Time Synchronization
-    Time -.-> Brain
-    Time -.-> CaptureInfrastructure
-```
-
-Runtime operation must not depend on:
-
-* Internet access.
-* Cloud services.
-* Cloud-based storage.
-* Online license checks.
-* External telemetry.
-* Internet-hosted time synchronization.
-
-Internet connectivity may only be required during initial installation or image acquisition.
-
----
-
-## 19. Docker Deployment Model
-
-The recommended deployment model uses Docker Compose.
-
-```mermaid
-flowchart TB
-
-    Compose["Docker Compose"]
-
-    Build["Container Build Process"]
-
-    Lock["Dependency Lock Validation"]
-
-    UI["UI Service"]
-
-    Brain["Brain Service"]
-
-    Database["Local Data Service"]
-
-    Storage["Persistent Volume"]
-
-    Network["Network / Capture Integration"]
-
-    Compose --> Build
-
-    Build --> Lock
-
-    Lock --> UI
-    Lock --> Brain
-    Lock --> Database
-
-    Brain --> Database
-    Database --> Storage
-
-    Brain --> Network
-
-```
-
-The deployment must ensure:
-
-* All Docker images use pinned versions.
-* Dependencies are locked.
-* Containers can be recreated without data loss.
-* Persistent data is stored outside the container writable layer.
-* Configuration can be exported.
-* Session data can be exported.
-* Configuration and sessions can be imported.
-* Imported data is validated before application.
-* Import/export operations are logged.
-
----
-
-## 20. Final Architecture Summary
-
-The Wiresploit architecture is centered around the **Brain**, which provides the core processing and orchestration capabilities of the system.
-
-The complete architecture follows two main paths: Passive Monitoring and Active Reconnaissance:
-
-```mermaid
-flowchart LR
-
-    DUT["Device Under Test"]
-
-    Sources["Network + Onboard Bus + Wireless"]
-
-    Capture["Capture Infrastructure"]
-
-    Time["Common Local Time"]
-
-    Brain["Wiresploit Brain"]
-
-    Correlation["Decode + Normalize + Correlate"]
-
-    Timeline["Unified Timeline"]
-
-    Session["Session Recording"]
-
-    Analytics["Analytics & Forensics"]
-
-    Active["Active Reconnaissance"]
-
-Passive["Passive Reconnaissance"]
-
-    Security["Security + RBAC + Audit"]
-
-    Storage["Encrypted Local Storage"]
-
-    Reports["Reports + Exports"]
-
-    User["Analyst"]
-
-    DUT --> Sources
-    Sources --> Capture
-    Capture --> Brain
-
-    Time --> Capture
-    Time --> Brain
-
-    Brain --> Correlation
-    Correlation --> Timeline
-
-    Timeline --> User
-
-    Brain --> Session
-    Session --> Storage
-
-    Storage --> Analytics
-    Analytics --> Reports
-
-    User --> Active
-    Active --> DUT
-
-    Passive --> DUT
-    User --> Passive
-    
-
-    Brain --> Security
-    Security --> Storage
-```
-
-The overall architecture therefore provides a single platform that connects:
-
-**Passive Reconnaissance:**
-
-**Analyst → Passive Reconnaissance → DUT → Capture Infrastructure → Brain → Correlation → Unified Timeline → Session Storage → Analytics → Reports**
-
-**Active Reconnaissance:**
-
-**Analyst → Active Reconnaissance → Injection / Control Nodes → DUT → Capture Infrastructure → Brain → Correlation → Analysis**
-
-The complete data and processing flow can be summarized as:
-
-**DUT → Network / Onboard Bus / Wireless → Capture Infrastructure → Time Synchronization → Brain → Decode + Normalize + Correlate → Unified Timeline → Session Recording → Encrypted Local Storage → Analytics & Forensics → Reports & Exports**
-
-This architecture provides a clear separation between **passive observation** and **active interaction** while preserving the central objective of Wiresploit: **unifying heterogeneous DUT communication capture, passive and active reconnaissance, correlation, analysis, and evidence generation into a single secure and extensible platform.**
