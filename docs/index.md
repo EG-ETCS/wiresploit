@@ -34,7 +34,7 @@ A unified cross-layer analysis platform that correlates every communication—fr
 | Document Name                                                                 | Description                                                         | Owner                  | Date       | Status   |
 |------------------------------------------------------------------------------|---------------------------------------------------------------------|------------------------|------------|----------|
 | [Business Requirements Document (BRD)](01_Requirements/00_BRD.md)            | Details business case, objectives, and high-level requirements      | CERT-team    | 14-7-2026  | 🟢 Final |
-| [System Requirements Specification (SysRS)](01_Requirements/01_SysRS.md)      | Top-level system requirements for the solution                     |    |  |  |
+| [System Requirements Specification (SysRS)](01_Requirements/01_SysRS/01_Functional_Requirements.md) | Top-level system requirements for the solution                     |    |  |  |
 | [Software Requirements Specification (SwRS)](01_Requirements/02_SwRS.md)      | Software-specific detailed requirements                            |    |  |  |
 | [Hardware Requirements Specification (HwRS)](01_Requirements/03_HwRS.md)      | Hardware-specific detailed requirements                            |    |  |  |
 | [Firmware Requirements Specification (FwRS)](01_Requirements/04_FwRS.md)      | Firmware-specific detailed requirements                            |    |  |  |
@@ -124,7 +124,7 @@ flowchart TD
 
 ### 3.1 Branches
 
-This section defines the standard naming convention for Git branches in the **Wiresploit** repository. makes it clear at a glance which part of the project (core, firmware, hardware, or docs) a branch touches, and links code changes directly back to Business Requirements (BR-IDs) for traceability in reports and audits.
+This section defines the standard naming convention for Git branches in the **Wiresploit** repository. It makes clear at a glance which part of the project (core, firmware, hardware, or docs) a branch touches, and links code changes directly back to Business Requirements (BR-IDs) for traceability in reports and audits.
 
 
 ```mermaid
@@ -138,37 +138,37 @@ gitGraph
     commit id: "add SRS skeleton"
     commit id: "clarify BR-ACT scope"
     checkout develop
-    branch feature/firmware/BR-MON-01-i2c-capture
-    checkout feature/firmware/BR-MON-01-i2c-capture
+    branch "feature/firmware/BR-MON-01-i2c-capture"
+    checkout "feature/firmware/BR-MON-01-i2c-capture"
     commit id: "i2c capture skeleton"
     commit id: "i2c capture tested"
     checkout develop
-    branch feature/core/BR-MON-04-ntp-sync
-    checkout feature/core/BR-MON-04-ntp-sync
+    branch "feature/core/BR-MON-04-ntp-sync"
+    checkout "feature/core/BR-MON-04-ntp-sync"
     commit id: "ptp sync client"
     commit id: "clock drift logging"
     checkout develop
     merge docs tag: "PR #10 reviewed"
-    merge feature/firmware/BR-MON-01-i2c-capture tag: "PR #12 reviewed"
-    checkout feature/core/BR-MON-04-ntp-sync
+    merge "feature/firmware/BR-MON-01-i2c-capture" tag: "PR #12 reviewed"
+    checkout "feature/core/BR-MON-04-ntp-sync"
     commit id: "fix drift edge case"
     checkout develop
-    merge feature/core/BR-MON-04-ntp-sync tag: "PR #15 reviewed"
-    branch fix/core/BR-ANA-08-memory-overlap
-    checkout fix/core/BR-ANA-08-memory-overlap
+    merge "feature/core/BR-MON-04-ntp-sync" tag: "PR #15 reviewed"
+    branch "fix/core/BR-ANA-08-memory-overlap"
+    checkout "fix/core/BR-ANA-08-memory-overlap"
     commit id: "fix overlap detection"
     checkout develop
-    merge fix/core/BR-ANA-08-memory-overlap tag: "PR #18 reviewed"
-    branch feature/hardware/pcb-rev2
-    checkout feature/hardware/pcb-rev2
+    merge "fix/core/BR-ANA-08-memory-overlap" tag: "PR #18 reviewed"
+    branch "feature/hardware/pcb-rev2"
+    checkout "feature/hardware/pcb-rev2"
     commit id: "pcb rev2 schematic"
     checkout develop
-    merge feature/hardware/pcb-rev2 tag: "PR #21 reviewed"
+    merge "feature/hardware/pcb-rev2" tag: "PR #21 reviewed"
     checkout main
     merge develop tag: "v0.1.0-alpha"
 ```
 
-### 3.1 Branching Strategy
+### 3.2 Branching Strategy
 
 - **main branch:**{._red} Always stable, production-ready code. Only CERT-approved and reviewed changes are merged here.
 - **develop branch:**{._red} Integration branch containing the latest delivered features, bugfixes, and changes. Most feature branches are merged here after review.
@@ -176,7 +176,7 @@ gitGraph
 - **Feature branches:**{._red} Short-lived branches created from `develop` for each new feature, enhancement, or fix. Convention: `feature/<component>/<short-description-or-BR-ID>`.
 - **fix branches:**{._red} For urgent fixes applied to production (`main`). Convention: `fix/<component>/<BR-ID>-<short-description>`.
 
-!!! note "Branch Namming Convention"
+!!! note "Branch Naming Convention"
     
     Used with `feature/` and `fix/` branches:
 
@@ -203,15 +203,15 @@ gitGraph
     ```
 
 
-### 3.2 GitHub Workflow
+### 3.3 GitHub Workflow
 
-2. **Create a Branch:**{._red} For each task, create a branch from `develop` using the feature/fix naming conventions.
-3. **Commit Changes:**{._red} Make descriptive, atomic commits (referencing ClickUp or task IDs where possible).
-4. **Push & PR:**{._red} Push the branch and open a Pull Request (PR) targeting `develop` (or `main` for fixes). Ensure PR description references the related task or issue.
-5. **Code Review:**{._red} At least one reviewer (peer review) must review the PR.
-6. **CERT Review:**{._red} CERT team reviews and approves PRs, especially for critical or production changes.
-7. **Merge:**{._red} Only after all required approvals pass, PRs are merged to the main.
-8. **Delete branch:**{._red} After merging, delete the feature/fix branch.
+1. **Create a Branch:**{._red} For each task, create a branch from `develop` using the feature/fix naming conventions.
+2. **Commit Changes:**{._red} Make descriptive, atomic commits (referencing ClickUp or task IDs where possible).
+3. **Push & PR:**{._red} Push the branch and open a Pull Request (PR) targeting `develop` (or `main` for fixes). Ensure PR description references the related task or issue.
+4. **Code Review:**{._red} At least one reviewer (peer review) must review the PR.
+5. **CERT Review:**{._red} CERT team reviews and approves PRs, especially for critical or production changes.
+6. **Merge:**{._red} Only after all required approvals pass, PRs are merged to the main.
+7. **Delete branch:**{._red} After merging, delete the feature/fix branch.
 
 ```mermaid
 gitGraph
@@ -235,7 +235,7 @@ gitGraph
 ```
 
 
-### 3.3 Rules
+### 3.4 Rules
 
 - **No direct pushes to `main` or `develop`.** All changes enter via PRs.
 - **PR descriptions must include:**

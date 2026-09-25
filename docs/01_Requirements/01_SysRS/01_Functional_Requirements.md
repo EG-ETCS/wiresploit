@@ -23,13 +23,9 @@ flowchart TD
     CN["Capture Nodes<br/>Onboard Bus Capture"]
     WIRELESS_CAPTURE["Wireless Capture"]
 
-    CORE["Core<br/>Event Processing + Correlation<br/>Time Synchronization"]
     TIMESTAMP["Timestamping & Time Synchronization<br/>Common Time Reference"]
 
-
-    BRAIN["Brain<br/>Event Processing + Protocol Decoding"]
-
-    CORRELATION["Event Correlation<br/>Temporal + Logical Correlation"]
+    CORE["Core<br/>Event Processing + Protocol Decoding<br/>+ Correlation"]
 
     TIMELINE["Unified Timeline<br/>Communication Blocks"]
 
@@ -43,15 +39,12 @@ flowchart TD
     BUS --> CN
     WIRELESS --> WIRELESS_CAPTURE
 
-    CN --> CORE
-    CORE --> TIMELINE
     NET_CAPTURE --> TIMESTAMP
     CN --> TIMESTAMP
     WIRELESS_CAPTURE --> TIMESTAMP
 
-    TIMESTAMP --> BRAIN
-    BRAIN --> CORRELATION
-    CORRELATION --> TIMELINE
+    TIMESTAMP --> CORE
+    CORE --> TIMELINE
     TIMELINE --> ANALYST
 ```
 
@@ -63,7 +56,6 @@ flowchart TD
 | FR-MON-01-2 | The system shall display onboard-bus communication events. | Must | Supported onboard-bus events are visible in the monitoring interface. |
 | FR-MON-01-3 | The system shall display wireless communication events. | Must | Supported wireless events are visible in the monitoring interface. |
 | FR-MON-01-4 | The system shall provide a unified live view of captured communications. | Must | Events from supported sources appear in one live interface. |
-<<<<<<< HEAD
 | FR-MON-02-1 | The system shall correlate related communication events. | Must | Related events are grouped or linked correctly. |
 | FR-MON-02-2 | The system shall order correlated events chronologically. | Must | Events appear in correct time order on the timeline. |
 | FR-MON-03-1 | The system shall display live events within a documented latency limit. | Should | Measured event-to-display latency is documented and validated. |
@@ -76,27 +68,10 @@ flowchart TD
 | FR-MON-06-2 | The system shall support triggering a Snapshot Node after a defined delay. | Should | The Snapshot Node is triggered after the configured delay. |
 | FR-MON-06-3 | The system shall support triggering a Snapshot Node based on a detected packet or pattern. | Should | Detection of a configured packet or pattern activates the Snapshot Node. |
 | FR-MON-06-4 | The system shall capture the configured DUT state when a Snapshot Node is triggered. | Should | The configured physical, electrical, or internal state is captured. |
-=======
-| FR-MON-02-1 | The system shall order events. | Must | Events appear in correct time order on the timeline. |
-| FR-MON-03-1 | The system shall decode captured communication data from supported protocols. | Must | Captured data is decoded and displayed according to the selected protocol. |
-| FR-MON-03-2 | The system shall record system errors in a dedicated error log file. | Must | Each error is recorded with its timestamp, error type, and error message. |
-| FR-MON-04-1 | The system shall synchronize the Brain and all data-capturing devices, including Capture Nodes, Network Capture components, and Wireless Capture components, to a common time reference. | Must | The Brain and all data-capturing devices use the configured common time reference. |
-| FR-MON-04-2 | The system shall measure, document, and monitor the maximum clock drift between the Brain and all data-capturing devices. | Must | The maximum observed clock drift is measured, documented, and displayed in the monitoring interface. |
-| FR-MON-05-1 | The system shall support monitoring through multiple Capture Nodes. | Should | Multiple Capture Nodes can provide captured events to the monitoring system. |
-| FR-MON-05-2 | The system shall support monitoring of HTTP, TCP, Ethernet, Wi-Fi, I2C, SPI, UART, GPIO, Bluetooth, LoRa, and RFID communication protocols. | Must | The system can simultaneously capture and display events from all listed communication protocols. |
-| FR-MON-06-1 | The system shall support triggering a Snapshot Node after a defined delay. | Should | The Snapshot Node is triggered after the configured delay. |
-| FR-MON-06-2 | The system shall support triggering a Snapshot Node based on a detected packet or pattern. | Should | Detection of a packet or pattern activates the Snapshot Node. |
-| FR-MON-06-3 | The system shall capture the DUT state when a Snapshot Node is triggered. | Should | The  physical, electrical, or internal state is captured. |
->>>>>>> 863bbd217750f30a909561d07324cc2c49e8fd44
 | FR-MON-07-1 | The system shall timestamp Snapshot Node outputs. | Should | Each snapshot output contains a timestamp. |
 
 ### Assumptions & Dependencies
-<<<<<<< HEAD
 - Capture Nodes and the Core can synchronize to a common local time reference.
-=======
-
-- The Brain can synchronize to a common local time reference.
->>>>>>> 863bbd217750f30a909561d07324cc2c49e8fd44
 - Required hardware for supported network, onboard-bus, wireless, and snapshot monitoring is available.
 - Snapshot capabilities depend on the type of Snapshot Node being used.
 - Maximum supported nodes, protocols, latency, and clock drift require validation on the final hardware configuration.
@@ -254,12 +229,12 @@ flowchart TD
 - Accurate search/flagging depends on reliable timestamps from time sync (FR-MON-04).
 - Session storage/format depends on BR-DEP export-import design (FR-DEP-02-x).
 - At-rest protection of exported findings depends on FR-SEC-01 (encryption at rest).
-- The finding count metric (FR-ANA-06-3) depends on the flagging logic defined in FR-ANA-05-2; changes to detection patterns will affect the reported count.
+- The finding count metric (FR-ANA-06-4) depends on the flagging logic defined in FR-ANA-05-1; changes to detection patterns will affect the reported count.
 
 ### Open Questions
 - What default credential/token patterns should auto-flagging (FR-ANA-05-1) detect out of the box?
 - What diagram type(s)/tooling will be used to generate behavior diagrams (FR-ANA-03-1)?
-- Which export formats will be supported for v1 (FR-ANA-04-3)?
+- Which export formats will be supported for v1 (FR-ANA-04)?
 - BR-ANA-01 does not define behavior if an analyst leaves a session running indefinitely (e.g., forgets to stop it) — should there be a maximum session duration, an idle timeout, or is indefinite recording acceptable?
 
 ---
@@ -336,12 +311,12 @@ _The system shall run on Docker with fixed, predictable versions, and let users 
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-DEP-01-1 | System components (Core + all dependencies) shall be packaged as Docker images defined via Dockerfile(s) and orchestrated via Docker Compose. | Must | Each system component has a corresponding Dockerfile and is defined as a service in `docker compose build` and that it completes successfully with exit code 0. |
-| FR-DEP-01-2 | All image versions shall be pinned (no :`latest tags`; only locked dependency versions) | Must | Every `FROM` in all Dockerfiles and every image: in `docker-compose.yml` — has an explicit version tag (e.g. postgres:16.3), not latest . |
-| FR-DEP-01-3 | All Dockerfile install steps shall install strictly from the lockfile or requirments.txt with specified versions. | Must | No use of npm install, or unpinned pip install in place of their lockfile-strict equivalents.
-| FR-DEP-02-1 | The system shall provide a function to export the current configuration and recorded session data to a file stored outside the container's writable layer  | Should | Confirm persistence after the container is stopped/removed. |
-| FR-DEP-02-2 | The system shall provide a function to import previously exported configuration and recorded session data into a running or newly deployed instance. | Should | Import a previously exported data into both  a running instance and  a freshly deployed instance; confirm the operation completes successfully in both cases. |
-| FR-DEP-02-3| The system shall log export and import operations, including timestamp and outcome (failure only). | Should | Perform successful and failed export/import operations; confirm failed operations are recorded. |
+| FR-DEP-01-1 | System components (Core + all dependencies) shall be packaged as Docker images defined via Dockerfile(s) and orchestrated via Docker Compose. | Must | Each system component has a corresponding Dockerfile, is defined as a service in `docker-compose.yml`, and `docker compose build` completes successfully with exit code 0. |
+| FR-DEP-01-2 | All image versions shall be pinned (no `:latest` tags; only locked dependency versions). | Must | Every `FROM` in all Dockerfiles and every `image:` in `docker-compose.yml` has an explicit version tag (e.g. `postgres:16.3`), not `latest`. |
+| FR-DEP-01-3 | All Dockerfile install steps shall install strictly from the lockfile or `requirements.txt` with specified versions. | Must | No use of `npm install`, or unpinned `pip install`, in place of their lockfile-strict equivalents. |
+| FR-DEP-02-1 | The system shall provide a function to export the current configuration and recorded session data to a file stored outside the container's writable layer. | Should | Confirm persistence after the container is stopped/removed. |
+| FR-DEP-02-2 | The system shall provide a function to import previously exported configuration and recorded session data into a running or newly deployed instance. | Should | Import previously exported data into both a running instance and a freshly deployed instance; confirm the operation completes successfully in both cases. |
+| FR-DEP-02-3 | The system shall log export and import operations, including timestamp and outcome (failure only). | Should | Perform successful and failed export/import operations; confirm failed operations are recorded. |
 
 ### Assumptions & Dependencies
 - The application has a defined, versioned schema for configuration and session data to support import validation.
