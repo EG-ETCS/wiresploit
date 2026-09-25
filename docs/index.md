@@ -275,7 +275,7 @@ flowchart TD
 
 ## 4. Coding Standards & Commenting Guidelines
 
-This section defines the coding rules, style conventions, and commenting standards to be followed across all components of Wiresploit. The goal is to keep the codebase consistent, readable, secure, and maintainable across the core (backend + UI) and Capture Node firmware, regardless of which engineer is writing the code per BO-06.
+This section defines the coding rules, style conventions, and commenting standards to be followed across all components of Wiresploit. The goal is to keep the codebase consistent, readable, secure, and maintainable across the Core (backend + UI) and Node firmware, regardless of which engineer is writing the code per BO-06.
 
 
 !!! info
@@ -287,7 +287,7 @@ This section defines the coding rules, style conventions, and commenting standar
 
 1. **Clarity over cleverness.**{._red} Code is read far more often than it is written. Prefer the obvious solution over a "smart" one-liner code.
 2. **Single Responsibility.**{._red} Each function/class/module should do single task. If you need to perform multiple tasks, split it into two functions.
-3. **No magic numbers/strings.**{._red} Use named constants or enums (e.g., `MAX_CAPTURE_NODES`, not `16`).
+3. **No magic numbers/strings.**{._red} Use named constants or enums (e.g., `MAX_NODES`, not `16`).
 4. **Fail loudly, fail safely.**{._red} Never silently swallow errors. a hidden failure means lost evidence — log it, surface it, and handle it explicitly.
 5. **Consistent formatting.**{._red} Use an auto-formatter per language (see §5) and run it before every commit. Formatting is not a matter of personal taste in this project.
 6. **No commented-out code in commits.**{._red} Delete commented-out code sections before committing code to github,  version control (Git) already remembers it.
@@ -298,7 +298,7 @@ This section defines the coding rules, style conventions, and commenting standar
 
 | Element | Python | C/C++ (Firmware) | Web-based (JS/TS) |
 |---|---|---|---|
-| Variables / functions | `snake_case` — `capture_node_id`, `def get_session_timeline():` | `snake_case` — `capture_node_id`, `read_i2c_frame()` | `camelCase` — `captureNodeId`, `getSessionTimeline()` |
+| Variables / functions | `snake_case` — `node_id`, `def get_session_timeline():` | `snake_case` — `node_id`, `read_i2c_frame()` | `camelCase` — `nodeId`, `getSessionTimeline()` |
 | Classes / Types | `PascalCase` — `CommunicationBlock`, `SnapshotBlock` | `PascalCase` — `typedef struct GpioEvent`, `typedef struct SnapshotBlock` | `PascalCase` — `CommunicationBlock`, `SnapshotBlock` |
 | Constants | `UPPER_SNAKE_CASE` — `DEFAULT_SYNC_INTERVAL_MS` | `UPPER_SNAKE_CASE` (macros) — `#define MAX_FRAME_LEN` | `UPPER_SNAKE_CASE` — `DEFAULT_SYNC_INTERVAL_MS` |
 | Files/modules | `snake_case.py` — `bus_correlator.py` | `snake_case.c` / `.h` — `i2c_capture.c`, `gpio_driver.h` | `kebab-case.tsx` — `timeline-view.tsx` |
@@ -308,7 +308,7 @@ This section defines the coding rules, style conventions, and commenting standar
 Domain terms from the BRD/Charter must be used consistently and match the documents exactly:
 
 - **Core** (not "server" or "backend" alone)
-- **Capture Node** (not "sniffer" or "probe")
+- **Node** (not "Capture Node", "Injection Node", "Snapshot Node", "sniffer", or "probe"). A Node has two functions, **capture** and **actions**, each of which can be enabled or disabled. Each Node has general settings (Node ID, name, description, unique color), capture settings (protocol and protocol settings), and actions settings (a trigger and an action). Each Node is in one state: **Online**, **Ready**, **Running**, or **Unreachable**.
 - **Communication Block (CB)** / **Snapshot Block (SB)**
 - **Device Under Test (DUT)**
 
@@ -325,8 +325,8 @@ Domain terms from the BRD/Charter must be used consistently and match the docume
 # increment the retry counter by 1
 retry_count += 1
 
-# loop through all capture nodes
-for node in capture_nodes:
+# loop through all nodes
+for node in nodes:
     # check if node is synced
     if node.is_synced:
         node.send_heartbeat()
@@ -335,11 +335,11 @@ for node in capture_nodes:
 ```python
 # good comment
 
-# Retry up to MAX_RETRIES because Capture Nodes on wireless links
+# Retry up to MAX_RETRIES because Nodes on wireless links
 # occasionally miss the first heartbeat after a Wi-Fi channel hop.
 retry_count += 1
 
-for node in capture_nodes:
+for node in nodes:
     # Skip unsynced nodes — sending a heartbeat before PTP sync completes
     # can be misread by the node as a reset trigger (see BR-MON-04).
     if node.is_synced:
@@ -393,7 +393,7 @@ def correlate_events(network_events: list[Event], bus_events: list[Event]) -> li
 
     Args:
         network_events: Timestamped events captured from the core's network tap.
-        bus_events: Timestamped events reported by Capture Nodes (I2C/SPI/UART/GPIO).
+        bus_events: Timestamped events reported by Nodes with capture enabled (I2C/SPI/UART/GPIO).
 
     Returns:
         A time-ordered list of CommunicationBlock objects.

@@ -28,7 +28,7 @@ This document defines testable Acceptance Criteria (AC) for every Business Requi
 | AC ID | Format | Criteria |
 |---|---|---|
 | AC-MON-01.1 | Measurable | The live UI displays network, onboard-bus (I2C/SPI/UART/GPIO), and wireless (BT/LoRa/RFID/etc.) captures simultaneously in a single screen/session, without requiring a separate tool or window per protocol. |
-| AC-MON-01.2 | G/W/T | **Given** at least two Capture Nodes of different protocol types are connected and active, **when** the analyst opens a live session, **then** events from both protocols appear on the same unified view without manual switching. |
+| AC-MON-01.2 | G/W/T | **Given** at least two Nodes with capture enabled, of different protocol types, are connected and active, **when** the analyst opens a live session, **then** events from both protocols appear on the same unified view without manual switching. |
 
 ### BR-MON-02 — Correct causal/time ordering
 
@@ -48,15 +48,15 @@ This document defines testable Acceptance Criteria (AC) for every Business Requi
 
 | AC ID | Format | Criteria |
 |---|---|---|
-| AC-MON-04.1 | Measurable | All Capture Nodes and the core synchronize to a local/on-premises NTP or PTP server with no dependency on external internet connectivity. |
-| AC-MON-04.2 | Measurable | The system documents a maximum clock drift value (e.g., in µs/ms) between any two Capture Nodes and the core, verified by test measurement. |
+| AC-MON-04.1 | Measurable | All Nodes with capture enabled, and the Core, synchronize to a local/on-premises NTP or PTP server with no dependency on external internet connectivity. |
+| AC-MON-04.2 | Measurable | The system documents a maximum clock drift value (e.g., in µs/ms) between any two Nodes with capture enabled and the Core, verified by test measurement. |
 | AC-MON-04.3 | Measurable | Time-sync status (in-sync / drifted / lost) is visible to the analyst for each connected node. |
 
 ### BR-MON-05 — Documented capacity limits
 
 | AC ID | Format | Criteria |
 |---|---|---|
-| AC-MON-05.1 | Measurable | The system documentation states the maximum number of simultaneous Capture Nodes/protocols supported without degradation in correlation accuracy or timeline responsiveness. |
+| AC-MON-05.1 | Measurable | The system documentation states the maximum number of simultaneous Nodes/protocols supported without degradation in correlation accuracy or timeline responsiveness. |
 | AC-MON-05.2 | Measurable | A load test at the documented maximum shows no measurable increase in correlation latency beyond the threshold defined in BR-MON-03. |
 
 ### BR-MON-06 — Camera trigger conditions
@@ -81,9 +81,53 @@ This document defines testable Acceptance Criteria (AC) for every Business Requi
 | AC-MON-08.1 | G/W/T | **Given** a recorded video segment linked to a triggering event, **when** the analyst requests analysis, **then** the system generates a descriptive text summary of observed physical behavior (e.g., motor movement, LED state change). |
 | AC-MON-08.2 | Measurable | The generated summary is displayed attached to (or linked from) the triggering event on the timeline. |
 
+### BR-MON-09 — Node functions
+
+| AC ID | Format | Criteria |
+|---|---|---|
+| AC-MON-09.1 | G/W/T | **Given** a Node with capture enabled and actions disabled, **when** a session is running, **then** the Node reports capture events and the system rejects any action command sent to it. |
+| AC-MON-09.2 | G/W/T | **Given** a Node with capture disabled and actions enabled, **when** the analyst confirms an action, **then** the Node performs that action and contributes no capture events. |
+| AC-MON-09.3 | G/W/T | **Given** a Node with both capture and actions enabled, **when** a session is running and the analyst confirms an action, **then** the Node reports capture events and performs the action. |
+
+### BR-MON-10 — Node general settings and color
+
+| AC ID | Format | Criteria |
+|---|---|---|
+| AC-MON-10.1 | Measurable | Each Node has general settings consisting of a Node ID, a Node name, a Node description, and a color, and no two Nodes in the same session share that color. |
+| AC-MON-10.2 | G/W/T | **Given** two Nodes with different unique colors, **when** the analyst views the Node list on the Core, **then** each list entry is shown in that Node's color. |
+| AC-MON-10.3 | G/W/T | **Given** a Node whose general settings assign a unique color, **when** that Node is connected, **then** its indication LED lights in the same color shown for it on the Core. |
+
+### BR-MON-11 — Capture protocol settings
+
+| AC ID | Format | Criteria |
+|---|---|---|
+| AC-MON-11.1 | G/W/T | **Given** a Node with capture enabled, **when** the analyst selects a protocol and saves that protocol's settings, **then** the Node captures that protocol using the saved settings. |
+| AC-MON-11.2 | Measurable | Changing the selected protocol changes which protocol's events that Node reports. |
+
+### BR-MON-12 — Node state machine
+
+| AC ID | Format | Criteria |
+|---|---|---|
+| AC-MON-12.1 | G/W/T | **Given** a Node that has just connected and has not been configured, **when** the Core reads its Node ID, **then** the Core assigns a unique color, adds the Node to the Node list, and shows the state Online. |
+| AC-MON-12.2 | G/W/T | **Given** a Node in Online, **when** the analyst saves its configuration, **then** the state becomes Ready and the Node is not yet capturing or performing actions. |
+| AC-MON-12.3 | G/W/T | **Given** a Node in Ready, **when** it starts capturing, decoding, matching packets, performing actions, or sending data packets, **then** the state becomes Running. |
+| AC-MON-12.4 | G/W/T | **Given** a Node in Online, Ready, or Running, **when** its heartbeat times out, **then** the Core shows Unreachable without a state report from the Node. |
+| AC-MON-12.5 | G/W/T | **Given** an Unreachable Node that was not configured, **when** it reconnects, **then** its state is Online. |
+| AC-MON-12.6 | G/W/T | **Given** an Unreachable Node that was already configured, **when** it reconnects, **then** its state is Ready. |
+
 ---
 
 ## 2. Session Recording, Analysis & Reporting
+
+Analysis engines use the categories in BR-ANA-09. A domain is a protocol. Recording, export, and usage metrics are not engines.
+
+| Scope | Group | Covered by |
+|---|---|---|
+| Single session | Single domain | BR-ANA-02, BR-ANA-05, BR-ANA-07, BR-ANA-08, and IP/domain name detection |
+| Single session | Multiple domain | BR-ANA-03 behavioral analysis |
+| Single session | Active | Packet replay, packet injection, and fuzzing (BR-ACT) |
+| Multiple session | Single domain | Memory comparison |
+| Multiple session | Multiple domain | Baseline analysis and pattern detection |
 
 ### BR-ANA-01 — Record & playback sessions
 
@@ -141,6 +185,16 @@ This document defines testable Acceptance Criteria (AC) for every Business Requi
 | AC-ANA-08.1 | Measurable | The reconstructed memory map visually distinguishes three states per address range: fully observed, partially observed, never captured. |
 | AC-ANA-08.2 | Measurable | A summary statistic (e.g., % of address space fully observed) is displayed alongside the memory map. |
 
+### BR-ANA-09 — Analysis engine categories
+
+| AC ID | Format | Criteria |
+|---|---|---|
+| AC-ANA-09.1 | Measurable | Each analysis engine is presented in one of these groups: single session / single domain, single session / multiple domain, single session / active, multiple session / single domain, or multiple session / multiple domain. |
+| AC-ANA-09.2 | G/W/T | **Given** one recorded session and one selected protocol, **when** the analyst runs IP/domain name detection or memory reconstruction, **then** the result uses only that session and that protocol. |
+| AC-ANA-09.3 | G/W/T | **Given** one recorded session containing more than one protocol, **when** the analyst runs behavioral analysis, **then** the result relates events across those protocols. |
+| AC-ANA-09.4 | G/W/T | **Given** two sessions of the same protocol, **when** the analyst runs memory comparison, **then** the result compares that protocol's reconstructed memory across the two sessions. |
+| AC-ANA-09.5 | G/W/T | **Given** more than one session and more than one protocol, **when** the analyst runs baseline analysis or pattern detection, **then** the result uses those sessions and protocols together. |
+
 ---
 
 ## 3. Active Triggering & DUT Control
@@ -157,15 +211,16 @@ This document defines testable Acceptance Criteria (AC) for every Business Requi
 
 | AC ID | Format | Criteria |
 |---|---|---|
-| AC-ACT-02.1 | Measurable | The operator can define a trigger condition (event, pattern, or signal) through the UI/config, without requiring code changes. |
-| AC-ACT-02.2 | G/W/T | **Given** a configured trigger condition, **when** that condition is met during a session, **then** the associated output action initiates automatically. |
+| AC-ACT-02.1 | Measurable | The operator can set a Node's actions trigger to manual, on packet match, scheduled, or on peer notification, without requiring code changes. |
+| AC-ACT-02.2 | G/W/T | **Given** an armed on-packet-match, scheduled, or peer-notification trigger, **when** that condition is met during a session, **then** the associated action runs. |
 
 ### BR-ACT-03 — Trigger output action types
 
 | AC ID | Format | Criteria |
 |---|---|---|
-| AC-ACT-03.1 | Measurable | The system supports, at minimum, these output actions: (a) hardware reset/power-cycle of the DUT, (b) wired/logic-level output signal (e.g., GPIO pulse), (c) wireless signal generation/replay, (d) on-board protocol generation/replay via capture nodes. |
-| AC-ACT-03.2 | G/W/T | **Given** any of the above output actions is selected, **when** the operator has not explicitly configured/confirmed it, **then** the system does not execute it. |
+| AC-ACT-03.1 | Measurable | On a Node whose actions function is enabled, the configured action is one of: inject a DUT payload, run a Node script, or send a notification signal. A notification signal can be sent to the Core, to all (the Core and the other Nodes), or to one specific Node. |
+| AC-ACT-03.2 | G/W/T | **Given** a trigger and action are selected, **when** the analyst has not confirmed them, **then** the system does not arm or execute that action. |
+| AC-ACT-03.3 | G/W/T | **Given** Node A sends a notification signal to Node B, and Node B's trigger is on peer notification, **when** Node B receives that signal, **then** Node B runs its configured action. |
 
 ---
 
@@ -196,7 +251,7 @@ This document defines testable Acceptance Criteria (AC) for every Business Requi
 
 | AC ID | Format | Criteria |
 |---|---|---|
-| AC-SEC-04.1 | Measurable | Wireless communication between Capture Nodes and the core is encrypted and authenticated (e.g., TLS or equivalent), verified via traffic inspection showing no plaintext payload. |
+| AC-SEC-04.1 | Measurable | Wireless communication between Nodes and the Core is encrypted and authenticated (e.g., TLS or equivalent), verified via traffic inspection showing no plaintext payload. |
 | AC-SEC-04.2 | Measurable | A spoofed/unauthenticated node cannot successfully submit data accepted by the core. |
 
 ---

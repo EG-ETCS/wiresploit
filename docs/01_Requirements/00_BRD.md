@@ -44,30 +44,43 @@ When performing black-box security analysis of an IoT/OT device, a single logica
 
 ## 4. Definitions
 
-### 4.1 Capture Node
+### 4.1 Node
 
-A Capture Node is a dedicated hardware device attached directly to a Device Under Test (DUT) that passively taps into one or more of the DUT's internal onboard communication buses (e.g., I2C, SPI, UART, logic-level/GPIO), a wireless interfaces (e.g., Bluetooth, LoRa, RFID), or logically taps to a network level protocol (HTTP, TCP, MQTT, etc.). It captures raw communication events, timestamps them, and reports them to the Core for correlation with other captured data from other Capture nodes into a unified timeline.
+A Node is a hardware device attached directly to a Device Under Test (DUT). There is one Node type. A Node does not come in separate capture, snapshot, or injection variants. Each Node has exactly two functions, and each function can be enabled or disabled independently:
 
-### 4.2 Snapshot Node
+- **Capture.** When capture is enabled, the Node passively observes the DUT. The analyst selects the protocol (for example I2C, SPI, UART, GPIO, Bluetooth, LoRa, RFID, HTTP, TCP, or MQTT) and configures that protocol's settings. The Node timestamps captured events and reports them to the Core. Capture also records a point-in-time DUT state when a trigger condition is met or the analyst triggers it manually. That state can be physical/visual (camera), electrical/signal (GPIO or voltage), or internal/logical (registers, memory, or debug information), and it is placed on the timeline as a Snapshot Block.
+- **Actions.** When actions are enabled, the Node runs a configured action when a configured trigger fires. A trigger is one of: manual, on packet match, scheduled, or on peer notification. An action is one of: inject a DUT payload, run a Node script, or send a notification signal. A notification signal is addressed to the Core, to all (the Core and the other Nodes), or to one specific Node. A peer-notification trigger fires when this Node receives a notification signal from another Node.
 
-A Snapshot Node is a dedicated hardware or software module that can be triggered at a specific time to capture a snapshot of the device's state at that exact time instance. The captured device state can include:
+A Node is used in one of these configurations:
 
-- **Physical/Visual State**: Observing physical phenomena such as motor movements, LED status, or a screen display using a camera.
-- **Electrical/Signal State**: Capturing electrical signals such as GPIO pin status or analog voltage levels on specific wires or connections.
-- **Internal/Logical State**: Extracting internal device information, such as CPU register contents, internal memory content, or debug information, using a debugging interfaces.
+- **Capture and actions.** Capture is enabled and actions are enabled. The Node observes the DUT and can also perform actions.
+- **Actions only.** Capture is disabled and actions are enabled. The Node performs actions and does not report capture events.
+- **Capture only.** Capture is enabled and actions are disabled. The Node observes the DUT and cannot perform actions.
 
-The Snapshot Node acts when a trigger condition is met (such as recieving specific network packet) or it could be triggered manually to captue device state, device state (physical, electrical, or internal) is captured and timestamped for correlation on the unified timeline.
+A Node with both functions disabled is not used in a session. Wired versus wireless connectivity between the Node and the Core is chosen by the hardware lead based on feasibility, cost, and DUT constraints.
 
+Each Node has three groups of settings:
 
-### 4.3 Injection Node
+- **General.** Node ID, Node name, Node description, and a unique color. When a Node connects, the Core reads its Node ID, assigns the unique color, and adds the Node to the Node list. The Core shows that color beside the Node. The Node hardware lights an indication LED in that same color, so the physical Node can be matched to its entry on the Core.
+- **Capture.** Used when the capture function is enabled. The analyst selects the protocol and configures that protocol's settings.
+- **Actions.** Used when the actions function is enabled. The analyst sets a trigger and an action, as defined above.
 
-An Injection Node is a dedicated hardware or software module (should be the same as Capture Node) designed to actively inject data onto the DUT's onboard buses or logic-level lines rather than passively observing them. When triggered — either manually by the operator or automatically upon a defined condition being met — it generates and transmits fake/crafted packets or logic-level signals (e.g., a forged I2C/SPI/UART transaction, or a specific GPIO pulse, or forged HTTP request) directly onto the target bus, intended to test the DUT's response.
+Each Node follows one state machine with four states:
 
-### 4.4 Communication Block (CB)
+| State | Meaning |
+|---|---|
+| **Online** | The Node has connected to the Core. The Core has read its Node ID, assigned a unique color, and added it to the Node list. It has no configuration yet. |
+| **Ready** | The Node has been configured. Its role is loaded and it is armed, but it is not yet performing its task. |
+| **Running** | The Node is performing its task: capturing, decoding, matching packets, performing actions, and sending data packets. |
+| **Unreachable** | The Core has not received a heartbeat in time. The Node may be hung, turned off, or out of battery. |
 
-A Communication Block is a unit on the unified timeline representing a set of communication events — captured from one or more Capture Nodes that the Core should correlate then together based on timing and logical relationship, so they represent a single logical operation on the DUT (e.g., a login attempt triggering both an HTTP request and internal I2C/SPI activity).
+The Node reports Online, Ready, and Running. The Core infers Unreachable from a heartbeat timeout. From Unreachable, a Node that was not configured returns to Online. A Node that was already configured returns to Ready.
 
-### 4.5 Snapshot Block (SB)
+### 4.2 Communication Block (CB)
+
+A Communication Block is a unit on the unified timeline representing a set of communication events — captured from one or more Nodes with capture enabled that the Core should correlate together based on timing and logical relationship, so they represent a single logical operation on the DUT (e.g., a login attempt triggering both an HTTP request and internal I2C/SPI activity).
+
+### 4.3 Snapshot Block (SB)
 
 A Snapshot Block is a unit on the unified timeline representing a captured state or data snapshot at a specific point in time (e.g. internal memory read, voltage level on specific wire, debug info or registers state, camera captues the physical state of the device or any another discrete piece of captured data), Snapshot Block is timestamped and placed on the timeline to provide context around or between Communication Blocks.
 
@@ -77,12 +90,12 @@ A Snapshot Block is a unit on the unified timeline representing a captured state
 
 ### 5.1 In Scope 
 
-- Passive, real-time capture of DUT communications across: network traffic (HTTP/Ethernet/WiFi, captured directly by the central device), and onboard buses (I2C, SPI, UART, logic-level/GPIO) via dedicated Capture Nodes (wired and/or wireless, to be determined by the vendor/hardware lead based on technical feasibility), in addition to wireless communication (Bluetooth, LoRa, RFID, etc.).
+- Passive, real-time capture of DUT communications across: network traffic (HTTP/Ethernet/WiFi, captured directly by the central device), and onboard buses (I2C, SPI, UART, logic-level/GPIO) and wireless communication (Bluetooth, LoRa, RFID, etc.) via Nodes whose capture function is enabled.
 - Timestamped, causally-correlated presentation of all captured communications as a unified timeline ("Communication Blocks", "Snapshot Blocks").
 - Session recording, replay, filtering, search, annotation, and export for reporting.
 - Analysis capabilities: searching captured sessions for hidden secrets/credentials, and generating diagrams/visualizations of system behavior from a session.
 - Active reconnaissance on the DUT (e.g., traffic replay/modification, bus-level fault injection, fuzzing, etc.), with the DUT's resulting responses captured and analyzed through the same platform.
-- Advanced analysis modules building (e.g., anomaly detection across sessions, automated protocol classification).
+- Analysis engines grouped by session scope and by domain. A domain is a protocol. Single-session engines are single-domain, multiple-domain, or active. Multiple-session engines are single-domain or multiple-domain.
 
 ### 5.2 Out of Scope
 
@@ -108,12 +121,16 @@ The requirements listed below are prioritized using the MoSCoW framework. The Mo
 |---|---|---|
 | BR-MON-01 | The system shall allow an analyst to observe a live, unified view of a device's communications across network, onboard-bus protocols and wireless communication simultaneously, without needing to operate multiple separate tools | Must |
 | BR-MON-02 | The system shall present related communications (e.g., a request and the internal operations it triggers) in correct time order, so an analyst can understand cause and effect | Must |
-| BR-MON-03 | The system shall display each event on the live timeline within a defined end-to-end latency value [end-to-end latency is measured from the moment the event happends at its source (e.g. UART Tx Trigger) to the moment it appears on the operator's live timeline (a new communication block appears on the screen)]. This latency value is to be documented and validated against the final chosen hardware/connectivity (wired vs. wireless Capture Nodes) | Should |
-| BR-MON-04 | All Capture Nodes and the core shall synchronize to a common time reference (e.g., a local/on-premises NTP or PTP server hosted within the isolated test-bench network) with documented maximum clock drift, to ensure correlation accuracy claims are valid. This time reference shall not depend on external internet connectivity, consistent with BR-ENV-02. | Must |
-| BR-MON-05 | The system shall document the maximum number of simultaneous Capture Nodes/protocols it supports without degradation in correlation accuracy or timeline responsiveness | Should |
-| BR-MON-06 | The system shall support triggering a Snapshot Node to capture the DUT's state (physical/visual, electrical/signal, or internal/logical) based on configurable conditions, including: (a) a defined trigger event/signal, (b) a defined delay period following a trigger, or (c) detection of a specific captured packet/pattern. The specific state captured (e.g., camera recording, GPIO/voltage reading, memory/register dump) shall depend on the type of Snapshot Node triggered. | Should |
-| BR-MON-07 | The system shall correlate the Snapshot Node's captured output (e.g., video segment, electrical/signal reading, or internal memory/register dump) with its corresponding communication events on the unified timeline, aligned by timestamp. | Should |
-| BR-MON-08 | The system shall analyze the Snapshot Node's captured output and generate descriptive text summarizing the observed device state or behavior (e.g., "camera motor began moving right," "GPIO pin 3 transitioned HIGH," "instruction pointer register is now pointing to 0x0000ABCD"), and illustrate this on the timeline. | Should |
+| BR-MON-03 | The system shall display each event on the live timeline within a defined end-to-end latency value [end-to-end latency is measured from the moment the event happends at its source (e.g. UART Tx Trigger) to the moment it appears on the operator's live timeline (a new communication block appears on the screen)]. This latency value is to be documented and validated against the final chosen hardware/connectivity (wired vs. wireless Nodes) | Should |
+| BR-MON-04 | All Nodes with capture enabled, and the Core, shall synchronize to a common time reference (e.g., a local/on-premises NTP or PTP server hosted within the isolated test-bench network) with documented maximum clock drift, to ensure correlation accuracy claims are valid. This time reference shall not depend on external internet connectivity, consistent with BR-ENV-02. | Must |
+| BR-MON-05 | The system shall document the maximum number of simultaneous Nodes/protocols it supports without degradation in correlation accuracy or timeline responsiveness | Should |
+| BR-MON-06 | The system shall support triggering a state capture on a Node whose capture function is enabled, covering the DUT's physical/visual, electrical/signal, or internal/logical state, based on configurable conditions, including: (a) a defined trigger event/signal, (b) a defined delay period following a trigger, or (c) detection of a specific captured packet/pattern. The specific state captured (e.g., camera recording, GPIO/voltage reading, memory/register dump) shall depend on the capture interfaces configured on that Node. | Should |
+| BR-MON-07 | The system shall correlate a Node's captured state output (e.g., video segment, electrical/signal reading, or internal memory/register dump) with its corresponding communication events on the unified timeline, aligned by timestamp. | Should |
+| BR-MON-08 | The system shall analyze a Node's captured state output and generate descriptive text summarizing the observed device state or behavior (e.g., "camera motor began moving right," "GPIO pin 3 transitioned HIGH," "instruction pointer register is now pointing to 0x0000ABCD"), and illustrate this on the timeline. | Should |
+| BR-MON-09 | Each Node shall expose two functions, capture and actions, and each function shall be independently enabled or disabled. A Node may capture only, perform actions only, or do both. A Node shall not report capture events while capture is disabled, and shall not perform actions while actions are disabled. | Must |
+| BR-MON-10 | Each Node shall have general settings: a Node ID, a Node name, a Node description, and a unique color. When the Node connects, the Core shall read the Node ID, assign the unique color, and add the Node to the Node list. The Core shall show that color in the Node list. The Node hardware shall light an indication LED in the same color, so the physical Node matches its entry on the Core. | Must |
+| BR-MON-11 | For each Node with capture enabled, the analyst shall select the protocol to capture and configure that protocol's settings. | Must |
+| BR-MON-12 | Each Node shall follow a four-state machine: Online, Ready, Running, and Unreachable. Connecting, and the Core reading the Node ID, assigning a unique color, and listing the Node, shall place it in Online. Configuration shall move it from Online to Ready. Starting its task (capture, decode, packet match, actions, and sending data packets) shall move it from Ready to Running. The Core shall mark the Node Unreachable on heartbeat timeout from Online, Ready, or Running, including when the Node hangs, is turned off, or loses battery. A reconnecting Node that was not configured shall return to Online. A reconnecting Node that was already configured shall return to Ready. Online, Ready, Running, and those returns shall be reported by the Node. Unreachable shall be inferred by the Core. | Must |
 
 ### 6.2 Session Recording, Analysis & Reporting
 
@@ -127,17 +144,28 @@ The requirements listed below are prioritized using the MoSCoW framework. The Mo
 | BR-ANA-06 | The system shall generate quantitative usage and performance metrics (e.g., number of sessions conducted, average time-to-finding, number of secrets/credentials automatically detected) to support measurement of the tool's return on investment over time | Should |
 | BR-ANA-07 | The system shall allow analysts to reconstruct the contents of the DUT's memory (e.g., SPI/I2C flash or addressable memory) from a recorded session, by aggregating the address/data pairs observed across captured bus transactions into a unified memory map/dump | Should |
 | BR-ANA-08 | The system shall indicate, within the reconstructed memory map, which address ranges were fully observed, partially observed, or never captured during the session, to give analysts an honest picture of reconstruction completeness | Should |
+| BR-ANA-09 | The system shall provide analysis engines in the categories below. A domain is a protocol. Session recording, export, and usage metrics are not analysis engines. | Must |
 
 
 !!! note
-    The capability or raw memory content reconstruction does not constitute firmware disassembly or static binary analysis, which remain out of scope per Section 4.2.
+    The capability of raw memory content reconstruction does not constitute firmware disassembly or static binary analysis, which remain out of scope per Section 5.2.
+
+#### Analysis engine categories
+
+| Scope | Group | Uses | Engines |
+|---|---|---|---|
+| Single session | Single domain | One protocol in one session | Memory reconstruction (BR-ANA-07, BR-ANA-08). IP/domain name detection. Sensitive-data search and flagging (BR-ANA-02, BR-ANA-05). |
+| Single session | Multiple domain | More than one protocol in one session | Behavioral analysis, including the behavior diagram (BR-ANA-03). |
+| Single session | Active | One session, and the engine acts on the DUT | Packet replay, packet injection, and fuzzing, performed through a Node whose actions function is enabled (BR-ACT). |
+| Multiple session | Single domain | One protocol across more than one session | Memory comparison. |
+| Multiple session | Multiple domain | More than one protocol across more than one session | Baseline analysis and pattern detection. |
 
 ### 6.3 Active Triggering & DUT Control
 
 | ID | Requirement | Priority |
 |---|---|---|
 | BR-ACT-01 | The system shall allow an analyst to perform a controlled active reconnaissance against a device under test and observe/analyze its response, with explicit confirmation required before any such action | Must |
-| BR-ACT-03 | Trigger output actions shall include, at minimum: (a) a hardware-level reset/power-cycle signal to the DUT, (b) generation of a specific wired/logic-level output signal (e.g., GPIO pulse), (c) generation or replay of a specific wireless signal, (D) generation or replay a specific on-board protocol through the capture nodes, with the specific trigger action explicitly configured/confirmed by the operator before use | Must |
+| BR-ACT-03 | On a Node whose actions function is enabled, actions settings shall pair one trigger with one action. The trigger shall be manual, on packet match, scheduled, or on peer notification. The action shall be inject a DUT payload, run a Node script, or send a notification signal. A notification signal shall be addressable to the Core, to all (the Core and the other Nodes), or to one specific Node. The analyst shall confirm the configured trigger and action before it is armed. A manual trigger runs when the analyst starts it. The other triggers run the action when their condition is met. | Must |
 
 !!! note
     Active reconnaissance actions under this section are explicitly excluded from the non-interference constraint defined in BR-ENV-01, and are only performed with explicit operator confirmation.
@@ -162,7 +190,7 @@ The requirements listed below are prioritized using the MoSCoW framework. The Mo
 | ID | Requirement | Priority |
 |---|---|---|
 | BR-EXT-01 | The system shall be extensible to support additional communication protocols as new device types are assessed | Should |
-| BR-EXT-02 | The system shall provide a documented integration interface (e.g., API or scripting interface) allowing external hardware capture tools to connect as an additional data source alongside native Capture Nodes | Could |
+| BR-EXT-02 | The system shall provide a documented integration interface (e.g., API or scripting interface) allowing external hardware capture tools to connect as an additional data source alongside native Nodes with capture enabled | Could |
 
 ### 6.7 Deployment & Delivery
 
@@ -232,13 +260,13 @@ The requirements listed below are prioritized using the MoSCoW framework. The Mo
 | GPIO         | General Purpose Input/Output              | Logic-level digital signal pins used for onboard bus/signal capture                                        |
 | HwRS         | Hardware Requirements Specification       | Document detailing hardware-specific requirements                                                          |
 | HTTP         | HyperText Transfer Protocol               | Network protocol captured as part of the DUT's network traffic                                             |
-| I2C          | Inter-Integrated Circuit                  | An onboard communication bus protocol monitored by Capture Nodes                                           |
+| I2C          | Inter-Integrated Circuit                  | An onboard communication bus protocol monitored by Nodes with capture enabled                              |
 | IoT          | Internet of Things                        | Category of connected embedded devices the system is designed to analyze                                   |
 | IP           | Intellectual Property                     | Ownership rights over code/documentation (mentioned under vendor risk)                                     |
 | JS           | JavaScript                               | Web-based scripting language used for frontend development                                                 |
 | LoRa         | Long Range (wireless protocol)            | A long-range wireless communication protocol supported for capture                                         |
 | MoSCoW       | Must, Should, Could, Won't                | Framework used to prioritize business requirements                                                         |
-| NTP          | Network Time Protocol                     | Protocol used to synchronize time across the Core and Capture Nodes                                        |
+| NTP          | Network Time Protocol                     | Protocol used to synchronize time across the Core and Nodes                                                |
 | OT           | Operational Technology                    | Category of industrial/embedded devices referenced alongside IoT                                           |
 | PCB          | Printed Circuit Board                     | Physical hardware board referenced in hardware branch naming (e.g., pcb-rev2)                             |
 | PR           | Pull Request                              | A GitHub request to merge code changes after review                                                        |
@@ -247,13 +275,13 @@ The requirements listed below are prioritized using the MoSCoW framework. The Mo
 | RFID         | Radio Frequency Identification            | A wireless protocol supported for capture alongside Bluetooth/LoRa                                         |
 | ROI          | Return on Investment                      | Measure of the system's value/benefit over time (BO-12)                                                    |
 | SB           | Snapshot Block                            | A captured state/data snapshot shown on the unified timeline                                               |
-| SPI          | Serial Peripheral Interface               | An onboard communication bus protocol monitored by Capture Nodes                                           |
+| SPI          | Serial Peripheral Interface               | An onboard communication bus protocol monitored by Nodes with capture enabled                              |
 | SwRS         | Software Requirements Specification       | Document detailing software-specific requirements                                                          |
 | SysRS        | System Requirements Specification         | Document detailing top-level system requirements                                                           |
 | TCP          | Transmission Control Protocol             | Network-layer protocol captured as part of DUT network traffic                                             |
 | TS           | TypeScript                                | Typed superset of JavaScript used in web-based development                                                 |
-| UART         | Universal Asynchronous Receiver-Transmitter| An onboard communication bus protocol monitored by Capture Nodes                                           |
+| UART         | Universal Asynchronous Receiver-Transmitter| An onboard communication bus protocol monitored by Nodes with capture enabled                              |
 | UAT          | User Acceptance Testing                   | Formal testing process validating the system before final acceptance                                       |
-| Wi-Fi        | Wireless Fidelity                         | Wireless networking technology used for network traffic and/or Capture Node connectivity                   |
+| Wi-Fi        | Wireless Fidelity                         | Wireless networking technology used for network traffic and/or Node connectivity                           |
 
 

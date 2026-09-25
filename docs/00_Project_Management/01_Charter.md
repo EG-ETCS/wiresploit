@@ -30,10 +30,10 @@ This project exists to eliminate that manual correlation burden by building a sy
 
 **In scope:**
 - A central "core" (Docker-based backend, database, and web UI) that ingests and correlates events.
-- Wireless/wired Capture Nodes attached to onboard buses (I2C, SPI, UART, logic-level/GPIO) on the device under test, reporting to the core, The choice of wired vs. wireless connectivity for Capture Nodes is not fixed at this stage and will be determined by the hardware lead/vendor based on technical feasibility, cost, and DUT constraints.
+- Nodes attached to the device under test. Each Node has two functions, capture and actions, and each function can be enabled or disabled. A Node may capture only, perform actions only, or do both. Each Node has general settings (Node ID, name, description, and a unique color), capture settings (selected protocol and its configuration), and actions settings (a trigger and an action). When a Node connects, the Core reads its Node ID, assigns a unique color, and lists it as Online. Configuration moves it to Ready, and starting its task moves it to Running. The Core marks it Unreachable on heartbeat timeout. The Core lists each Node in its unique color, and the Node's indication LED lights in that same color. Nodes report to the Core. Wired versus wireless connectivity is not fixed at this stage and will be determined by the hardware lead based on technical feasibility, cost, and DUT constraints.
 - Local capture of the core's own HTTP/network traffic to/from the device under test.
 - Real-time multi-lane timeline display, session recording/replay, filtering, annotation, classifying and export.
-- Data analysis capabilities: searching captured communications for hidden secrets or custom search phrase, generating report with diagrams/visualizations of overall system behavior from captured sessions, performing active reconnesance attacks and analyse the device bahaviour.
+- Analysis engines categorized by session and by domain. A domain is a protocol. Single-session engines are single-domain (for example memory reconstruction and IP/domain name detection), multiple-domain (behavioral analysis), or active (packet replay, packet injection, fuzzing). Multiple-session engines are single-domain (memory comparison) or multiple-domain (baseline analysis and pattern detection).
 - Active attacks against the device under test (e.g., bruteforcing, Fuzzing or other active interaction), with capture and analysis of the resulting system responses.
 
 **Out of scope:**

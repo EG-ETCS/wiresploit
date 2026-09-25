@@ -2,7 +2,7 @@
 
 ## BR-MON — Monitoring
 
-**Source BR:** BR-MON-01 to BR-MON-08,
+**Source BR:** BR-MON-01 to BR-MON-12,
 **Assignee:** BK,
 **Status:** Completed.
 
@@ -20,8 +20,7 @@ flowchart TD
     WIRELESS["Wireless Communication<br/>Bluetooth / LoRa / RFID"]
 
     NET_CAPTURE["Network Capture"]
-    CN["Capture Nodes<br/>Onboard Bus Capture"]
-    WIRELESS_CAPTURE["Wireless Capture"]
+    NODES["Nodes<br/>Capture enabled"]
 
     TIMESTAMP["Timestamping & Time Synchronization<br/>Common Time Reference"]
 
@@ -36,16 +35,31 @@ flowchart TD
     DUT --> WIRELESS
 
     NET --> NET_CAPTURE
-    BUS --> CN
-    WIRELESS --> WIRELESS_CAPTURE
+    BUS --> NODES
+    WIRELESS --> NODES
 
     NET_CAPTURE --> TIMESTAMP
-    CN --> TIMESTAMP
-    WIRELESS_CAPTURE --> TIMESTAMP
+    NODES --> TIMESTAMP
 
     TIMESTAMP --> CORE
     CORE --> TIMELINE
     TIMELINE --> ANALYST
+```
+
+### Node state machine
+
+Solid transitions are reported by the Node. The dashed transitions into Unreachable are inferred by the Core from a heartbeat timeout.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Online: Connects
+    Online --> Ready: Configured
+    Ready --> Running: Starts its task
+    Online --> Unreachable: Heartbeat timeout
+    Ready --> Unreachable: Heartbeat timeout
+    Running --> Unreachable: Heartbeat timeout
+    Unreachable --> Online: Not configured
+    Unreachable --> Ready: Already configured
 ```
 
 ### Functional Requirements
@@ -59,21 +73,34 @@ flowchart TD
 | FR-MON-02-1 | The system shall correlate related communication events. | Must | Related events are grouped or linked correctly. |
 | FR-MON-02-2 | The system shall order correlated events chronologically. | Must | Events appear in correct time order on the timeline. |
 | FR-MON-03-1 | The system shall display live events within a documented latency limit. | Should | Measured event-to-display latency is documented and validated. |
-| FR-MON-04-1 | The system shall synchronize Capture Nodes to a common time reference. | Must | All Capture Nodes use the configured common time reference. |
+| FR-MON-04-1 | The system shall synchronize Nodes with capture enabled to a common time reference. | Must | Every Node with capture enabled uses the configured common time reference. |
 | FR-MON-04-2 | The system shall synchronize the Core to the common time reference. | Must | The Core uses the configured common time reference. |
 | FR-MON-04-3 | The system shall document the maximum clock drift between monitoring components. | Must | Maximum observed clock drift is measured and documented. |
-| FR-MON-05-1 | The system shall document the maximum supported number of simultaneous Capture Nodes. | Should | Maximum supported Capture Nodes are identified through testing. |
+| FR-MON-05-1 | The system shall document the maximum supported number of simultaneous Nodes. | Should | Maximum supported Nodes are identified through testing. |
 | FR-MON-05-2 | The system shall document the maximum supported number of simultaneous protocols. | Should | Maximum supported simultaneous protocols are identified through testing. |
-| FR-MON-06-1 | The system shall support triggering a Snapshot Node based on a defined trigger event or signal. | Should | A configured trigger event or signal activates the Snapshot Node. |
-| FR-MON-06-2 | The system shall support triggering a Snapshot Node after a defined delay. | Should | The Snapshot Node is triggered after the configured delay. |
-| FR-MON-06-3 | The system shall support triggering a Snapshot Node based on a detected packet or pattern. | Should | Detection of a configured packet or pattern activates the Snapshot Node. |
-| FR-MON-06-4 | The system shall capture the configured DUT state when a Snapshot Node is triggered. | Should | The configured physical, electrical, or internal state is captured. |
-| FR-MON-07-1 | The system shall timestamp Snapshot Node outputs. | Should | Each snapshot output contains a timestamp. |
+| FR-MON-06-1 | The system shall support triggering a state capture on a Node with capture enabled, based on a defined trigger event or signal. | Should | A configured trigger event or signal starts a state capture on that Node. |
+| FR-MON-06-2 | The system shall support triggering a state capture on a Node with capture enabled after a defined delay. | Should | The state capture starts after the configured delay. |
+| FR-MON-06-3 | The system shall support triggering a state capture on a Node with capture enabled based on a detected packet or pattern. | Should | Detection of a configured packet or pattern starts a state capture on that Node. |
+| FR-MON-06-4 | The system shall capture the configured DUT state when a state capture is triggered on a Node. | Should | The configured physical, electrical, or internal state is captured. |
+| FR-MON-07-1 | The system shall timestamp state-capture outputs from a Node. | Should | Each state-capture output contains a timestamp. |
+| FR-MON-09-1 | The system shall allow the capture function to be enabled or disabled on each Node. | Must | A Node with capture disabled contributes no capture events; a Node with capture enabled does. |
+| FR-MON-09-2 | The system shall allow the actions function to be enabled or disabled on each Node, independently of capture. | Must | A Node can be set to capture only, actions only, or both. A Node with actions disabled cannot execute an action. |
+| FR-MON-10-1 | When a Node connects, the Core shall read its Node ID, assign a unique color, and store general settings: Node ID, Node name, Node description, and that color. | Must | A newly connected Node appears with its ID and a color that no other Node in the session uses. |
+| FR-MON-10-2 | The Core shall show each Node in the Node list using that Node's unique color. | Must | The list entry for a Node uses the same color stored in that Node's general settings. |
+| FR-MON-10-3 | The Node hardware shall light an indication LED in the same unique color shown for that Node on the Core. | Must | The LED color on the physical Node matches the color of its entry in the Core Node list. |
+| FR-MON-11-1 | When capture is enabled, the system shall let the analyst select the protocol that Node captures. | Must | The selected protocol is the protocol whose events that Node reports. |
+| FR-MON-11-2 | When capture is enabled, the system shall let the analyst configure the settings of the selected protocol. | Must | The Node captures using the protocol settings the analyst saved. |
+| FR-MON-12-1 | The system shall track each Node in exactly one of four states: Online, Ready, Running, or Unreachable. | Must | The Core shows one of those four states for every listed Node. |
+| FR-MON-12-2 | When a Node connects, the Core shall read its Node ID, assign its unique color, add it to the Node list, and set its state to Online. | Must | A Node that has just connected and has not been configured is shown as Online. |
+| FR-MON-12-3 | When the analyst finishes configuring a Node that is Online, the system shall set its state to Ready. | Must | After configuration is saved, the Node is shown as Ready and is not yet capturing or performing actions. |
+| FR-MON-12-4 | When a Ready Node starts its task — capturing, decoding, matching packets, performing actions, and sending data packets — the system shall set its state to Running. | Must | While the Node is doing that work, the Core shows Running. |
+| FR-MON-12-5 | The Core shall set a Node to Unreachable when its heartbeat times out, from Online, Ready, or Running. Heartbeat loss includes the Node hanging, being turned off, or losing battery. | Must | Stopping heartbeats moves the Node to Unreachable without a state report from the Node. |
+| FR-MON-12-6 | When an Unreachable Node reconnects, the system shall return it to Online if it was not configured, and to Ready if it was already configured. | Must | An unconfigured Node returns to Online. A previously configured Node returns to Ready, not Running. |
 
 ### Assumptions & Dependencies
-- Capture Nodes and the Core can synchronize to a common local time reference.
-- Required hardware for supported network, onboard-bus, wireless, and snapshot monitoring is available.
-- Snapshot capabilities depend on the type of Snapshot Node being used.
+- Nodes with capture enabled, and the Core, can synchronize to a common local time reference.
+- Required hardware for supported network, onboard-bus, and wireless capture, and for state capture, is available.
+- Which state a Node can record depends on the capture interfaces configured on that Node, not on a separate node type.
 - Maximum supported nodes, protocols, latency, and clock drift require validation on the final hardware configuration.
 - The first version supports monitoring one DUT per session.
 
@@ -82,19 +109,31 @@ flowchart TD
 - What is the target maximum latency for live event display?
 - What is the acceptable maximum clock drift?
 - Will NTP or PTP be used for time synchronization?
-- Which Snapshot Node types will be supported in the first release?
-- Which snapshot analysis capabilities will be available in the first release?
+- Which capture interfaces (camera, GPIO/voltage, memory/register) will be supported on a Node in the first release?
+- Which state-capture analysis capabilities will be available in the first release?
+- Which protocol-specific settings are required for each protocol a Node can capture?
+- What heartbeat timeout marks a Node as Unreachable?
 
 ---
 
 ## BR-ANA — Analytics
 
-**Source BR:** BR-ANA-01 to BR-ANA-08
+**Source BR:** BR-ANA-01 to BR-ANA-09
 **Assignee:** HK
 **Status:** Completed
 
 ### Summary
-The analytics module lets analysts search recorded sessions for sensitive data, generate report-ready diagrams and exports, automatically flag clear-text secrets, reconstruct device memory from bus captures, and track usage/ROI metrics.
+The analytics module records sessions and runs analysis engines. A domain is a protocol. Engines are categorized by how many sessions they use and how many domains they use. Single-session engines are single-domain, multiple-domain, or active. Multiple-session engines are single-domain or multiple-domain. Recording, export, and usage metrics are not analysis engines.
+
+### Analysis engine categories
+
+| Scope | Group | Engines in this document |
+|---|---|---|
+| Single session | Single domain | Memory reconstruction (FR-ANA-07, FR-ANA-08). IP/domain name detection (FR-ANA-09). Sensitive-data search and flagging (FR-ANA-02, FR-ANA-05). |
+| Single session | Multiple domain | Behavioral analysis (FR-ANA-03). |
+| Single session | Active | Packet replay, packet injection, and fuzzing (BR-ACT). |
+| Multiple session | Single domain | Memory comparison (FR-ANA-09). |
+| Multiple session | Multiple domain | Baseline analysis and pattern detection (FR-ANA-09). |
 
 ### Analytics Module Data Flow
 ```mermaid
@@ -126,9 +165,11 @@ flowchart TD
 
 #### FR-ANA-01 — Session Recording & Replay
 
+Not an analysis engine. This stores and plays back a session that engines run on.
+
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
-| FR-ANA-01-1 | The system shall record all captured communication events from an active session, beginning when the analyst starts the session and ending when they stop it. | Must | Starting a session begins capture; all events from active Capture Nodes are present in the saved session. |
+| FR-ANA-01-1 | The system shall record all captured communication events from an active session, beginning when the analyst starts the session and ending when they stop it. | Must | Starting a session begins capture; all events from Nodes with capture enabled are present in the saved session. |
 | FR-ANA-01-2 | The system shall record a timestamp for each captured event. | Must | Each recorded event has an associated timestamp. |
 | FR-ANA-01-3 | The system shall persist a session to storage when the analyst stops it. | Must | A stopped session remains available after the application restarts. |
 | FR-ANA-01-4 | The system shall allow an analyst to play back a previously recorded session. | Must | A stored session can be reloaded and played back. |
@@ -139,6 +180,8 @@ flowchart TD
 ---
 
 #### FR-ANA-02 — Search & Navigation
+
+**Category:** Single session / Single domain. Search inspects one protocol in one session.
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
@@ -152,6 +195,8 @@ flowchart TD
 
 #### FR-ANA-03 — Behavior Diagram Generation
 
+**Category:** Single session / Multiple domain. Behavioral analysis relates events across more than one protocol in one session.
+
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
 | FR-ANA-03-1 | The system shall generate a Mermaid-based visual behavior diagram (e.g., a sequence diagram) from a recorded session's captured events, so analysts can understand a device's communication flow at a glance instead of manually reading the raw timeline, and so the diagram can be dropped directly into a client report. | Should | A Mermaid diagram is produced that reflects the session's captured events and renders correctly in a standard Mermaid viewer. |
@@ -161,6 +206,8 @@ flowchart TD
 ---
 
 #### FR-ANA-04 — Export & Reporting
+
+Not an analysis engine. This exports the results of engines and the recorded session.
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
@@ -178,6 +225,8 @@ flowchart TD
 
 #### FR-ANA-05 — Sensitive-Data Flagging
 
+**Category:** Single session / Single domain. Flagging inspects packets of one protocol in one session.
+
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
 | FR-ANA-05-1 | The system shall inspect captured packets for predefined clear-text sensitive data patterns and automatically flag matching packets, without analyst action. | Should | Plaintext credentials/tokens are automatically detected and flagged without analyst action. |
@@ -188,6 +237,8 @@ flowchart TD
 ---
 
 #### FR-ANA-06 — Usage Metrics
+
+Not an analysis engine. This reports tool usage, not protocol content.
 
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
@@ -203,6 +254,8 @@ flowchart TD
 
 #### FR-ANA-07 — Memory Reconstruction
 
+**Category:** Single session / Single domain. Reconstruction uses one bus protocol in one session.
+
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
 | FR-ANA-07-1 | The system shall extract address/data pairs from captured (e.g., SPI/I2C) bus transactions. | Should | Address/data pairs are correctly parsed from bus capture data. |
@@ -215,6 +268,8 @@ flowchart TD
 
 #### FR-ANA-08 — Reconstruction Completeness
 
+**Category:** Single session / Single domain. Completeness is part of memory reconstruction.
+
 | FR ID | Requirement | Priority | Acceptance Criteria |
 |---|---|---|---|
 | FR-ANA-08-1 | The system shall classify each observed memory address range as fully observed, partially observed, or never captured. | Should | Every address range in the reconstructed memory map is correctly classified into one of the three states. |
@@ -224,6 +279,15 @@ flowchart TD
 ![Reconstructed memory map view with export control](./memory_map_export_view-dark.svg)
 
 ---
+
+#### FR-ANA-09 — Remaining engine categories
+
+| FR ID | Requirement | Priority | Acceptance Criteria |
+|---|---|---|---|
+| FR-ANA-09-1 | The system shall provide an IP/domain name detection engine that inspects one protocol in one session. | Should | In a single session, names or addresses found in one selected protocol are reported with their packet location. |
+| FR-ANA-09-2 | The system shall provide a memory-comparison engine that compares reconstructed memory of one protocol across more than one session. | Should | Two sessions of the same protocol produce a comparison of their reconstructed memory maps. |
+| FR-ANA-09-3 | The system shall provide baseline-analysis and pattern engines that use more than one protocol across more than one session. | Should | An analyst can run a baseline or pattern engine over multiple sessions and more than one protocol. |
+| FR-ANA-09-4 | Packet replay, packet injection, and fuzzing shall be provided as single-session active engines, and shall run only through a Node whose actions function is enabled. | Must | Each of those engines is offered on one session and does not run when the Node's actions function is disabled. |
 
 ### Assumptions & Dependencies
 - Accurate search/flagging depends on reliable timestamps from time sync (FR-MON-04).
@@ -250,22 +314,22 @@ Derived from Business Requirements **BR-ACT-01** and **BR-ACT-03**.
 | **FR-ACT-01.1** | The system shall provide a dedicated "Active Reconnaissance" mode, distinct from passive observation mode, which the analyst must explicitly enter before any active action can be initiated. | Must |
 | **FR-ACT-01.2** | Upon initiating any active reconnaissance action, the system shall display a confirmation dialog that clearly states: (a) the action to be performed, (b) the target DUT identifier, (c) the potential impact on DUT state, and (d) requires the analyst to explicitly confirm (e.g., typed confirmation or dual-button approval) before execution. | Must |
 | **FR-ACT-01.3** | The system shall log all active reconnaissance actions with timestamp, analyst identity, action type, DUT target, and confirmation event into an immutable audit trail. | Must |
-| **FR-ACT-01.4** | During and after an active reconnaissance action, the system shall simultaneously capture and record the DUT's response across all connected capture nodes (wired, wireless, on-board buses) for subsequent analysis. | Must |
+| **FR-ACT-01.4** | During and after an active reconnaissance action, the system shall simultaneously capture and record the DUT's response across all connected Nodes whose capture function is enabled (wired, wireless, on-board buses) for subsequent analysis. | Must |
 | **FR-ACT-01.5** | The system shall allow the analyst to abort an active reconnaissance action mid-execution if the action type supports interruption (e.g., canceling a signal replay), with an immediate notification of partial completion. | Should |
 
 ---
 
-### 2. Trigger Output Mechanisms
+### 2. Actions settings: trigger and action
 
 | ID | Functional Requirement | Priority |
 |---|---|---|
-| **FR-ACT-03.1** | The system shall provide a hardware control interface capable of asserting a reset signal or power-cycling the DUT via a controllable power switch/relay connected to the capture infrastructure. | Must |
-| **FR-ACT-03.2** | The system shall support generation of configurable GPIO pulses (level, duration, pin selection) to the DUT, with parameters editable by the analyst prior to confirmation. | Must |
-| **FR-ACT-03.3** | The system shall support generation or replay of wireless signals (e.g., WiFi, Bluetooth, Zigbee, proprietary RF) through connected SDR or radio capture nodes, using analyst-provided or pre-recorded signal profiles. | Must |
-| **FR-ACT-03.4** | The system shall support generation or replay of on-board protocol frames (e.g., SPI, I2C, UART, CAN, JTAG) through the capture nodes, with configurable payload, timing, and bus parameters. | Must |
-| **FR-ACT-03.5** | For each trigger action in FR-ACT-03.1–03.4, the system shall require the analyst to explicitly configure all parameters and review a summary before the confirmation step in FR-ACT-01.2 is presented. | Must |
-| **FR-ACT-03.6** | The system shall validate configured trigger parameters against the DUT's declared capabilities/connections and warn the analyst if a misconfiguration is detected (e.g., GPIO pin not connected, unsupported protocol). | Should |
-| **FR-ACT-03.7** | The system shall maintain a library of reusable trigger profiles (pre-configured signal/protocol templates) that analysts can select, modify, and save for repeated use. | Should |
+| **FR-ACT-03.1** | On a Node whose actions function is enabled, the system shall let the analyst configure one trigger and one action as that Node's actions settings. | Must |
+| **FR-ACT-03.2** | The trigger shall be one of: manual, on packet match, scheduled, or on peer notification. | Must |
+| **FR-ACT-03.3** | The action shall be one of: inject a DUT payload, run a Node script, or send a notification signal. | Must |
+| **FR-ACT-03.4** | A notification signal shall be addressable to the Core, to all (the Core and the other Nodes), or to one specific Node. | Must |
+| **FR-ACT-03.5** | The analyst shall confirm the configured trigger and action before they are armed. A manual trigger shall run the action when the analyst starts it. An on-packet-match, scheduled, or peer-notification trigger shall run the action when that condition is met. | Must |
+| **FR-ACT-03.6** | A peer-notification trigger shall fire when the Node receives a notification signal sent by another Node. | Must |
+| **FR-ACT-03.7** | The system shall reject an action on a Node whose actions function is disabled. | Must |
 
 
 ---
@@ -336,7 +400,7 @@ _The system shall run on Docker with fixed, predictable versions, and let users 
 **Status:** Completed
 
 ### Summary
-_The system shall grow to support new sniffed protocols over time, and let external capture nodes plug in as an additional data source._
+_The system shall grow to support new sniffed protocols over time, and let external tools plug in as an additional data source alongside Nodes with capture enabled._
 
 ### Functional Requirements
 
@@ -345,7 +409,7 @@ _The system shall grow to support new sniffed protocols over time, and let exter
 | FR-EXT-01-1 | Implement sniffed protocol via a modular architecture, allowing new protocol modules without modifying the core system codebase. | Should | Isolate protocol handling in separate modules with a defined interface. |
 | FR-EXT-01-2 | Define a standard protocol module interface (e.g., required methods/functions for connect, parse, send, disconnect) that any new protocol implementation must conform to. | Should | Review documentation/code for a defined protocol interface (abstract class, contract, or schema); confirm an existing protocol module implements it fully. |
 | FR-EXT-02-1 | Provide a documented API (e.g., REST, or similar) enabling external hardware capture tools to submit captured data to the system. | Could | Call the documented API from an external tool/script and confirm data is accepted. |
-| FR-EXT-02-2 | Treat data received from external capture tools as an additional data source, processed through the same correlation/monitoring pipeline as data from native Capture Nodes. | Could | Equivalent handling for data from both the external integration interface and a native Capture Node.|
+| FR-EXT-02-2 | Treat data received from external capture tools as an additional data source, processed through the same correlation/monitoring pipeline as data from native Nodes with capture enabled. | Could | Equivalent handling for data from both the external integration interface and a native Node with capture enabled.|
 | FR-EXT-02-3 | Validate data submitted by external capture tools and mark them in view if malformed. | Could | Mark in red malformed payloads. |  
 | FR-EXT-02-4 | Log failed connections and data submissions from external capture tools, including source identity, timestamp, and outcome. | Could | Failed data via the integration interface is logged with source, timestamp, and outcome. |
 
@@ -365,14 +429,15 @@ The system must behave as a passive observer during normal monitoring — never 
 flowchart LR
 
     Analyst --> Core
-    Core --> CaptureNodes["Capture Nodes"]
-    CaptureNodes --> DUT["Device Under Test"]
-    DUT -. "Passive Monitoring (listen-only)" .-> CaptureNodes
+    Core --> Nodes["Nodes"]
+    Nodes --> DUT["Device Under Test"]
+    DUT -. "Capture (listen-only, when enabled)" .-> Nodes
+    Nodes -. "Actions (only when enabled)" .-> DUT
 
     subgraph AirGap["Isolated / Air-Gapped Test Bench"]
         Analyst
         Core
-        CaptureNodes
+        Nodes
         DUT
     end
 
@@ -391,7 +456,7 @@ flowchart LR
 | FR-ENV-01-1 | The system shall operate in a listen-only (passive) mode on all monitored interfaces — network, onboard-bus, and wireless — during standard monitoring sessions. | Must | No outbound transmission, injection, or signal alteration occurs on any monitored interface while in passive monitoring mode. |
 | FR-ENV-01-2 | The system shall not transmit, inject, or otherwise alter any signal on a monitored interface while operating in passive monitoring mode. | Must | Electrical/timing measurements on tapped interfaces show no measurable deviation from baseline DUT behavior during passive monitoring. |
 | FR-ENV-01-3 | The system shall visually indicate to the analyst which mode is currently active — passive monitoring or active reconnaissance (per FR-ACT). | Should | The active mode is clearly and unambiguously displayed in the interface at all times. |
-| FR-ENV-01-4 | The system shall apply the non-interference constraint only while operating in Passive Monitoring mode. When operating in Active Reconnaissance mode the system shall permit authorized actions that intentionally interact with the Device Under Test (DUT), provided they have been explicitly confirmed by the analyst. | Must | Active reconnaissance actions execute normally and are not blocked or flagged by non-interference checks. |
+| FR-ENV-01-4 | The system shall apply the non-interference constraint only while operating in Passive Monitoring mode. When operating in Active Reconnaissance mode the system shall permit authorized actions that intentionally interact with the Device Under Test (DUT), provided they have been explicitly confirmed by the analyst and the target Node has its actions function enabled. | Must | Confirmed actions execute on a Node with actions enabled, and are rejected when that function is disabled. |
 | FR-ENV-02-1 | The system shall support live monitoring without requiring an outbound or inbound internet connection during runtime. | Must | Live monitoring operates correctly while the test-bench network is disconnected from the internet. |
 | FR-ENV-02-2 | The system shall perform event correlation without requiring an outbound or inbound internet connection during runtime. | Must | Event correlation functions correctly while the test-bench network is disconnected from the internet. |
 | FR-ENV-02-3 | The system shall record sessions without requiring an outbound or inbound internet connection during runtime. | Must | Session recording operates correctly while the test-bench network is disconnected from the internet. |
@@ -403,7 +468,7 @@ flowchart LR
 
 ### Assumptions & Dependencies
 - The monitoring hardware is correctly connected to the DUT.
-- The deployment environment provides local networking between the Core and Capture Nodes.
+- The deployment environment provides local networking between the Core and Nodes.
 - Docker images and required dependencies are downloaded before deployment into an air-gapped environment.
 
 ### Open Questions
@@ -441,7 +506,7 @@ flowchart LR
 | FR-ACC-01-1 | The system shall be validated through a documented UAT test plan covering all Must-priority business requirements, executed against real DUT scenarios. | Must | A UAT test plan exists mapping test cases to Must-priority BRs, and all cases are executed against a real DUT. |
 | FR-ACC-01-2 | The system shall record UAT results (pass/fail per scenario, with evidence) for review. | Must | UAT results are documented per scenario with pass/fail status and supporting evidence (logs, screenshots, or captures). |
 | FR-ACC-01-3 | The system shall require formal stakeholder sign-off confirming UAT completion before being considered delivered. | Must | A signed/recorded acceptance confirmation exists from the designated stakeholder(s) referencing the completed UAT results. |
-| FR-ACC-02-1 | The project shall produce training material (e.g., user guide, quick-start guide, walkthrough) covering core system operation. | Should | Training material exists and covers, at minimum, session setup, live monitoring, snapshot triggering, and session export/reporting. |
+| FR-ACC-02-1 | The project shall produce training material (e.g., user guide, quick-start guide, walkthrough) covering core system operation. | Should | Training material exists and covers, at minimum, session setup, enabling capture and actions on a Node, live monitoring, state capture, and session export/reporting. |
 | FR-ACC-02-2 | The project shall deliver an onboarding session or equivalent training activity to analysts prior to full system adoption. | Should | At least one training session is conducted and attendance/completion is recorded prior to declaring full adoption. |
 | FR-ACC-02-3 | The training material shall be reviewed for completeness and accuracy against the delivered system's actual functionality. | Could | A review/feedback checklist confirms training material matches current system behavior, with discrepancies logged and resolved. |
 
