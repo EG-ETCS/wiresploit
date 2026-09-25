@@ -919,6 +919,50 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#br-mon-09-node-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-09 — Node functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-10-node-general-settings-and-color" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-10 — Node general settings and color
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-11-capture-protocol-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-11 — Capture protocol settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-12-node-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-12 — Node state machine
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1018,6 +1062,17 @@
     <span class="md-ellipsis">
       
         BR-ANA-08 — Reconstruction completeness indication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-09-analysis-engine-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-09 — Analysis engine categories
       
     </span>
   </a>
@@ -1487,6 +1542,50 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#br-mon-09-node-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-09 — Node functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-10-node-general-settings-and-color" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-10 — Node general settings and color
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-11-capture-protocol-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-11 — Capture protocol settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-mon-12-node-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-MON-12 — Node state machine
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1586,6 +1685,17 @@
     <span class="md-ellipsis">
       
         BR-ANA-08 — Reconstruction completeness indication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#br-ana-09-analysis-engine-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BR-ANA-09 — Analysis engine categories
       
     </span>
   </a>
@@ -1953,7 +2063,7 @@
 <tr>
 <td>AC-MON-01.2</td>
 <td>G/W/T</td>
-<td><strong>Given</strong> at least two Capture Nodes of different protocol types are connected and active, <strong>when</strong> the analyst opens a live session, <strong>then</strong> events from both protocols appear on the same unified view without manual switching.</td>
+<td><strong>Given</strong> at least two Nodes with capture enabled, of different protocol types, are connected and active, <strong>when</strong> the analyst opens a live session, <strong>then</strong> events from both protocols appear on the same unified view without manual switching.</td>
 </tr>
 </tbody>
 </table>
@@ -2014,12 +2124,12 @@
 <tr>
 <td>AC-MON-04.1</td>
 <td>Measurable</td>
-<td>All Capture Nodes and the core synchronize to a local/on-premises NTP or PTP server with no dependency on external internet connectivity.</td>
+<td>All Nodes with capture enabled, and the Core, synchronize to a local/on-premises NTP or PTP server with no dependency on external internet connectivity.</td>
 </tr>
 <tr>
 <td>AC-MON-04.2</td>
 <td>Measurable</td>
-<td>The system documents a maximum clock drift value (e.g., in µs/ms) between any two Capture Nodes and the core, verified by test measurement.</td>
+<td>The system documents a maximum clock drift value (e.g., in µs/ms) between any two Nodes with capture enabled and the Core, verified by test measurement.</td>
 </tr>
 <tr>
 <td>AC-MON-04.3</td>
@@ -2041,7 +2151,7 @@
 <tr>
 <td>AC-MON-05.1</td>
 <td>Measurable</td>
-<td>The system documentation states the maximum number of simultaneous Capture Nodes/protocols supported without degradation in correlation accuracy or timeline responsiveness.</td>
+<td>The system documentation states the maximum number of simultaneous Nodes/protocols supported without degradation in correlation accuracy or timeline responsiveness.</td>
 </tr>
 <tr>
 <td>AC-MON-05.2</td>
@@ -2121,8 +2231,163 @@
 </tr>
 </tbody>
 </table>
+<h3 id="br-mon-09-node-functions">BR-MON-09 — Node functions</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-09.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a Node with capture enabled and actions disabled, <strong>when</strong> a session is running, <strong>then</strong> the Node reports capture events and the system rejects any action command sent to it.</td>
+</tr>
+<tr>
+<td>AC-MON-09.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a Node with capture disabled and actions enabled, <strong>when</strong> the analyst confirms an action, <strong>then</strong> the Node performs that action and contributes no capture events.</td>
+</tr>
+<tr>
+<td>AC-MON-09.3</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a Node with both capture and actions enabled, <strong>when</strong> a session is running and the analyst confirms an action, <strong>then</strong> the Node reports capture events and performs the action.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-10-node-general-settings-and-color">BR-MON-10 — Node general settings and color</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-10.1</td>
+<td>Measurable</td>
+<td>Each Node has general settings consisting of a Node ID, a Node name, a Node description, and a color, and no two Nodes in the same session share that color.</td>
+</tr>
+<tr>
+<td>AC-MON-10.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> two Nodes with different unique colors, <strong>when</strong> the analyst views the Node list on the Core, <strong>then</strong> each list entry is shown in that Node's color.</td>
+</tr>
+<tr>
+<td>AC-MON-10.3</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a Node whose general settings assign a unique color, <strong>when</strong> that Node is connected, <strong>then</strong> its indication LED lights in the same color shown for it on the Core.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-11-capture-protocol-settings">BR-MON-11 — Capture protocol settings</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-11.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a Node with capture enabled, <strong>when</strong> the analyst selects a protocol and saves that protocol's settings, <strong>then</strong> the Node captures that protocol using the saved settings.</td>
+</tr>
+<tr>
+<td>AC-MON-11.2</td>
+<td>Measurable</td>
+<td>Changing the selected protocol changes which protocol's events that Node reports.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="br-mon-12-node-state-machine">BR-MON-12 — Node state machine</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-MON-12.1</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a Node that has just connected and has not been configured, <strong>when</strong> the Core reads its Node ID, <strong>then</strong> the Core assigns a unique color, adds the Node to the Node list, and shows the state Online.</td>
+</tr>
+<tr>
+<td>AC-MON-12.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a Node in Online, <strong>when</strong> the analyst saves its configuration, <strong>then</strong> the state becomes Ready and the Node is not yet capturing or performing actions.</td>
+</tr>
+<tr>
+<td>AC-MON-12.3</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a Node in Ready, <strong>when</strong> it starts capturing, decoding, matching packets, performing actions, or sending data packets, <strong>then</strong> the state becomes Running.</td>
+</tr>
+<tr>
+<td>AC-MON-12.4</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> a Node in Online, Ready, or Running, <strong>when</strong> its heartbeat times out, <strong>then</strong> the Core shows Unreachable without a state report from the Node.</td>
+</tr>
+<tr>
+<td>AC-MON-12.5</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> an Unreachable Node that was not configured, <strong>when</strong> it reconnects, <strong>then</strong> its state is Online.</td>
+</tr>
+<tr>
+<td>AC-MON-12.6</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> an Unreachable Node that was already configured, <strong>when</strong> it reconnects, <strong>then</strong> its state is Ready.</td>
+</tr>
+</tbody>
+</table>
 <hr>
 <h2 id="2-session-recording-analysis-reporting">2. Session Recording, Analysis &amp; Reporting</h2>
+<p>Analysis engines use the categories in BR-ANA-09. A domain is a protocol. Recording, export, and usage metrics are not engines.</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Group</th>
+<th>Covered by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single session</td>
+<td>Single domain</td>
+<td>BR-ANA-02, BR-ANA-05, BR-ANA-07, BR-ANA-08, and IP/domain name detection</td>
+</tr>
+<tr>
+<td>Single session</td>
+<td>Multiple domain</td>
+<td>BR-ANA-03 behavioral analysis</td>
+</tr>
+<tr>
+<td>Single session</td>
+<td>Active</td>
+<td>Packet replay, packet injection, and fuzzing (BR-ACT)</td>
+</tr>
+<tr>
+<td>Multiple session</td>
+<td>Single domain</td>
+<td>Memory comparison</td>
+</tr>
+<tr>
+<td>Multiple session</td>
+<td>Multiple domain</td>
+<td>Baseline analysis and pattern detection</td>
+</tr>
+</tbody>
+</table>
 <h3 id="br-ana-01-record-playback-sessions">BR-ANA-01 — Record &amp; playback sessions</h3>
 <table>
 <thead>
@@ -2299,6 +2564,43 @@
 </tr>
 </tbody>
 </table>
+<h3 id="br-ana-09-analysis-engine-categories">BR-ANA-09 — Analysis engine categories</h3>
+<table>
+<thead>
+<tr>
+<th>AC ID</th>
+<th>Format</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-ANA-09.1</td>
+<td>Measurable</td>
+<td>Each analysis engine is presented in one of these groups: single session / single domain, single session / multiple domain, single session / active, multiple session / single domain, or multiple session / multiple domain.</td>
+</tr>
+<tr>
+<td>AC-ANA-09.2</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> one recorded session and one selected protocol, <strong>when</strong> the analyst runs IP/domain name detection or memory reconstruction, <strong>then</strong> the result uses only that session and that protocol.</td>
+</tr>
+<tr>
+<td>AC-ANA-09.3</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> one recorded session containing more than one protocol, <strong>when</strong> the analyst runs behavioral analysis, <strong>then</strong> the result relates events across those protocols.</td>
+</tr>
+<tr>
+<td>AC-ANA-09.4</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> two sessions of the same protocol, <strong>when</strong> the analyst runs memory comparison, <strong>then</strong> the result compares that protocol's reconstructed memory across the two sessions.</td>
+</tr>
+<tr>
+<td>AC-ANA-09.5</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> more than one session and more than one protocol, <strong>when</strong> the analyst runs baseline analysis or pattern detection, <strong>then</strong> the result uses those sessions and protocols together.</td>
+</tr>
+</tbody>
+</table>
 <hr>
 <h2 id="3-active-triggering-dut-control">3. Active Triggering &amp; DUT Control</h2>
 <h3 id="br-act-01-controlled-active-reconnaissance-with-confirmation">BR-ACT-01 — Controlled active reconnaissance with confirmation</h3>
@@ -2341,12 +2643,12 @@
 <tr>
 <td>AC-ACT-02.1</td>
 <td>Measurable</td>
-<td>The operator can define a trigger condition (event, pattern, or signal) through the UI/config, without requiring code changes.</td>
+<td>The operator can set a Node's actions trigger to manual, on packet match, scheduled, or on peer notification, without requiring code changes.</td>
 </tr>
 <tr>
 <td>AC-ACT-02.2</td>
 <td>G/W/T</td>
-<td><strong>Given</strong> a configured trigger condition, <strong>when</strong> that condition is met during a session, <strong>then</strong> the associated output action initiates automatically.</td>
+<td><strong>Given</strong> an armed on-packet-match, scheduled, or peer-notification trigger, <strong>when</strong> that condition is met during a session, <strong>then</strong> the associated action runs.</td>
 </tr>
 </tbody>
 </table>
@@ -2363,12 +2665,17 @@
 <tr>
 <td>AC-ACT-03.1</td>
 <td>Measurable</td>
-<td>The system supports, at minimum, these output actions: (a) hardware reset/power-cycle of the DUT, (b) wired/logic-level output signal (e.g., GPIO pulse), (c) wireless signal generation/replay, (d) on-board protocol generation/replay via capture nodes.</td>
+<td>On a Node whose actions function is enabled, the configured action is one of: inject a DUT payload, run a Node script, or send a notification signal. A notification signal can be sent to the Core, to all (the Core and the other Nodes), or to one specific Node.</td>
 </tr>
 <tr>
 <td>AC-ACT-03.2</td>
 <td>G/W/T</td>
-<td><strong>Given</strong> any of the above output actions is selected, <strong>when</strong> the operator has not explicitly configured/confirmed it, <strong>then</strong> the system does not execute it.</td>
+<td><strong>Given</strong> a trigger and action are selected, <strong>when</strong> the analyst has not confirmed them, <strong>then</strong> the system does not arm or execute that action.</td>
+</tr>
+<tr>
+<td>AC-ACT-03.3</td>
+<td>G/W/T</td>
+<td><strong>Given</strong> Node A sends a notification signal to Node B, and Node B's trigger is on peer notification, <strong>when</strong> Node B receives that signal, <strong>then</strong> Node B runs its configured action.</td>
 </tr>
 </tbody>
 </table>
@@ -2453,7 +2760,7 @@
 <tr>
 <td>AC-SEC-04.1</td>
 <td>Measurable</td>
-<td>Wireless communication between Capture Nodes and the core is encrypted and authenticated (e.g., TLS or equivalent), verified via traffic inspection showing no plaintext payload.</td>
+<td>Wireless communication between Nodes and the Core is encrypted and authenticated (e.g., TLS or equivalent), verified via traffic inspection showing no plaintext payload.</td>
 </tr>
 <tr>
 <td>AC-SEC-04.2</td>

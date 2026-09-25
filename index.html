@@ -1768,7 +1768,7 @@ fix/core/BR-ANA-08-memory-overlap
 <p>All work should be done through Pull Requests (PRs), never by directly committing to <code>main</code> or <code>develop</code> or <code>docs</code>.</p>
 </div>
 <h2 id="4-coding-standards-commenting-guidelines">4. Coding Standards &amp; Commenting Guidelines</h2>
-<p>This section defines the coding rules, style conventions, and commenting standards to be followed across all components of Wiresploit. The goal is to keep the codebase consistent, readable, secure, and maintainable across the core (backend + UI) and Capture Node firmware, regardless of which engineer is writing the code per BO-06.</p>
+<p>This section defines the coding rules, style conventions, and commenting standards to be followed across all components of Wiresploit. The goal is to keep the codebase consistent, readable, secure, and maintainable across the Core (backend + UI) and Node firmware, regardless of which engineer is writing the code per BO-06.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>BO-06: Build a reusable, extensible internal tool/platform rather than a one-off script, so it can grow with future assessment needs</p>
@@ -1777,7 +1777,7 @@ fix/core/BR-ANA-08-memory-overlap
 <ol>
 <li><strong class="_red">Clarity over cleverness.</strong> Code is read far more often than it is written. Prefer the obvious solution over a "smart" one-liner code.</li>
 <li><strong class="_red">Single Responsibility.</strong> Each function/class/module should do single task. If you need to perform multiple tasks, split it into two functions.</li>
-<li><strong class="_red">No magic numbers/strings.</strong> Use named constants or enums (e.g., <code>MAX_CAPTURE_NODES</code>, not <code>16</code>).</li>
+<li><strong class="_red">No magic numbers/strings.</strong> Use named constants or enums (e.g., <code>MAX_NODES</code>, not <code>16</code>).</li>
 <li><strong class="_red">Fail loudly, fail safely.</strong> Never silently swallow errors. a hidden failure means lost evidence — log it, surface it, and handle it explicitly.</li>
 <li><strong class="_red">Consistent formatting.</strong> Use an auto-formatter per language (see §5) and run it before every commit. Formatting is not a matter of personal taste in this project.</li>
 <li><strong class="_red">No commented-out code in commits.</strong> Delete commented-out code sections before committing code to github,  version control (Git) already remembers it.</li>
@@ -1796,9 +1796,9 @@ fix/core/BR-ANA-08-memory-overlap
 <tbody>
 <tr>
 <td>Variables / functions</td>
-<td><code>snake_case</code> — <code>capture_node_id</code>, <code>def get_session_timeline():</code></td>
-<td><code>snake_case</code> — <code>capture_node_id</code>, <code>read_i2c_frame()</code></td>
-<td><code>camelCase</code> — <code>captureNodeId</code>, <code>getSessionTimeline()</code></td>
+<td><code>snake_case</code> — <code>node_id</code>, <code>def get_session_timeline():</code></td>
+<td><code>snake_case</code> — <code>node_id</code>, <code>read_i2c_frame()</code></td>
+<td><code>camelCase</code> — <code>nodeId</code>, <code>getSessionTimeline()</code></td>
 </tr>
 <tr>
 <td>Classes / Types</td>
@@ -1829,7 +1829,7 @@ fix/core/BR-ANA-08-memory-overlap
 <p>Domain terms from the BRD/Charter must be used consistently and match the documents exactly:</p>
 <ul>
 <li><strong>Core</strong> (not "server" or "backend" alone)</li>
-<li><strong>Capture Node</strong> (not "sniffer" or "probe")</li>
+<li><strong>Node</strong> (not "Capture Node", "Injection Node", "Snapshot Node", "sniffer", or "probe"). A Node has two functions, <strong>capture</strong> and <strong>actions</strong>, each of which can be enabled or disabled. Each Node has general settings (Node ID, name, description, unique color), capture settings (protocol and protocol settings), and actions settings (a trigger and an action). Each Node is in one state: <strong>Online</strong>, <strong>Ready</strong>, <strong>Running</strong>, or <strong>Unreachable</strong>.</li>
 <li><strong>Communication Block (CB)</strong> / <strong>Snapshot Block (SB)</strong></li>
 <li><strong>Device Under Test (DUT)</strong></li>
 </ul>
@@ -1843,19 +1843,19 @@ fix/core/BR-ANA-08-memory-overlap
 <span class="c1"># increment the retry counter by 1</span>
 <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<span class="c1"># loop through all capture nodes</span>
-<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">capture_nodes</span><span class="p">:</span>
+<span class="c1"># loop through all nodes</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
     <span class="c1"># check if node is synced</span>
     <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_synced</span><span class="p">:</span>
         <span class="n">node</span><span class="o">.</span><span class="n">send_heartbeat</span><span class="p">()</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="c1"># good comment</span>
 
-<span class="c1"># Retry up to MAX_RETRIES because Capture Nodes on wireless links</span>
+<span class="c1"># Retry up to MAX_RETRIES because Nodes on wireless links</span>
 <span class="c1"># occasionally miss the first heartbeat after a Wi-Fi channel hop.</span>
 <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">capture_nodes</span><span class="p">:</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
     <span class="c1"># Skip unsynced nodes — sending a heartbeat before PTP sync completes</span>
     <span class="c1"># can be misread by the node as a reset trigger (see BR-MON-04).</span>
     <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_synced</span><span class="p">:</span>
@@ -1903,7 +1903,7 @@ fix/core/BR-ANA-08-memory-overlap
 
 <span class="sd">    Args:</span>
 <span class="sd">        network_events: Timestamped events captured from the core's network tap.</span>
-<span class="sd">        bus_events: Timestamped events reported by Capture Nodes (I2C/SPI/UART/GPIO).</span>
+<span class="sd">        bus_events: Timestamped events reported by Nodes with capture enabled (I2C/SPI/UART/GPIO).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A time-ordered list of CommunicationBlock objects.</span>

@@ -665,6 +665,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#node-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node state machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#functional-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -719,6 +730,17 @@
     <span class="md-ellipsis">
       
         Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis-engine-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analysis engine categories
       
     </span>
   </a>
@@ -836,6 +858,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fr-ana-09-remaining-engine-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FR-ANA-09 — Remaining engine categories
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -903,10 +936,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-trigger-output-mechanisms" class="md-nav__link">
+  <a href="#2-actions-settings-trigger-and-action" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Trigger Output Mechanisms
+        2. Actions settings: trigger and action
       
     </span>
   </a>
@@ -1509,6 +1542,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#node-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node state machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#functional-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1563,6 +1607,17 @@
     <span class="md-ellipsis">
       
         Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis-engine-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analysis engine categories
       
     </span>
   </a>
@@ -1680,6 +1735,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fr-ana-09-remaining-engine-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FR-ANA-09 — Remaining engine categories
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1747,10 +1813,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-trigger-output-mechanisms" class="md-nav__link">
+  <a href="#2-actions-settings-trigger-and-action" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Trigger Output Mechanisms
+        2. Actions settings: trigger and action
       
     </span>
   </a>
@@ -2086,7 +2152,7 @@
 
 <div><h1 id="business-requirements-functional-requirements">Business Requirements → Functional Requirements</h1>
 <h2 id="br-mon-monitoring">BR-MON — Monitoring</h2>
-<p><strong>Source BR:</strong> BR-MON-01 to BR-MON-08,
+<p><strong>Source BR:</strong> BR-MON-01 to BR-MON-12,
 <strong>Assignee:</strong> BK,
 <strong>Status:</strong> Completed.</p>
 <h3 id="summary">Summary</h3>
@@ -2100,8 +2166,7 @@
     WIRELESS["Wireless Communication&lt;br/&gt;Bluetooth / LoRa / RFID"]
 
     NET_CAPTURE["Network Capture"]
-    CN["Capture Nodes&lt;br/&gt;Onboard Bus Capture"]
-    WIRELESS_CAPTURE["Wireless Capture"]
+    NODES["Nodes&lt;br/&gt;Capture enabled"]
 
     TIMESTAMP["Timestamping &amp; Time Synchronization&lt;br/&gt;Common Time Reference"]
 
@@ -2116,16 +2181,26 @@
     DUT --&gt; WIRELESS
 
     NET --&gt; NET_CAPTURE
-    BUS --&gt; CN
-    WIRELESS --&gt; WIRELESS_CAPTURE
+    BUS --&gt; NODES
+    WIRELESS --&gt; NODES
 
     NET_CAPTURE --&gt; TIMESTAMP
-    CN --&gt; TIMESTAMP
-    WIRELESS_CAPTURE --&gt; TIMESTAMP
+    NODES --&gt; TIMESTAMP
 
     TIMESTAMP --&gt; CORE
     CORE --&gt; TIMELINE
     TIMELINE --&gt; ANALYST</code></pre>
+<h3 id="node-state-machine">Node state machine</h3>
+<p>Solid transitions are reported by the Node. The dashed transitions into Unreachable are inferred by the Core from a heartbeat timeout.</p>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; Online: Connects
+    Online --&gt; Ready: Configured
+    Ready --&gt; Running: Starts its task
+    Online --&gt; Unreachable: Heartbeat timeout
+    Ready --&gt; Unreachable: Heartbeat timeout
+    Running --&gt; Unreachable: Heartbeat timeout
+    Unreachable --&gt; Online: Not configured
+    Unreachable --&gt; Ready: Already configured</code></pre>
 <h3 id="functional-requirements">Functional Requirements</h3>
 <table>
 <thead>
@@ -2181,9 +2256,9 @@
 </tr>
 <tr>
 <td>FR-MON-04-1</td>
-<td>The system shall synchronize Capture Nodes to a common time reference.</td>
+<td>The system shall synchronize Nodes with capture enabled to a common time reference.</td>
 <td>Must</td>
-<td>All Capture Nodes use the configured common time reference.</td>
+<td>Every Node with capture enabled uses the configured common time reference.</td>
 </tr>
 <tr>
 <td>FR-MON-04-2</td>
@@ -2199,9 +2274,9 @@
 </tr>
 <tr>
 <td>FR-MON-05-1</td>
-<td>The system shall document the maximum supported number of simultaneous Capture Nodes.</td>
+<td>The system shall document the maximum supported number of simultaneous Nodes.</td>
 <td>Should</td>
-<td>Maximum supported Capture Nodes are identified through testing.</td>
+<td>Maximum supported Nodes are identified through testing.</td>
 </tr>
 <tr>
 <td>FR-MON-05-2</td>
@@ -2211,41 +2286,119 @@
 </tr>
 <tr>
 <td>FR-MON-06-1</td>
-<td>The system shall support triggering a Snapshot Node based on a defined trigger event or signal.</td>
+<td>The system shall support triggering a state capture on a Node with capture enabled, based on a defined trigger event or signal.</td>
 <td>Should</td>
-<td>A configured trigger event or signal activates the Snapshot Node.</td>
+<td>A configured trigger event or signal starts a state capture on that Node.</td>
 </tr>
 <tr>
 <td>FR-MON-06-2</td>
-<td>The system shall support triggering a Snapshot Node after a defined delay.</td>
+<td>The system shall support triggering a state capture on a Node with capture enabled after a defined delay.</td>
 <td>Should</td>
-<td>The Snapshot Node is triggered after the configured delay.</td>
+<td>The state capture starts after the configured delay.</td>
 </tr>
 <tr>
 <td>FR-MON-06-3</td>
-<td>The system shall support triggering a Snapshot Node based on a detected packet or pattern.</td>
+<td>The system shall support triggering a state capture on a Node with capture enabled based on a detected packet or pattern.</td>
 <td>Should</td>
-<td>Detection of a configured packet or pattern activates the Snapshot Node.</td>
+<td>Detection of a configured packet or pattern starts a state capture on that Node.</td>
 </tr>
 <tr>
 <td>FR-MON-06-4</td>
-<td>The system shall capture the configured DUT state when a Snapshot Node is triggered.</td>
+<td>The system shall capture the configured DUT state when a state capture is triggered on a Node.</td>
 <td>Should</td>
 <td>The configured physical, electrical, or internal state is captured.</td>
 </tr>
 <tr>
 <td>FR-MON-07-1</td>
-<td>The system shall timestamp Snapshot Node outputs.</td>
+<td>The system shall timestamp state-capture outputs from a Node.</td>
 <td>Should</td>
-<td>Each snapshot output contains a timestamp.</td>
+<td>Each state-capture output contains a timestamp.</td>
+</tr>
+<tr>
+<td>FR-MON-09-1</td>
+<td>The system shall allow the capture function to be enabled or disabled on each Node.</td>
+<td>Must</td>
+<td>A Node with capture disabled contributes no capture events; a Node with capture enabled does.</td>
+</tr>
+<tr>
+<td>FR-MON-09-2</td>
+<td>The system shall allow the actions function to be enabled or disabled on each Node, independently of capture.</td>
+<td>Must</td>
+<td>A Node can be set to capture only, actions only, or both. A Node with actions disabled cannot execute an action.</td>
+</tr>
+<tr>
+<td>FR-MON-10-1</td>
+<td>When a Node connects, the Core shall read its Node ID, assign a unique color, and store general settings: Node ID, Node name, Node description, and that color.</td>
+<td>Must</td>
+<td>A newly connected Node appears with its ID and a color that no other Node in the session uses.</td>
+</tr>
+<tr>
+<td>FR-MON-10-2</td>
+<td>The Core shall show each Node in the Node list using that Node's unique color.</td>
+<td>Must</td>
+<td>The list entry for a Node uses the same color stored in that Node's general settings.</td>
+</tr>
+<tr>
+<td>FR-MON-10-3</td>
+<td>The Node hardware shall light an indication LED in the same unique color shown for that Node on the Core.</td>
+<td>Must</td>
+<td>The LED color on the physical Node matches the color of its entry in the Core Node list.</td>
+</tr>
+<tr>
+<td>FR-MON-11-1</td>
+<td>When capture is enabled, the system shall let the analyst select the protocol that Node captures.</td>
+<td>Must</td>
+<td>The selected protocol is the protocol whose events that Node reports.</td>
+</tr>
+<tr>
+<td>FR-MON-11-2</td>
+<td>When capture is enabled, the system shall let the analyst configure the settings of the selected protocol.</td>
+<td>Must</td>
+<td>The Node captures using the protocol settings the analyst saved.</td>
+</tr>
+<tr>
+<td>FR-MON-12-1</td>
+<td>The system shall track each Node in exactly one of four states: Online, Ready, Running, or Unreachable.</td>
+<td>Must</td>
+<td>The Core shows one of those four states for every listed Node.</td>
+</tr>
+<tr>
+<td>FR-MON-12-2</td>
+<td>When a Node connects, the Core shall read its Node ID, assign its unique color, add it to the Node list, and set its state to Online.</td>
+<td>Must</td>
+<td>A Node that has just connected and has not been configured is shown as Online.</td>
+</tr>
+<tr>
+<td>FR-MON-12-3</td>
+<td>When the analyst finishes configuring a Node that is Online, the system shall set its state to Ready.</td>
+<td>Must</td>
+<td>After configuration is saved, the Node is shown as Ready and is not yet capturing or performing actions.</td>
+</tr>
+<tr>
+<td>FR-MON-12-4</td>
+<td>When a Ready Node starts its task — capturing, decoding, matching packets, performing actions, and sending data packets — the system shall set its state to Running.</td>
+<td>Must</td>
+<td>While the Node is doing that work, the Core shows Running.</td>
+</tr>
+<tr>
+<td>FR-MON-12-5</td>
+<td>The Core shall set a Node to Unreachable when its heartbeat times out, from Online, Ready, or Running. Heartbeat loss includes the Node hanging, being turned off, or losing battery.</td>
+<td>Must</td>
+<td>Stopping heartbeats moves the Node to Unreachable without a state report from the Node.</td>
+</tr>
+<tr>
+<td>FR-MON-12-6</td>
+<td>When an Unreachable Node reconnects, the system shall return it to Online if it was not configured, and to Ready if it was already configured.</td>
+<td>Must</td>
+<td>An unconfigured Node returns to Online. A previously configured Node returns to Ready, not Running.</td>
 </tr>
 </tbody>
 </table>
 <h3 id="assumptions-dependencies">Assumptions &amp; Dependencies</h3>
 <ul>
-<li>Capture Nodes and the Core can synchronize to a common local time reference.</li>
-<li>Required hardware for supported network, onboard-bus, wireless, and snapshot monitoring is available.</li>
-<li>Snapshot capabilities depend on the type of Snapshot Node being used.</li>
+<li>Nodes with capture enabled, and the Core, can synchronize to a common local time reference.</li>
+<li>Required hardware for supported network, onboard-bus, and wireless capture, and for state capture, is available.</li>
+<li>Which state a Node can record depends on the capture interfaces configured on that Node, not on a separate node type.</li>
 <li>Maximum supported nodes, protocols, latency, and clock drift require validation on the final hardware configuration.</li>
 <li>The first version supports monitoring one DUT per session.</li>
 </ul>
@@ -2254,16 +2407,55 @@
 <li>What is the target maximum latency for live event display?</li>
 <li>What is the acceptable maximum clock drift?</li>
 <li>Will NTP or PTP be used for time synchronization?</li>
-<li>Which Snapshot Node types will be supported in the first release?</li>
-<li>Which snapshot analysis capabilities will be available in the first release?</li>
+<li>Which capture interfaces (camera, GPIO/voltage, memory/register) will be supported on a Node in the first release?</li>
+<li>Which state-capture analysis capabilities will be available in the first release?</li>
+<li>Which protocol-specific settings are required for each protocol a Node can capture?</li>
+<li>What heartbeat timeout marks a Node as Unreachable?</li>
 </ul>
 <hr>
 <h2 id="br-ana-analytics">BR-ANA — Analytics</h2>
-<p><strong>Source BR:</strong> BR-ANA-01 to BR-ANA-08
+<p><strong>Source BR:</strong> BR-ANA-01 to BR-ANA-09
 <strong>Assignee:</strong> HK
 <strong>Status:</strong> Completed</p>
 <h3 id="summary_1">Summary</h3>
-<p>The analytics module lets analysts search recorded sessions for sensitive data, generate report-ready diagrams and exports, automatically flag clear-text secrets, reconstruct device memory from bus captures, and track usage/ROI metrics.</p>
+<p>The analytics module records sessions and runs analysis engines. A domain is a protocol. Engines are categorized by how many sessions they use and how many domains they use. Single-session engines are single-domain, multiple-domain, or active. Multiple-session engines are single-domain or multiple-domain. Recording, export, and usage metrics are not analysis engines.</p>
+<h3 id="analysis-engine-categories">Analysis engine categories</h3>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Group</th>
+<th>Engines in this document</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single session</td>
+<td>Single domain</td>
+<td>Memory reconstruction (FR-ANA-07, FR-ANA-08). IP/domain name detection (FR-ANA-09). Sensitive-data search and flagging (FR-ANA-02, FR-ANA-05).</td>
+</tr>
+<tr>
+<td>Single session</td>
+<td>Multiple domain</td>
+<td>Behavioral analysis (FR-ANA-03).</td>
+</tr>
+<tr>
+<td>Single session</td>
+<td>Active</td>
+<td>Packet replay, packet injection, and fuzzing (BR-ACT).</td>
+</tr>
+<tr>
+<td>Multiple session</td>
+<td>Single domain</td>
+<td>Memory comparison (FR-ANA-09).</td>
+</tr>
+<tr>
+<td>Multiple session</td>
+<td>Multiple domain</td>
+<td>Baseline analysis and pattern detection (FR-ANA-09).</td>
+</tr>
+</tbody>
+</table>
 <h3 id="analytics-module-data-flow">Analytics Module Data Flow</h3>
 <pre class="mermaid"><code>flowchart TD
 
@@ -2289,6 +2481,7 @@
     METRICS --&gt; EXPORT</code></pre>
 <h3 id="functional-requirements_1">Functional Requirements</h3>
 <h4 id="fr-ana-01-session-recording-replay">FR-ANA-01 — Session Recording &amp; Replay</h4>
+<p>Not an analysis engine. This stores and plays back a session that engines run on.</p>
 <table>
 <thead>
 <tr>
@@ -2303,7 +2496,7 @@
 <td>FR-ANA-01-1</td>
 <td>The system shall record all captured communication events from an active session, beginning when the analyst starts the session and ending when they stop it.</td>
 <td>Must</td>
-<td>Starting a session begins capture; all events from active Capture Nodes are present in the saved session.</td>
+<td>Starting a session begins capture; all events from Nodes with capture enabled are present in the saved session.</td>
 </tr>
 <tr>
 <td>FR-ANA-01-2</td>
@@ -2333,6 +2526,7 @@
 </table>
 <hr>
 <h4 id="fr-ana-02-search-navigation">FR-ANA-02 — Search &amp; Navigation</h4>
+<p><strong>Category:</strong> Single session / Single domain. Search inspects one protocol in one session.</p>
 <table>
 <thead>
 <tr>
@@ -2366,6 +2560,7 @@
 <p><img alt="Session search interface" src="../session_search_interface_v2-dark.svg"></p>
 <hr>
 <h4 id="fr-ana-03-behavior-diagram-generation">FR-ANA-03 — Behavior Diagram Generation</h4>
+<p><strong>Category:</strong> Single session / Multiple domain. Behavioral analysis relates events across more than one protocol in one session.</p>
 <table>
 <thead>
 <tr>
@@ -2392,6 +2587,7 @@
 </table>
 <hr>
 <h4 id="fr-ana-04-export-reporting">FR-ANA-04 — Export &amp; Reporting</h4>
+<p>Not an analysis engine. This exports the results of engines and the recorded session.</p>
 <table>
 <thead>
 <tr>
@@ -2443,6 +2639,7 @@
 <p><img alt="Export Session Options" src="../export_report_options-dark.svg"></p>
 <hr>
 <h4 id="fr-ana-05-sensitive-data-flagging">FR-ANA-05 — Sensitive-Data Flagging</h4>
+<p><strong>Category:</strong> Single session / Single domain. Flagging inspects packets of one protocol in one session.</p>
 <table>
 <thead>
 <tr>
@@ -2470,6 +2667,7 @@
 <p><img alt="Findings toggle button" src="../findings_toggle_button_v2-dark.svg"></p>
 <hr>
 <h4 id="fr-ana-06-usage-metrics">FR-ANA-06 — Usage Metrics</h4>
+<p>Not an analysis engine. This reports tool usage, not protocol content.</p>
 <table>
 <thead>
 <tr>
@@ -2515,6 +2713,7 @@
 <p><img alt="Session timer and usage metrics dashboard" src="../br_ana_06_combined_mockup-dark.svg"></p>
 <hr>
 <h4 id="fr-ana-07-memory-reconstruction">FR-ANA-07 — Memory Reconstruction</h4>
+<p><strong>Category:</strong> Single session / Single domain. Reconstruction uses one bus protocol in one session.</p>
 <table>
 <thead>
 <tr>
@@ -2547,6 +2746,7 @@
 </table>
 <hr>
 <h4 id="fr-ana-08-reconstruction-completeness">FR-ANA-08 — Reconstruction Completeness</h4>
+<p><strong>Category:</strong> Single session / Single domain. Completeness is part of memory reconstruction.</p>
 <table>
 <thead>
 <tr>
@@ -2579,6 +2779,43 @@
 </table>
 <p><img alt="Reconstructed memory map view with export control" src="../memory_map_export_view-dark.svg"></p>
 <hr>
+<h4 id="fr-ana-09-remaining-engine-categories">FR-ANA-09 — Remaining engine categories</h4>
+<table>
+<thead>
+<tr>
+<th>FR ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+<th>Acceptance Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-ANA-09-1</td>
+<td>The system shall provide an IP/domain name detection engine that inspects one protocol in one session.</td>
+<td>Should</td>
+<td>In a single session, names or addresses found in one selected protocol are reported with their packet location.</td>
+</tr>
+<tr>
+<td>FR-ANA-09-2</td>
+<td>The system shall provide a memory-comparison engine that compares reconstructed memory of one protocol across more than one session.</td>
+<td>Should</td>
+<td>Two sessions of the same protocol produce a comparison of their reconstructed memory maps.</td>
+</tr>
+<tr>
+<td>FR-ANA-09-3</td>
+<td>The system shall provide baseline-analysis and pattern engines that use more than one protocol across more than one session.</td>
+<td>Should</td>
+<td>An analyst can run a baseline or pattern engine over multiple sessions and more than one protocol.</td>
+</tr>
+<tr>
+<td>FR-ANA-09-4</td>
+<td>Packet replay, packet injection, and fuzzing shall be provided as single-session active engines, and shall run only through a Node whose actions function is enabled.</td>
+<td>Must</td>
+<td>Each of those engines is offered on one session and does not run when the Node's actions function is disabled.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="assumptions-dependencies_1">Assumptions &amp; Dependencies</h3>
 <ul>
 <li>Accurate search/flagging depends on reliable timestamps from time sync (FR-MON-04).</li>
@@ -2623,7 +2860,7 @@
 </tr>
 <tr>
 <td><strong>FR-ACT-01.4</strong></td>
-<td>During and after an active reconnaissance action, the system shall simultaneously capture and record the DUT's response across all connected capture nodes (wired, wireless, on-board buses) for subsequent analysis.</td>
+<td>During and after an active reconnaissance action, the system shall simultaneously capture and record the DUT's response across all connected Nodes whose capture function is enabled (wired, wireless, on-board buses) for subsequent analysis.</td>
 <td>Must</td>
 </tr>
 <tr>
@@ -2634,7 +2871,7 @@
 </tbody>
 </table>
 <hr>
-<h3 id="2-trigger-output-mechanisms">2. Trigger Output Mechanisms</h3>
+<h3 id="2-actions-settings-trigger-and-action">2. Actions settings: trigger and action</h3>
 <table>
 <thead>
 <tr>
@@ -2646,38 +2883,38 @@
 <tbody>
 <tr>
 <td><strong>FR-ACT-03.1</strong></td>
-<td>The system shall provide a hardware control interface capable of asserting a reset signal or power-cycling the DUT via a controllable power switch/relay connected to the capture infrastructure.</td>
+<td>On a Node whose actions function is enabled, the system shall let the analyst configure one trigger and one action as that Node's actions settings.</td>
 <td>Must</td>
 </tr>
 <tr>
 <td><strong>FR-ACT-03.2</strong></td>
-<td>The system shall support generation of configurable GPIO pulses (level, duration, pin selection) to the DUT, with parameters editable by the analyst prior to confirmation.</td>
+<td>The trigger shall be one of: manual, on packet match, scheduled, or on peer notification.</td>
 <td>Must</td>
 </tr>
 <tr>
 <td><strong>FR-ACT-03.3</strong></td>
-<td>The system shall support generation or replay of wireless signals (e.g., WiFi, Bluetooth, Zigbee, proprietary RF) through connected SDR or radio capture nodes, using analyst-provided or pre-recorded signal profiles.</td>
+<td>The action shall be one of: inject a DUT payload, run a Node script, or send a notification signal.</td>
 <td>Must</td>
 </tr>
 <tr>
 <td><strong>FR-ACT-03.4</strong></td>
-<td>The system shall support generation or replay of on-board protocol frames (e.g., SPI, I2C, UART, CAN, JTAG) through the capture nodes, with configurable payload, timing, and bus parameters.</td>
+<td>A notification signal shall be addressable to the Core, to all (the Core and the other Nodes), or to one specific Node.</td>
 <td>Must</td>
 </tr>
 <tr>
 <td><strong>FR-ACT-03.5</strong></td>
-<td>For each trigger action in FR-ACT-03.1–03.4, the system shall require the analyst to explicitly configure all parameters and review a summary before the confirmation step in FR-ACT-01.2 is presented.</td>
+<td>The analyst shall confirm the configured trigger and action before they are armed. A manual trigger shall run the action when the analyst starts it. An on-packet-match, scheduled, or peer-notification trigger shall run the action when that condition is met.</td>
 <td>Must</td>
 </tr>
 <tr>
 <td><strong>FR-ACT-03.6</strong></td>
-<td>The system shall validate configured trigger parameters against the DUT's declared capabilities/connections and warn the analyst if a misconfiguration is detected (e.g., GPIO pin not connected, unsupported protocol).</td>
-<td>Should</td>
+<td>A peer-notification trigger shall fire when the Node receives a notification signal sent by another Node.</td>
+<td>Must</td>
 </tr>
 <tr>
 <td><strong>FR-ACT-03.7</strong></td>
-<td>The system shall maintain a library of reusable trigger profiles (pre-configured signal/protocol templates) that analysts can select, modify, and save for repeated use.</td>
-<td>Should</td>
+<td>The system shall reject an action on a Node whose actions function is disabled.</td>
+<td>Must</td>
 </tr>
 </tbody>
 </table>
@@ -2802,7 +3039,7 @@
 <strong>Assignee:</strong> M
 <strong>Status:</strong> Completed</p>
 <h3 id="summary_4">Summary</h3>
-<p><em>The system shall grow to support new sniffed protocols over time, and let external capture nodes plug in as an additional data source.</em></p>
+<p><em>The system shall grow to support new sniffed protocols over time, and let external tools plug in as an additional data source alongside Nodes with capture enabled.</em></p>
 <h3 id="functional-requirements_4">Functional Requirements</h3>
 <table>
 <thead>
@@ -2834,9 +3071,9 @@
 </tr>
 <tr>
 <td>FR-EXT-02-2</td>
-<td>Treat data received from external capture tools as an additional data source, processed through the same correlation/monitoring pipeline as data from native Capture Nodes.</td>
+<td>Treat data received from external capture tools as an additional data source, processed through the same correlation/monitoring pipeline as data from native Nodes with capture enabled.</td>
 <td>Could</td>
-<td>Equivalent handling for data from both the external integration interface and a native Capture Node.</td>
+<td>Equivalent handling for data from both the external integration interface and a native Node with capture enabled.</td>
 </tr>
 <tr>
 <td>FR-EXT-02-3</td>
@@ -2863,14 +3100,15 @@
 <pre class="mermaid"><code>flowchart LR
 
     Analyst --&gt; Core
-    Core --&gt; CaptureNodes["Capture Nodes"]
-    CaptureNodes --&gt; DUT["Device Under Test"]
-    DUT -. "Passive Monitoring (listen-only)" .-&gt; CaptureNodes
+    Core --&gt; Nodes["Nodes"]
+    Nodes --&gt; DUT["Device Under Test"]
+    DUT -. "Capture (listen-only, when enabled)" .-&gt; Nodes
+    Nodes -. "Actions (only when enabled)" .-&gt; DUT
 
     subgraph AirGap["Isolated / Air-Gapped Test Bench"]
         Analyst
         Core
-        CaptureNodes
+        Nodes
         DUT
     end
 
@@ -2912,9 +3150,9 @@
 </tr>
 <tr>
 <td>FR-ENV-01-4</td>
-<td>The system shall apply the non-interference constraint only while operating in Passive Monitoring mode. When operating in Active Reconnaissance mode the system shall permit authorized actions that intentionally interact with the Device Under Test (DUT), provided they have been explicitly confirmed by the analyst.</td>
+<td>The system shall apply the non-interference constraint only while operating in Passive Monitoring mode. When operating in Active Reconnaissance mode the system shall permit authorized actions that intentionally interact with the Device Under Test (DUT), provided they have been explicitly confirmed by the analyst and the target Node has its actions function enabled.</td>
 <td>Must</td>
-<td>Active reconnaissance actions execute normally and are not blocked or flagged by non-interference checks.</td>
+<td>Confirmed actions execute on a Node with actions enabled, and are rejected when that function is disabled.</td>
 </tr>
 <tr>
 <td>FR-ENV-02-1</td>
@@ -2969,7 +3207,7 @@
 <h3 id="assumptions-dependencies_4">Assumptions &amp; Dependencies</h3>
 <ul>
 <li>The monitoring hardware is correctly connected to the DUT.</li>
-<li>The deployment environment provides local networking between the Core and Capture Nodes.</li>
+<li>The deployment environment provides local networking between the Core and Nodes.</li>
 <li>Docker images and required dependencies are downloaded before deployment into an air-gapped environment.</li>
 </ul>
 <h3 id="open-questions_4">Open Questions</h3>
@@ -3028,7 +3266,7 @@
 <td>FR-ACC-02-1</td>
 <td>The project shall produce training material (e.g., user guide, quick-start guide, walkthrough) covering core system operation.</td>
 <td>Should</td>
-<td>Training material exists and covers, at minimum, session setup, live monitoring, snapshot triggering, and session export/reporting.</td>
+<td>Training material exists and covers, at minimum, session setup, enabling capture and actions on a Node, live monitoring, state capture, and session export/reporting.</td>
 </tr>
 <tr>
 <td>FR-ACC-02-2</td>
