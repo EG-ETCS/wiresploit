@@ -2208,7 +2208,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2216,181 +2215,151 @@
 <td>FR-MON-01-1</td>
 <td>The system shall display network communication events.</td>
 <td>Must</td>
-<td>Network events are visible in the monitoring interface.</td>
 </tr>
 <tr>
 <td>FR-MON-01-2</td>
 <td>The system shall display onboard-bus communication events.</td>
 <td>Must</td>
-<td>Supported onboard-bus events are visible in the monitoring interface.</td>
 </tr>
 <tr>
 <td>FR-MON-01-3</td>
 <td>The system shall display wireless communication events.</td>
 <td>Must</td>
-<td>Supported wireless events are visible in the monitoring interface.</td>
 </tr>
 <tr>
 <td>FR-MON-01-4</td>
 <td>The system shall provide a unified live view of captured communications.</td>
 <td>Must</td>
-<td>Events from supported sources appear in one live interface.</td>
 </tr>
 <tr>
 <td>FR-MON-02-1</td>
 <td>The system shall correlate related communication events.</td>
 <td>Must</td>
-<td>Related events are grouped or linked correctly.</td>
 </tr>
 <tr>
 <td>FR-MON-02-2</td>
 <td>The system shall order correlated events chronologically.</td>
 <td>Must</td>
-<td>Events appear in correct time order on the timeline.</td>
 </tr>
 <tr>
 <td>FR-MON-03-1</td>
 <td>The system shall display live events within a documented latency limit.</td>
 <td>Should</td>
-<td>Measured event-to-display latency is documented and validated.</td>
 </tr>
 <tr>
 <td>FR-MON-04-1</td>
 <td>The system shall synchronize Nodes with capture enabled to a common time reference.</td>
 <td>Must</td>
-<td>Every Node with capture enabled uses the configured common time reference.</td>
 </tr>
 <tr>
 <td>FR-MON-04-2</td>
 <td>The system shall synchronize the Core to the common time reference.</td>
 <td>Must</td>
-<td>The Core uses the configured common time reference.</td>
 </tr>
 <tr>
 <td>FR-MON-04-3</td>
 <td>The system shall document the maximum clock drift between monitoring components.</td>
 <td>Must</td>
-<td>Maximum observed clock drift is measured and documented.</td>
 </tr>
 <tr>
 <td>FR-MON-05-1</td>
 <td>The system shall document the maximum supported number of simultaneous Nodes.</td>
 <td>Should</td>
-<td>Maximum supported Nodes are identified through testing.</td>
 </tr>
 <tr>
 <td>FR-MON-05-2</td>
 <td>The system shall document the maximum supported number of simultaneous protocols.</td>
 <td>Should</td>
-<td>Maximum supported simultaneous protocols are identified through testing.</td>
 </tr>
 <tr>
 <td>FR-MON-06-1</td>
 <td>The system shall support triggering a state capture on a Node with capture enabled, based on a defined trigger event or signal.</td>
 <td>Should</td>
-<td>A configured trigger event or signal starts a state capture on that Node.</td>
 </tr>
 <tr>
 <td>FR-MON-06-2</td>
 <td>The system shall support triggering a state capture on a Node with capture enabled after a defined delay.</td>
 <td>Should</td>
-<td>The state capture starts after the configured delay.</td>
 </tr>
 <tr>
 <td>FR-MON-06-3</td>
 <td>The system shall support triggering a state capture on a Node with capture enabled based on a detected packet or pattern.</td>
 <td>Should</td>
-<td>Detection of a configured packet or pattern starts a state capture on that Node.</td>
 </tr>
 <tr>
 <td>FR-MON-06-4</td>
 <td>The system shall capture the configured DUT state when a state capture is triggered on a Node.</td>
 <td>Should</td>
-<td>The configured physical, electrical, or internal state is captured.</td>
 </tr>
 <tr>
 <td>FR-MON-07-1</td>
 <td>The system shall timestamp state-capture outputs from a Node.</td>
 <td>Should</td>
-<td>Each state-capture output contains a timestamp.</td>
 </tr>
 <tr>
 <td>FR-MON-09-1</td>
 <td>The system shall allow the capture function to be enabled or disabled on each Node.</td>
 <td>Must</td>
-<td>A Node with capture disabled contributes no capture events; a Node with capture enabled does.</td>
 </tr>
 <tr>
 <td>FR-MON-09-2</td>
 <td>The system shall allow the actions function to be enabled or disabled on each Node, independently of capture.</td>
 <td>Must</td>
-<td>A Node can be set to capture only, actions only, or both. A Node with actions disabled cannot execute an action.</td>
 </tr>
 <tr>
 <td>FR-MON-10-1</td>
 <td>When a Node connects, the Core shall read its Node ID, assign a unique color, and store general settings: Node ID, Node name, Node description, and that color.</td>
 <td>Must</td>
-<td>A newly connected Node appears with its ID and a color that no other Node in the session uses.</td>
 </tr>
 <tr>
 <td>FR-MON-10-2</td>
 <td>The Core shall show each Node in the Node list using that Node's unique color.</td>
 <td>Must</td>
-<td>The list entry for a Node uses the same color stored in that Node's general settings.</td>
 </tr>
 <tr>
 <td>FR-MON-10-3</td>
 <td>The Node hardware shall light an indication LED in the same unique color shown for that Node on the Core.</td>
 <td>Must</td>
-<td>The LED color on the physical Node matches the color of its entry in the Core Node list.</td>
 </tr>
 <tr>
 <td>FR-MON-11-1</td>
 <td>When capture is enabled, the system shall let the analyst select the protocol that Node captures.</td>
 <td>Must</td>
-<td>The selected protocol is the protocol whose events that Node reports.</td>
 </tr>
 <tr>
 <td>FR-MON-11-2</td>
 <td>When capture is enabled, the system shall let the analyst configure the settings of the selected protocol.</td>
 <td>Must</td>
-<td>The Node captures using the protocol settings the analyst saved.</td>
 </tr>
 <tr>
 <td>FR-MON-12-1</td>
 <td>The system shall track each Node in exactly one of four states: Online, Ready, Running, or Unreachable.</td>
 <td>Must</td>
-<td>The Core shows one of those four states for every listed Node.</td>
 </tr>
 <tr>
 <td>FR-MON-12-2</td>
 <td>When a Node connects, the Core shall read its Node ID, assign its unique color, add it to the Node list, and set its state to Online.</td>
 <td>Must</td>
-<td>A Node that has just connected and has not been configured is shown as Online.</td>
 </tr>
 <tr>
 <td>FR-MON-12-3</td>
 <td>When the analyst finishes configuring a Node that is Online, the system shall set its state to Ready.</td>
 <td>Must</td>
-<td>After configuration is saved, the Node is shown as Ready and is not yet capturing or performing actions.</td>
 </tr>
 <tr>
 <td>FR-MON-12-4</td>
 <td>When a Ready Node starts its task — capturing, decoding, matching packets, performing actions, and sending data packets — the system shall set its state to Running.</td>
 <td>Must</td>
-<td>While the Node is doing that work, the Core shows Running.</td>
 </tr>
 <tr>
 <td>FR-MON-12-5</td>
 <td>The Core shall set a Node to Unreachable when its heartbeat times out, from Online, Ready, or Running. Heartbeat loss includes the Node hanging, being turned off, or losing battery.</td>
 <td>Must</td>
-<td>Stopping heartbeats moves the Node to Unreachable without a state report from the Node.</td>
 </tr>
 <tr>
 <td>FR-MON-12-6</td>
 <td>When an Unreachable Node reconnects, the system shall return it to Online if it was not configured, and to Ready if it was already configured.</td>
 <td>Must</td>
-<td>An unconfigured Node returns to Online. A previously configured Node returns to Ready, not Running.</td>
 </tr>
 </tbody>
 </table>
@@ -2488,7 +2457,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2496,31 +2464,26 @@
 <td>FR-ANA-01-1</td>
 <td>The system shall record all captured communication events from an active session, beginning when the analyst starts the session and ending when they stop it.</td>
 <td>Must</td>
-<td>Starting a session begins capture; all events from Nodes with capture enabled are present in the saved session.</td>
 </tr>
 <tr>
 <td>FR-ANA-01-2</td>
 <td>The system shall record a timestamp for each captured event.</td>
 <td>Must</td>
-<td>Each recorded event has an associated timestamp.</td>
 </tr>
 <tr>
 <td>FR-ANA-01-3</td>
 <td>The system shall persist a session to storage when the analyst stops it.</td>
 <td>Must</td>
-<td>A stopped session remains available after the application restarts.</td>
 </tr>
 <tr>
 <td>FR-ANA-01-4</td>
 <td>The system shall allow an analyst to play back a previously recorded session.</td>
 <td>Must</td>
-<td>A stored session can be reloaded and played back.</td>
 </tr>
 <tr>
 <td>FR-ANA-01-5</td>
 <td>The system shall preserve the original chronological order and timestamps of recorded events during replay.</td>
 <td>Must</td>
-<td>Replayed events appear in their original order and display their original capture timestamps, not replay time.</td>
 </tr>
 </tbody>
 </table>
@@ -2533,7 +2496,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2541,19 +2503,16 @@
 <td>FR-ANA-02-1</td>
 <td>The system shall allow an analyst to search a recorded session using a custom search phrase.</td>
 <td>Must</td>
-<td>An analyst-entered search phrase returns matching results from the recorded session.</td>
 </tr>
 <tr>
 <td>FR-ANA-02-2</td>
 <td>The system shall display the exact location (packet/timestamp/protocol) of each search match.</td>
 <td>Must</td>
-<td>Each result links back to its precise position on the timeline.</td>
 </tr>
 <tr>
 <td>FR-ANA-02-3</td>
 <td>The system shall allow an analyst to navigate directly from a search result to its corresponding timeline event.</td>
 <td>Must</td>
-<td>Selecting a result jumps the view to that event on the timeline.</td>
 </tr>
 </tbody>
 </table>
@@ -2567,7 +2526,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2575,13 +2533,11 @@
 <td>FR-ANA-03-1</td>
 <td>The system shall generate a Mermaid-based visual behavior diagram (e.g., a sequence diagram) from a recorded session's captured events, so analysts can understand a device's communication flow at a glance instead of manually reading the raw timeline, and so the diagram can be dropped directly into a client report.</td>
 <td>Should</td>
-<td>A Mermaid diagram is produced that reflects the session's captured events and renders correctly in a standard Mermaid viewer.</td>
 </tr>
 <tr>
 <td>FR-ANA-03-2</td>
 <td>The system shall represent correlated communication events as linked steps within the diagram (e.g., in a sequence diagram, a login attempt's HTTP request and the I2C read it triggers on the DUT appear as connected messages between the same pair of lifelines), so analysts can easily see how events are connected without checking the raw session.</td>
 <td>Should</td>
-<td>For a known correlated event pair in the test session, both events appear in the diagram as visually linked/connected elements rather than disconnected entries.</td>
 </tr>
 </tbody>
 </table>
@@ -2594,7 +2550,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2602,37 +2557,31 @@
 <td>FR-ANA-04-1</td>
 <td>The system shall allow an analyst to export recorded session data (e.g., as JSON or CSV).</td>
 <td>Should</td>
-<td>An export file containing session data is produced.</td>
 </tr>
 <tr>
 <td>FR-ANA-04-2</td>
 <td>The system shall allow an analyst to export detected sensitive-data findings (e.g., as JSON or CSV).</td>
 <td>Should</td>
-<td>An export file containing findings (e.g., flagged secrets) is produced.</td>
 </tr>
 <tr>
 <td>FR-ANA-04-3</td>
 <td>The system shall allow an analyst to export custom search results (e.g., as JSON or CSV).</td>
 <td>Should</td>
-<td>An export file containing the custom search results (each with its matched location, timestamp, and protocol) is produced.</td>
 </tr>
 <tr>
 <td>FR-ANA-04-4</td>
 <td>The system shall export the generated diagram (e.g., a Mermaid sequence diagram of the session) in a report-ready format (e.g., PNG/SVG).</td>
 <td>Should</td>
-<td>The exported diagram opens correctly in a standard image viewer and matches what was rendered in-app.</td>
 </tr>
 <tr>
 <td>FR-ANA-04-5</td>
 <td>The system shall allow an analyst to export the reconstructed memory map (e.g., binary/hex dump).</td>
 <td>Should</td>
-<td>The memory map can be exported and opened externally.</td>
 </tr>
 <tr>
 <td>FR-ANA-04-6</td>
 <td>The system shall allow an analyst to choose which of the following to include in a single consolidated report: recorded session data, detected sensitive-data findings , custom search results , and the generated diagram  — exported in one or more report-ready formats (e.g., PDF, DOCX).</td>
 <td>Should</td>
-<td>The analyst can select any combination of session data, findings, custom search results, and generated diagrams, and the exported file, in a supported report-ready format, contains only the selected items.</td>
 </tr>
 </tbody>
 </table>
@@ -2646,7 +2595,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2654,13 +2602,11 @@
 <td>FR-ANA-05-1</td>
 <td>The system shall inspect captured packets for predefined clear-text sensitive data patterns and automatically flag matching packets, without analyst action.</td>
 <td>Should</td>
-<td>Plaintext credentials/tokens are automatically detected and flagged without analyst action.</td>
 </tr>
 <tr>
 <td>FR-ANA-05-2</td>
 <td>The system shall provide a "Findings" control that toggles a contextual highlight mode on the timeline, emphasizing communication blocks containing flagged findings and fading unrelated blocks when active.</td>
 <td>Should</td>
-<td>Clicking the "Findings" control switches the timeline into highlight mode (flagged blocks emphasized, others faded, no separate view); clicking again returns to the normal view.</td>
 </tr>
 </tbody>
 </table>
@@ -2674,7 +2620,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2682,31 +2627,26 @@
 <td>FR-ANA-06-1</td>
 <td>The system shall display a running timer showing elapsed time for the current active session.</td>
 <td>Should</td>
-<td>While a session is active, an elapsed-time timer is visible and updates continuously.</td>
 </tr>
 <tr>
 <td>FR-ANA-06-2</td>
 <td>The system shall track the number of completed analysis sessions.</td>
 <td>Should</td>
-<td>A running count of completed sessions is tracked.</td>
 </tr>
 <tr>
 <td>FR-ANA-06-3</td>
 <td>The system shall calculate the average time required to identify findings.</td>
 <td>Should</td>
-<td>An average time-to-finding value is computed and available.</td>
 </tr>
 <tr>
 <td>FR-ANA-06-4</td>
 <td>The system shall track the number of automatically detected sensitive-data findings.</td>
 <td>Should</td>
-<td>A running count of auto-detected findings is tracked.</td>
 </tr>
 <tr>
 <td>FR-ANA-06-5</td>
 <td>The system shall present the tracked usage metrics (e.g., session count, average time, average session time, findings detected) in a dashboard, filterable by a selectable time period.</td>
 <td>Should</td>
-<td>A dashboard shows session count, average time-to-finding, average session time, and findings detected, and supports date-range filtering.</td>
 </tr>
 </tbody>
 </table>
@@ -2720,7 +2660,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2728,19 +2667,16 @@
 <td>FR-ANA-07-1</td>
 <td>The system shall extract address/data pairs from captured (e.g., SPI/I2C) bus transactions.</td>
 <td>Should</td>
-<td>Address/data pairs are correctly parsed from bus capture data.</td>
 </tr>
 <tr>
 <td>FR-ANA-07-2</td>
 <td>The system shall aggregate extracted address/data pairs into a unified reconstructed memory map.</td>
 <td>Should</td>
-<td>A reconstructed memory map is generated from a session with bus captures.</td>
 </tr>
 <tr>
 <td>FR-ANA-07-3</td>
 <td>The system shall allow an analyst to view the reconstructed memory map.</td>
 <td>Should</td>
-<td>The memory map is viewable within the application.</td>
 </tr>
 </tbody>
 </table>
@@ -2753,7 +2689,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2761,19 +2696,16 @@
 <td>FR-ANA-08-1</td>
 <td>The system shall classify each observed memory address range as fully observed, partially observed, or never captured.</td>
 <td>Should</td>
-<td>Every address range in the reconstructed memory map is correctly classified into one of the three states.</td>
 </tr>
 <tr>
 <td>FR-ANA-08-2</td>
 <td>The system shall visually distinguish fully observed, partially observed, and never-captured ranges in the memory map.</td>
 <td>Should</td>
-<td>The three states are visually distinct in the reconstructed map.</td>
 </tr>
 <tr>
 <td>FR-ANA-08-3</td>
 <td>The system shall display a completeness summary statistic (e.g., % of address space fully observed) alongside the memory map.</td>
 <td>Should</td>
-<td>A summary percentage is shown with the map.</td>
 </tr>
 </tbody>
 </table>
@@ -2786,7 +2718,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2794,25 +2725,21 @@
 <td>FR-ANA-09-1</td>
 <td>The system shall provide an IP/domain name detection engine that inspects one protocol in one session.</td>
 <td>Should</td>
-<td>In a single session, names or addresses found in one selected protocol are reported with their packet location.</td>
 </tr>
 <tr>
 <td>FR-ANA-09-2</td>
 <td>The system shall provide a memory-comparison engine that compares reconstructed memory of one protocol across more than one session.</td>
 <td>Should</td>
-<td>Two sessions of the same protocol produce a comparison of their reconstructed memory maps.</td>
 </tr>
 <tr>
 <td>FR-ANA-09-3</td>
 <td>The system shall provide baseline-analysis and pattern engines that use more than one protocol across more than one session.</td>
 <td>Should</td>
-<td>An analyst can run a baseline or pattern engine over multiple sessions and more than one protocol.</td>
 </tr>
 <tr>
 <td>FR-ANA-09-4</td>
 <td>Packet replay, packet injection, and fuzzing shall be provided as single-session active engines, and shall run only through a Node whose actions function is enabled.</td>
 <td>Must</td>
-<td>Each of those engines is offered on one session and does not run when the Node's actions function is disabled.</td>
 </tr>
 </tbody>
 </table>
@@ -2932,7 +2859,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2940,19 +2866,16 @@
 <td>FR-SEC-01-1</td>
 <td>The system shall encrypt and password-protect each recorded session as a single unit. This encryption shall also serve as tamper-proofing, such that any modification to the encrypted file renders it unreadable/invalid.</td>
 <td>Must</td>
-<td>A recorded session cannot be opened or read without the correct password/key; a session file that has been modified after capture fails to decrypt/open correctly.</td>
 </tr>
 <tr>
 <td>FR-SEC-03-1</td>
 <td>The system shall support defining roles with distinct permissions for captured session data (e.g., Admin: full access; Analyst: view, export, run analysis engines, and annotate over the timeline; Viewer: view only).</td>
 <td>Could</td>
-<td>At least the three defined roles (Admin, Analyst, Viewer) can be assigned to users, each with the permissions described.</td>
 </tr>
 <tr>
 <td>FR-SEC-03-2</td>
 <td>The system shall enforce role-based restrictions such that a user can only view, export, or modify session data permitted by their assigned role.</td>
 <td>Could</td>
-<td>A user assigned a restricted role is blocked from performing an action outside their permissions.</td>
 </tr>
 </tbody>
 </table>
@@ -2981,7 +2904,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -2989,37 +2911,31 @@
 <td>FR-DEP-01-1</td>
 <td>System components (Core + all dependencies) shall be packaged as Docker images defined via Dockerfile(s) and orchestrated via Docker Compose.</td>
 <td>Must</td>
-<td>Each system component has a corresponding Dockerfile, is defined as a service in <code>docker-compose.yml</code>, and <code>docker compose build</code> completes successfully with exit code 0.</td>
 </tr>
 <tr>
 <td>FR-DEP-01-2</td>
 <td>All image versions shall be pinned (no <code>:latest</code> tags; only locked dependency versions).</td>
 <td>Must</td>
-<td>Every <code>FROM</code> in all Dockerfiles and every <code>image:</code> in <code>docker-compose.yml</code> has an explicit version tag (e.g. <code>postgres:16.3</code>), not <code>latest</code>.</td>
 </tr>
 <tr>
 <td>FR-DEP-01-3</td>
 <td>All Dockerfile install steps shall install strictly from the lockfile or <code>requirements.txt</code> with specified versions.</td>
 <td>Must</td>
-<td>No use of <code>npm install</code>, or unpinned <code>pip install</code>, in place of their lockfile-strict equivalents.</td>
 </tr>
 <tr>
 <td>FR-DEP-02-1</td>
 <td>The system shall provide a function to export the current configuration and recorded session data to a file stored outside the container's writable layer.</td>
 <td>Should</td>
-<td>Confirm persistence after the container is stopped/removed.</td>
 </tr>
 <tr>
 <td>FR-DEP-02-2</td>
 <td>The system shall provide a function to import previously exported configuration and recorded session data into a running or newly deployed instance.</td>
 <td>Should</td>
-<td>Import previously exported data into both a running instance and a freshly deployed instance; confirm the operation completes successfully in both cases.</td>
 </tr>
 <tr>
 <td>FR-DEP-02-3</td>
 <td>The system shall log export and import operations, including timestamp and outcome (failure only).</td>
 <td>Should</td>
-<td>Perform successful and failed export/import operations; confirm failed operations are recorded.</td>
 </tr>
 </tbody>
 </table>
@@ -3047,7 +2963,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -3055,37 +2970,31 @@
 <td>FR-EXT-01-1</td>
 <td>Implement sniffed protocol via a modular architecture, allowing new protocol modules without modifying the core system codebase.</td>
 <td>Should</td>
-<td>Isolate protocol handling in separate modules with a defined interface.</td>
 </tr>
 <tr>
 <td>FR-EXT-01-2</td>
 <td>Define a standard protocol module interface (e.g., required methods/functions for connect, parse, send, disconnect) that any new protocol implementation must conform to.</td>
 <td>Should</td>
-<td>Review documentation/code for a defined protocol interface (abstract class, contract, or schema); confirm an existing protocol module implements it fully.</td>
 </tr>
 <tr>
 <td>FR-EXT-02-1</td>
 <td>Provide a documented API (e.g., REST, or similar) enabling external hardware capture tools to submit captured data to the system.</td>
 <td>Could</td>
-<td>Call the documented API from an external tool/script and confirm data is accepted.</td>
 </tr>
 <tr>
 <td>FR-EXT-02-2</td>
 <td>Treat data received from external capture tools as an additional data source, processed through the same correlation/monitoring pipeline as data from native Nodes with capture enabled.</td>
 <td>Could</td>
-<td>Equivalent handling for data from both the external integration interface and a native Node with capture enabled.</td>
 </tr>
 <tr>
 <td>FR-EXT-02-3</td>
 <td>Validate data submitted by external capture tools and mark them in view if malformed.</td>
 <td>Could</td>
-<td>Mark in red malformed payloads.</td>
 </tr>
 <tr>
 <td>FR-EXT-02-4</td>
 <td>Log failed connections and data submissions from external capture tools, including source identity, timestamp, and outcome.</td>
 <td>Could</td>
-<td>Failed data via the integration interface is logged with source, timestamp, and outcome.</td>
 </tr>
 </tbody>
 </table>
@@ -3126,7 +3035,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -3134,73 +3042,61 @@
 <td>FR-ENV-01-1</td>
 <td>The system shall operate in a listen-only (passive) mode on all monitored interfaces — network, onboard-bus, and wireless — during standard monitoring sessions.</td>
 <td>Must</td>
-<td>No outbound transmission, injection, or signal alteration occurs on any monitored interface while in passive monitoring mode.</td>
 </tr>
 <tr>
 <td>FR-ENV-01-2</td>
 <td>The system shall not transmit, inject, or otherwise alter any signal on a monitored interface while operating in passive monitoring mode.</td>
 <td>Must</td>
-<td>Electrical/timing measurements on tapped interfaces show no measurable deviation from baseline DUT behavior during passive monitoring.</td>
 </tr>
 <tr>
 <td>FR-ENV-01-3</td>
 <td>The system shall visually indicate to the analyst which mode is currently active — passive monitoring or active reconnaissance (per FR-ACT).</td>
 <td>Should</td>
-<td>The active mode is clearly and unambiguously displayed in the interface at all times.</td>
 </tr>
 <tr>
 <td>FR-ENV-01-4</td>
 <td>The system shall apply the non-interference constraint only while operating in Passive Monitoring mode. When operating in Active Reconnaissance mode the system shall permit authorized actions that intentionally interact with the Device Under Test (DUT), provided they have been explicitly confirmed by the analyst and the target Node has its actions function enabled.</td>
 <td>Must</td>
-<td>Confirmed actions execute on a Node with actions enabled, and are rejected when that function is disabled.</td>
 </tr>
 <tr>
 <td>FR-ENV-02-1</td>
 <td>The system shall support live monitoring without requiring an outbound or inbound internet connection during runtime.</td>
 <td>Must</td>
-<td>Live monitoring operates correctly while the test-bench network is disconnected from the internet.</td>
 </tr>
 <tr>
 <td>FR-ENV-02-2</td>
 <td>The system shall perform event correlation without requiring an outbound or inbound internet connection during runtime.</td>
 <td>Must</td>
-<td>Event correlation functions correctly while the test-bench network is disconnected from the internet.</td>
 </tr>
 <tr>
 <td>FR-ENV-02-3</td>
 <td>The system shall record sessions without requiring an outbound or inbound internet connection during runtime.</td>
 <td>Must</td>
-<td>Session recording operates correctly while the test-bench network is disconnected from the internet.</td>
 </tr>
 <tr>
 <td>FR-ENV-02-4</td>
 <td>The system shall execute active reconnaissance functions without requiring an outbound or inbound internet connection during runtime.</td>
 <td>Must</td>
-<td>Active reconnaissance functions operate correctly while the test-bench network is disconnected from the internet.</td>
 </tr>
 <tr>
 <td>FR-ENV-02-5</td>
 <td>The system shall not require an outbound or inbound internet connection for normal runtime operation.</td>
 <td>Must</td>
-<td>All runtime functions remain fully operational with the test-bench network disconnected from the internet.</td>
 </tr>
 <tr>
 <td>FR-ENV-02-6</td>
 <td>The system shall not depend on any internet-hosted service (e.g., license checks, telemetry, update checks) during normal operation.</td>
 <td>Must</td>
-<td>No outbound requests to external/internet-hosted endpoints are observed during normal operation.</td>
 </tr>
 <tr>
 <td>FR-ENV-02-7</td>
 <td>The system's time synchronization mechanism (per FR-MON-04) shall use only a local network time reference, not an internet-hosted PTP source.</td>
 <td>Must</td>
-<td>The configured time reference server resides within the isolated test-bench network.</td>
 </tr>
 <tr>
 <td>FR-ENV-02-8</td>
 <td>The system may require internet access solely during initial installation/setup (e.g., pulling container images ), and this exception shall be explicitly documented.</td>
 <td>Must</td>
-<td>Documentation clearly states which setup steps require internet access and confirms no such dependency exists post-setup.</td>
 </tr>
 </tbody>
 </table>
@@ -3240,7 +3136,6 @@
 <th>FR ID</th>
 <th>Requirement</th>
 <th>Priority</th>
-<th>Acceptance Criteria</th>
 </tr>
 </thead>
 <tbody>
@@ -3248,37 +3143,31 @@
 <td>FR-ACC-01-1</td>
 <td>The system shall be validated through a documented UAT test plan covering all Must-priority business requirements, executed against real DUT scenarios.</td>
 <td>Must</td>
-<td>A UAT test plan exists mapping test cases to Must-priority BRs, and all cases are executed against a real DUT.</td>
 </tr>
 <tr>
 <td>FR-ACC-01-2</td>
 <td>The system shall record UAT results (pass/fail per scenario, with evidence) for review.</td>
 <td>Must</td>
-<td>UAT results are documented per scenario with pass/fail status and supporting evidence (logs, screenshots, or captures).</td>
 </tr>
 <tr>
 <td>FR-ACC-01-3</td>
 <td>The system shall require formal stakeholder sign-off confirming UAT completion before being considered delivered.</td>
 <td>Must</td>
-<td>A signed/recorded acceptance confirmation exists from the designated stakeholder(s) referencing the completed UAT results.</td>
 </tr>
 <tr>
 <td>FR-ACC-02-1</td>
 <td>The project shall produce training material (e.g., user guide, quick-start guide, walkthrough) covering core system operation.</td>
 <td>Should</td>
-<td>Training material exists and covers, at minimum, session setup, enabling capture and actions on a Node, live monitoring, state capture, and session export/reporting.</td>
 </tr>
 <tr>
 <td>FR-ACC-02-2</td>
 <td>The project shall deliver an onboarding session or equivalent training activity to analysts prior to full system adoption.</td>
 <td>Should</td>
-<td>At least one training session is conducted and attendance/completion is recorded prior to declaring full adoption.</td>
 </tr>
 <tr>
 <td>FR-ACC-02-3</td>
 <td>The training material shall be reviewed for completeness and accuracy against the delivered system's actual functionality.</td>
 <td>Could</td>
-<td>A review/feedback checklist confirms training material matches current system behavior, with discrepancies logged and resolved.</td>
 </tr>
 </tbody>
 </table>
