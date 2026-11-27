@@ -1,0 +1,19 @@
+; Test signal for frequencies below what sqwave can reach with its clock
+; divider (e.g. 1 Hz for an LED check in M1).
+;
+; Before enabling, put N into the TX FIFO. Each half period lasts
+; 1 (set) + 1 (mov) + (N + 1) (jmp loop) = N + 3 SM cycles, so
+; frequency = PIO clock / (clkdiv * 2 * (N + 3)).
+
+.program sqwave_slow
+    pull block
+.wrap_target
+    set pins, 1
+    mov x, osr
+hi:
+    jmp x-- hi
+    set pins, 0
+    mov x, osr
+lo:
+    jmp x-- lo
+.wrap
