@@ -95,7 +95,7 @@ if(NOT PI5LA_TESTS_ONLY)
     # plain `cmake --build` would leave a stale copy behind.
     # sr2es lives in node/exporter/; src/shipper.c finds it next to pi5la.
     set(PI5LA_EXPORTER ${CMAKE_CURRENT_SOURCE_DIR}/../exporter/sr2es.py)
-    foreach(script ${PI5LA_EXPORTER} tools/uart-listen.sh)
+    foreach(script ${PI5LA_EXPORTER} tools/uart-listen.sh tools/test_pi.sh)
         get_filename_component(script_name ${script} NAME)
         configure_file(${script} ${CMAKE_CURRENT_BINARY_DIR}/.stamp-${script_name} COPYONLY)
         file(COPY ${script} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
@@ -103,37 +103,122 @@ if(NOT PI5LA_TESTS_ONLY)
                              WORLD_READ WORLD_EXECUTE)
     endforeach()
 
-    # record.c drives the streaming/monitor logic; the test stubs capture_stream,
-    # so it compiles record.c directly instead of linking pi5la_hw.
-    add_executable(test_record tests/test_record.c src/record.c src/shipper.c)
-    target_include_directories(test_record PRIVATE ${PIOLIB_INCLUDE_DIR})
-    target_link_libraries(test_record PRIVATE pi5la_core)
-    add_test(NAME test_record COMMAND test_record)
-
     install(TARGETS pi5la ratesweep bitprobe fdebugtest RUNTIME DESTINATION bin)
     install(PROGRAMS tools/uart-listen.sh DESTINATION bin RENAME uart-listen)
     install(PROGRAMS ${PI5LA_EXPORTER} DESTINATION bin RENAME sr2es)
+    install(PROGRAMS tools/test_pi.sh DESTINATION bin)
 endif()
 
+# ---------------------------------------------------------------------------
+# Tests. Three levels, see docs/02_Engineering/04_Testing.md:
+#   unit         (ctest -L unit)         tests/unit/, plus the Python unit tests
+#   integration  (ctest -L integration)  tests/integration/: committed sample
+#                                        captures through the real pipeline
+#   Pi hardware                          tools/test_pi.sh, on a Pi only
+# Every test here carries exactly one of the labels "unit" or "integration",
+# so `ctest -LE integration` runs the unit level and `ctest` runs both.
+# Nothing here needs piolib, pioasm or a Pi.
+
 enable_testing()
+
+set(PI5LA_NODE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+set(PI5LA_UNIT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests/unit)
+set(PI5LA_INTEGRATION_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests/integration)
+
+# --- Level 1: C unit tests --------------------------------------------------
 foreach(t test_unpack test_srzip test_srwriter test_analyze test_progbuild test_util
           test_idle test_burst)
-    add_executable(${t} tests/${t}.c)
+    add_executable(${t} tests/unit/${t}.c)
     target_link_libraries(${t} PRIVATE pi5la_core)
     add_test(NAME ${t} COMMAND ${t})
+    set_tests_properties(${t} PROPERTIES LABELS unit)
 endforeach()
 
-# Python-side tests: the capture test page's argument checks, the
-# Elasticsearch exporter and the shared node.conf loader. Paths are relative to
-# this file, so the tree works wherever it is checked out.
-# Skipped when python3 is missing.
-set(PI5LA_NODE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+# record.c drives the streaming/monitor logic. The test stubs capture_stream(),
+# so it compiles record.c and shipper.c directly instead of linking pi5la_hw,
+# and tests/unit/stubs/piolib.h stands in for the real header. It therefore
+# builds and runs on any Linux machine, with or without piolib.
+add_executable(test_record tests/unit/test_record.c src/record.c src/shipper.c)
+target_include_directories(test_record BEFORE PRIVATE ${PI5LA_UNIT_DIR}/stubs)
+target_link_libraries(test_record PRIVATE pi5la_core)
+add_test(NAME test_record COMMAND test_record)
+set_tests_properties(test_record PROPERTIES LABELS unit)
+
+# --- Python tests ------------------------------------------------------------
+# Run through pytest when it is installed (configured in node/pyproject.toml),
+# otherwise as plain unittest scripts. Both give the same result for the
+# unittest-style files. Decided once, here, at configure time. Skipped
+# entirely when python3 is missing.
 find_program(PI5LA_PYTHON3 python3)
 if(PI5LA_PYTHON3)
-    add_test(NAME test_web_args
-        COMMAND ${PI5LA_PYTHON3} ${CMAKE_CURRENT_SOURCE_DIR}/tools/web_ui/tests/test_args.py)
-    add_test(NAME test_sr2es
-        COMMAND ${PI5LA_PYTHON3} ${PI5LA_NODE_DIR}/exporter/tests/test_sr2es.py)
-    add_test(NAME test_node_config
-        COMMAND ${PI5LA_PYTHON3} ${PI5LA_NODE_DIR}/lib/tests/test_node_config.py)
+    execute_process(COMMAND ${PI5LA_PYTHON3} -c "import pytest"
+                    RESULT_VARIABLE PI5LA_PYTEST_RC OUTPUT_QUIET ERROR_QUIET)
+    if(PI5LA_PYTEST_RC EQUAL 0)
+        message(STATUS "Python tests run with pytest")
+        set(PI5LA_PYTHON_RUNNER ${PI5LA_PYTHON3} -m pytest -q)
+    else()
+        message(STATUS "Python tests run with unittest (pytest not installed)")
+        set(PI5LA_PYTHON_RUNNER ${PI5LA_PYTHON3})
+    endif()
+
+    # pi5la_python_test(NAME FILE LABEL [CLASS]): CLASS runs one TestCase class
+    # of FILE only (FILE::CLASS for pytest, "FILE CLASS" for unittest).
+    function(pi5la_python_test name file label)
+        set(target ${file})
+        if(ARGC GREATER 3)
+            if(PI5LA_PYTEST_RC EQUAL 0)
+                set(target ${file}::${ARGV3})
+            else()
+                set(target ${file} ${ARGV3})
+            endif()
+        endif()
+        add_test(NAME ${name} COMMAND ${PI5LA_PYTHON_RUNNER} ${target}
+                 WORKING_DIRECTORY ${PI5LA_NODE_DIR})
+        set_tests_properties(${name} PROPERTIES LABELS ${label})
+    endfunction()
+
+    # Level 1: the capture test page's argument checks, the Elasticsearch
+    # exporter and the shared node.conf loader.
+    pi5la_python_test(test_web_args
+        ${CMAKE_CURRENT_SOURCE_DIR}/tools/web_ui/tests/test_args.py unit)
+    pi5la_python_test(test_sr2es ${PI5LA_NODE_DIR}/exporter/tests/test_sr2es.py unit)
+    pi5la_python_test(test_node_config ${PI5LA_NODE_DIR}/lib/tests/test_node_config.py unit)
+endif()
+
+# --- Level 2: integration ----------------------------------------------------
+# make_samples builds the synthetic captures in tests/integration/samples/.
+# Rebuild them after changing it with:
+#   cmake --build <build> --target integration_samples
+add_executable(make_samples tests/integration/make_samples.c)
+target_link_libraries(make_samples PRIVATE pi5la_core)
+add_custom_target(integration_samples
+    COMMAND make_samples ${PI5LA_INTEGRATION_DIR}/samples
+    DEPENDS make_samples
+    COMMENT "Rebuilding tests/integration/samples"
+    VERBATIM)
+
+# The committed samples must be what make_samples builds today.
+add_test(NAME test_samples_current
+         COMMAND make_samples --check ${PI5LA_INTEGRATION_DIR}/samples)
+set_tests_properties(test_samples_current PROPERTIES LABELS integration)
+
+# unpack -> idle scan -> burst state machine on the samples, against expected/.
+add_executable(test_pipeline tests/integration/test_pipeline.c)
+target_include_directories(test_pipeline PRIVATE ${PI5LA_UNIT_DIR})
+target_link_libraries(test_pipeline PRIVATE pi5la_core)
+add_test(NAME test_pipeline
+         COMMAND test_pipeline ${PI5LA_INTEGRATION_DIR}/samples ${PI5LA_INTEGRATION_DIR}/expected)
+set_tests_properties(test_pipeline PROPERTIES LABELS integration)
+
+# sr2es on the samples, against expected/. The raw case needs no decoder. The
+# UART cases need sigrok-cli: without it the whole class skips, printing the
+# reason, and ctest reports test_decode_uart as skipped rather than passed.
+# The two are separate tests so that skip can never hide a raw failure.
+if(PI5LA_PYTHON3)
+    pi5la_python_test(test_decode_raw ${PI5LA_INTEGRATION_DIR}/test_decode.py integration
+                      TestRawSamples)
+    pi5la_python_test(test_decode_uart ${PI5LA_INTEGRATION_DIR}/test_decode.py integration
+                      TestUartSamples)
+    set_tests_properties(test_decode_uart PROPERTIES
+        SKIP_REGULAR_EXPRESSION "sigrok-cli not found")
 endif()

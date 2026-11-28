@@ -1,0 +1,14 @@
+# "hello" at 115200 baud on channel 0, 1 MSa/s, 8 channels (4 samples a word).
+# The start bit falls at sample 1000, so the burst starts pre = 100 earlier.
+# The last change is the stop bit of 'o' rising at sample 1425, in word 356;
+# the idle scan reports the end of that word, so last_change = 1428.
+# The gap is checked at the end of each 1024-sample period: at 2048 the line
+# has been quiet 620 samples, at 3072 1644 >= 1000, so the burst ends there,
+# keeping post = 200 after the last change.
+sample uart_hello.sr
+samples 4096
+period_words 256
+pre 100
+post 200
+gap 1000
+burst 900 1000 1628

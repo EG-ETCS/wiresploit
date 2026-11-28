@@ -1,0 +1,31 @@
+[
+  {
+    "duration": 8192000,
+    "event_type": "onboard",
+    "length_bytes": 0,
+    "protocol": "RAW",
+    "psf": {
+      "active_channels": [
+        0
+      ],
+      "burst": "two_bursts.sr",
+      "byte_count": 0,
+      "channel": 0,
+      "clock_drift_ns": 0,
+      "clock_max_error_us": 0,
+      "clock_synchronised": true,
+      "edges": 4,
+      "end_sample": 8192,
+      "error": false,
+      "file": "two_bursts.sr",
+      "first_edge_time_ns": 1767225601002000000,
+      "gap_before_s": 0.0,
+      "gpio": 2,
+      "port": "ch0",
+      "samplerate_hz": 1000000,
+      "start_sample": 0,
+      "text": ""
+    },
+    "timestamp": "2026-01-01T00:00:01.002000000Z"
+  }
+]
