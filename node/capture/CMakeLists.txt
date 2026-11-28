@@ -33,19 +33,19 @@ target_include_directories(pi5la_core PUBLIC src)
 target_link_libraries(pi5la_core PUBLIC PkgConfig::LIBZIP m)
 
 if(NOT PI5LA_TESTS_ONLY)
-    # piolib: installed from raspberrypi/utils (see README).
+    # piolib: installed from raspberrypi/utils; the dev container has it (see docs/03_Documentation/Node/capture_guide.md, Build).
     find_path(PIOLIB_INCLUDE_DIR piolib.h PATH_SUFFIXES piolib)
     find_library(PIOLIB_LIBRARY NAMES pio)
     if(NOT PIOLIB_INCLUDE_DIR OR NOT PIOLIB_LIBRARY)
-        message(FATAL_ERROR "piolib not found: install it from raspberrypi/utils (see README), "
+        message(FATAL_ERROR "piolib not found: build with node/scripts/build_pi.sh in the dev container (see docs/03_Documentation/Node/capture_guide.md), "
                             "or configure with -DPI5LA_TESTS_ONLY=ON")
     endif()
     find_package(Threads REQUIRED)
 
-    # pioasm: built from pico-sdk/tools/pioasm (see README).
+    # pioasm: built from pico-sdk/tools/pioasm; the dev container has it (see docs/03_Documentation/Node/capture_guide.md, Build).
     find_program(PIOASM_EXECUTABLE pioasm)
     if(NOT PIOASM_EXECUTABLE)
-        message(FATAL_ERROR "pioasm not found: build it from pico-sdk/tools/pioasm (see README) "
+        message(FATAL_ERROR "pioasm not found: build with node/scripts/build_pi.sh in the dev container (see docs/03_Documentation/Node/capture_guide.md) "
                             "or pass -DPIOASM_EXECUTABLE=/path/to/pioasm")
     endif()
 

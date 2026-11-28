@@ -258,11 +258,13 @@ static int stream_sink(const uint32_t *words, size_t n_words, void *arg)
 static int check_dev_pio(void)
 {
     if (access("/dev/pio0", F_OK) != 0) {
-        fprintf(stderr, "/dev/pio0 not found: is the rp1-pio driver loaded? (see README)\n");
+        fprintf(stderr, "/dev/pio0 not found: is the rp1-pio driver loaded?\n"
+                        "(see capture_guide.md, Driver and permissions)\n");
         return -1;
     }
     if (access("/dev/pio0", R_OK | W_OK) != 0) {
-        fprintf(stderr, "no read/write access to /dev/pio0 (see README, Permissions)\n");
+        fprintf(stderr, "no read/write access to /dev/pio0: run setup_pi.sh --check\n"
+                        "(see capture_guide.md, Driver and permissions)\n");
         return -1;
     }
     return 0;

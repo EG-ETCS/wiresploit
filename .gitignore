@@ -23,3 +23,6 @@ CLAUDE.local.md
 node/node.conf
 node/.deploy.conf
 node/captures/
+
+# Claude Code subagent worktrees
+.claude/worktrees/

@@ -4,7 +4,7 @@ Web UI for pi5la.
 
 Runs on the Pi and drives the existing binaries: pi5la for capture and live
 streaming, sigrok-cli for decoding. No authentication by design, so keep it on
-a trusted network (see README, "Web UI").
+a trusted network (see docs/03_Documentation/Node/capture_guide.md, "Capture test page").
 
     python3 <install_dir>/web_ui/app.py
 
