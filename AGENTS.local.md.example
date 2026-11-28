@@ -1,0 +1,60 @@
+# AGENTS.local.md
+
+Personal agent context. Copy this file to `AGENTS.local.md` at the repo root and
+fill it in. `AGENTS.local.md` is gitignored, so it can hold details that must
+not be shared: addresses, user names, local paths, your own way of working.
+
+- Shared rules belong in `AGENTS.md` or a component's `AGENTS.md`, not here. If
+  you learn something the whole team needs, move it there in a pull request.
+- Never put passwords, API keys or tokens in this file either. Keep them in your
+  shell environment.
+- Claude Code reads `CLAUDE.md` files, not `AGENTS.md`. To load both files,
+  create a gitignored `CLAUDE.local.md` at the repo root containing:
+
+  ```
+  @AGENTS.md
+  @AGENTS.local.md
+  ```
+
+  Other tools: see `docs/02_Engineering/03_Agent_Context.md`.
+
+---
+
+## How I want agents to work
+
+Delete the lines that don't apply, and add your own.
+
+- Ask me when anything is unclear. Don't make design decisions on your own.
+  For a real choice, give me the options and a recommendation.
+- Say whether you can reach the hardware. If you can't, give me short, exact
+  commands to run, say which terminal and which physical pin, and say what
+  output to expect.
+- Before any loopback test, have me confirm the wiring with `pinctrl`.
+- Before I connect anything external, remind me of the 74LVC245 buffer, the
+  series resistors and the shared ground. Never let me connect pin 1 (3.3 V) or
+  pins 2 and 4 (5 V) to a GPIO.
+- Commit message trailer my tool should add: `<trailer or none>`.
+
+## My environment
+
+- Operating system: `<OS and version>`
+- How I build and test: `<dev container | setup_host.sh | other>`
+- Repo location: `<path on this machine>` (never copy this into shared files)
+- Known limits of this machine: `<for example low disk space, no Docker>`
+- Where my credentials come from: `<for example exported in my shell>`
+
+## My Pi
+
+- Model and RAM: `<Raspberry Pi 5, 8 GB>`
+- OS and kernel: `<Raspberry Pi OS Bookworm, uname -r output>`
+- Address: `<hostname or IP>` (this is what `<pi-host>` means in the docs)
+- ssh user: `<user>`
+- Install folder: `<path>` (this is what `<install_dir>` means in the docs)
+- `/dev/pio0` permissions and my `gpio` group membership: `<ls -l /dev/pio0>`
+- RP1 firmware and op count, if known: `<value>`
+- UART on GPIO 14 enabled: `<yes or no>`
+- What is wired right now: `<for example loopback jumper pin 38 to pin 3>`
+
+## Open items
+
+- `<things I am in the middle of, with the next command to run>`
