@@ -4,6 +4,7 @@
 # been quiet 7168 - 4304 = 2864 >= 1993 samples. This case fails if the gap
 # test is off by one towards "shorter" (quiet >= gap - 1).
 sample two_bursts.sr
+samples 8192
 period_words 256
 pre 100
 post 200

@@ -9,6 +9,7 @@
  *
  *   # comment
  *   sample two_bursts.sr      the .sr in SAMPLES_DIR
+ *   samples 8192              its length; a short or empty file fails
  *   period_words 256          words fed per burst_feed() call
  *   pre 100                   burst_init() lengths, in samples
  *   post 200
@@ -45,7 +46,7 @@ typedef struct {
 
 typedef struct {
     char sample[256];
-    uint64_t period_words, pre, post, gap;
+    uint64_t samples, period_words, pre, post, gap;
     span_t bursts[MAX_BURSTS];
     unsigned n_bursts;
 } case_t;
@@ -67,9 +68,14 @@ static int parse_case(const char *path, case_t *c)
 
         if (line[0] == '#' || line[0] == '\n')
             continue;
-        if (sscanf(line, "sample %255s", c->sample) == 1)
+        /* Match the key word exactly first: "sample %s" alone would also
+           accept a "samples" line. */
+        if (sscanf(line, "%31s", key) != 1)
+            key[0] = '\0';
+        if (!strcmp(key, "sample") && sscanf(line, "%*s %255s", c->sample) == 1)
             continue;
-        if (sscanf(line, "burst %" SCNu64 " %" SCNu64 " %" SCNu64, &s.start, &s.first_edge,
+        if (!strcmp(key, "burst") &&
+            sscanf(line, "%*s %" SCNu64 " %" SCNu64 " %" SCNu64, &s.start, &s.first_edge,
                    &s.end) == 3) {
             if (c->n_bursts == MAX_BURSTS)
                 ok = 0;
@@ -77,8 +83,9 @@ static int parse_case(const char *path, case_t *c)
                 c->bursts[c->n_bursts++] = s;
             continue;
         }
-        if (sscanf(line, "%31s", key) == 1) {
-            uint64_t *dst = !strcmp(key, "period_words") ? &c->period_words
+        if (key[0]) {
+            uint64_t *dst = !strcmp(key, "samples")      ? &c->samples
+                          : !strcmp(key, "period_words") ? &c->period_words
                           : !strcmp(key, "pre")          ? &c->pre
                           : !strcmp(key, "post")         ? &c->post
                           : !strcmp(key, "gap")          ? &c->gap
@@ -91,8 +98,8 @@ static int parse_case(const char *path, case_t *c)
         ok = 0;
     }
     fclose(f);
-    if (!c->sample[0] || !c->period_words || !c->gap) {
-        fprintf(stderr, "%s: needs sample, period_words and gap\n", path);
+    if (!c->sample[0] || !c->samples || !c->period_words || !c->gap) {
+        fprintf(stderr, "%s: needs sample, samples, period_words and gap\n", path);
         ok = 0;
     }
     return ok ? 0 : -1;
@@ -247,6 +254,12 @@ static void test_case(const char *samples_dir, const char *case_path)
         CHECK(!"sample loads");
         return;
     }
+    /* The sample is as long as the case says: an empty or cut-short file
+       would otherwise pass any case that expects no burst. */
+    if (n != c.samples)
+        fprintf(stderr, "%s: %s has %zu samples, expected %" PRIu64 "\n", case_path,
+                c.sample, n, c.samples);
+    CHECK(n == c.samples);
     CHECK(n % unpack_samples_per_word(channels) == 0);   /* whole words only */
     words = pack(s, n, channels, &n_words);
     back = malloc(n ? n : 1);

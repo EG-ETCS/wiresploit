@@ -6,6 +6,7 @@
 # has been quiet 620 samples, at 3072 1644 >= 1000, so the burst ends there,
 # keeping post = 200 after the last change.
 sample uart_hello.sr
+samples 4096
 period_words 256
 pre 100
 post 200
