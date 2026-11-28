@@ -95,7 +95,7 @@ if(NOT PI5LA_TESTS_ONLY)
     # plain `cmake --build` would leave a stale copy behind.
     # sr2es lives in node/exporter/; src/shipper.c finds it next to pi5la.
     set(PI5LA_EXPORTER ${CMAKE_CURRENT_SOURCE_DIR}/../exporter/sr2es.py)
-    foreach(script ${PI5LA_EXPORTER} tools/uart-listen.sh)
+    foreach(script ${PI5LA_EXPORTER} tools/uart-listen.sh tools/test_pi.sh)
         get_filename_component(script_name ${script} NAME)
         configure_file(${script} ${CMAKE_CURRENT_BINARY_DIR}/.stamp-${script_name} COPYONLY)
         file(COPY ${script} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
@@ -106,6 +106,7 @@ if(NOT PI5LA_TESTS_ONLY)
     install(TARGETS pi5la ratesweep bitprobe fdebugtest RUNTIME DESTINATION bin)
     install(PROGRAMS tools/uart-listen.sh DESTINATION bin RENAME uart-listen)
     install(PROGRAMS ${PI5LA_EXPORTER} DESTINATION bin RENAME sr2es)
+    install(PROGRAMS tools/test_pi.sh DESTINATION bin)
 endif()
 
 # ---------------------------------------------------------------------------
