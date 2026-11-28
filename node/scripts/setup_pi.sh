@@ -17,6 +17,11 @@ PI_PACKAGES=(libzip4 sigrok-cli python3 python3-flask whiptail)
 PIO_DEVICE="${PI5LA_PIO_DEVICE:-/dev/pio0}"
 GPIO_GROUP="gpio"
 UART_CONFIG_LINE="dtparam=uart0=on"
+# Appended to config.txt. [all] ends any board filter section above it.
+UART_CONFIG_TEXT="
+[all]
+# Added by setup_pi.sh: UART0 on GPIO14/15 for the pi5la loopback test
+$UART_CONFIG_LINE"
 # Settings asked for on screen; everything else in node.conf is left alone.
 DIALOG_KEYS=(NODE_NAME WEB_UI_HOST WEB_UI_PORT ES_URL ES_API_KEY CORE_HOST CORE_PORT)
 SECRET_KEYS=(ES_API_KEY ES_PASSWORD)
@@ -24,6 +29,9 @@ SECRET_KEYS=(ES_API_KEY ES_PASSWORD)
 show_usage() {
     cat <<'EOF'
 Usage: <install_dir>/scripts/setup_pi.sh [--config FILE] [--check] [--simulate]
+
+Run it as your normal user, not with sudo: it asks before each step that
+needs root and runs sudo itself.
 
 Runs on the Pi, from the Node install folder:
   1. installs libzip4 sigrok-cli python3 python3-flask whiptail with apt
@@ -86,7 +94,8 @@ elif [[ -f /boot/firmware/config.txt ]]; then
 else
     CONFIG_TXT=/boot/config.txt
 fi
-TARGET_USER="${SUDO_USER:-$(id -un)}"
+refuse_sudo setup_pi.sh
+TARGET_USER="$(id -un)"
 
 if [[ -n "$config_source" && ! -f "$config_source" ]]; then
     die "--config: no such file: $config_source"
@@ -111,9 +120,9 @@ is_dialog_key() {
     return 1
 }
 
-# is_port <value>: true for 1..65535.
+# is_port <value>: true for 1..65535 (decimal, no leading zero).
 is_port() {
-    [[ "$1" =~ ^[0-9]{1,5}$ ]] && (($1 >= 1 && $1 <= 65535))
+    [[ "$1" =~ ^[1-9][0-9]{0,4}$ ]] && ((10#$1 <= 65535))
 }
 
 # format_setting <key> <value>: print a setting for a summary, secrets masked.
@@ -143,8 +152,21 @@ is_in_gpio_group() {
     id -nG "$TARGET_USER" 2>/dev/null | tr ' ' '\n' | grep -qx "$GPIO_GROUP"
 }
 
+# is_uart_enabled: true when config.txt has an active dtparam=uart0=on that
+# applies to every board: before the first [section] or under [all]. A line
+# under a filter such as [cm5] or [pi4] doesn't count.
 is_uart_enabled() {
-    [[ -f "$CONFIG_TXT" ]] && grep -Eq "^[[:space:]]*${UART_CONFIG_LINE}[[:space:]]*$" "$CONFIG_TXT"
+    local line section="all"
+    [[ -f "$CONFIG_TXT" ]] || return 1
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        line="$(trim_space "$line")"
+        if [[ "$line" =~ ^\[([^]]*)\]$ ]]; then
+            section="${BASH_REMATCH[1],,}"
+        elif [[ "$section" == "all" && "$line" == "$UART_CONFIG_LINE" ]]; then
+            return 0
+        fi
+    done <"$CONFIG_TXT"
+    return 1
 }
 
 print_safety_warning() {
@@ -400,15 +422,17 @@ if is_uart_enabled; then
 elif [[ ! -f "$CONFIG_TXT" ]]; then
     log_info "No $CONFIG_TXT (not a Pi?): skipped."
 elif [[ -n "$config_source" ]] && ! has_tty; then
-    log_info "Skipped. To enable it, add '$UART_CONFIG_LINE' to $CONFIG_TXT and reboot."
+    log_info "Skipped. To enable it, add '$UART_CONFIG_LINE' under [all] at the end of $CONFIG_TXT and reboot."
 elif ask_yes_no "Enable UART0 on GPIO14 (TX) / GPIO15 (RX) for the UART loopback test?
 
-This adds '$UART_CONFIG_LINE' to $CONFIG_TXT. It takes effect after a reboot." no; then
+This adds '$UART_CONFIG_LINE' under [all] at the end of $CONFIG_TXT. It takes effect after a reboot." no; then
+    uart_command=(tee -a "$CONFIG_TXT")
+    log_info "Text to append to $CONFIG_TXT:"
+    printf '%s\n' "$UART_CONFIG_TEXT" | sed 's/^/    | /'
     if ((is_simulation)); then
-        log_info "Simulation: would ask to append '$UART_CONFIG_LINE' to $CONFIG_TXT"
-    elif confirm_privileged "$(format_command tee -a "$CONFIG_TXT") <<< '$UART_CONFIG_LINE'"; then
-        printf '\n# Added by setup_pi.sh: UART0 on GPIO14/15 for the pi5la loopback test\n%s\n' \
-            "$UART_CONFIG_LINE" | run_as_root tee -a "$CONFIG_TXT" >/dev/null
+        log_info "Simulation: would ask to run: sudo $(format_command "${uart_command[@]}") (with the text above as input)"
+    elif confirm_privileged "$(format_command "${uart_command[@]}") (with the text above as input)"; then
+        printf '%s\n' "$UART_CONFIG_TEXT" | run_as_root "${uart_command[@]}" >/dev/null
         log_info "Added. Reboot for it to take effect: sudo reboot"
     fi
 else

@@ -156,12 +156,27 @@ format_conf_value() {
     fi
 }
 
+# Everything Python's str.splitlines() treats as a line break, so a written
+# value is read back as one line by node_config.py too: LF, CR, VT, FF, FS,
+# GS, RS, and NEL, LS, PS in UTF-8.
+LINE_BREAK_SEQUENCES=($'\n' $'\r' $'\x0b' $'\x0c' $'\x1c' $'\x1d' $'\x1e'
+    $'\xc2\x85' $'\xe2\x80\xa8' $'\xe2\x80\xa9')
+
+# is_single_line <value>: true when <value> holds none of LINE_BREAK_SEQUENCES.
+is_single_line() {
+    local sequence
+    for sequence in "${LINE_BREAK_SEQUENCES[@]}"; do
+        [[ "$1" != *"$sequence"* ]] || return 1
+    done
+    return 0
+}
+
 # write_conf_value <file> <key> <value>: set <key> in <file>, keeping every
 # other line (comments included). The file is rewritten atomically, mode 600.
 write_conf_value() {
     local file="$1" key="$2" value="$3" line tmp is_written=0
     is_conf_key "$key" || die "invalid setting name: $key"
-    [[ "$value" != *$'\n'* && "$value" != *$'\r'* ]] || die "$key: a value can't hold a line break"
+    is_single_line "$value" || die "$key: a value can't hold a line break or control separator"
     tmp="$(mktemp "$file.XXXXXX")" || die "can't write next to $file"
     {
         if [[ -f "$file" ]]; then
@@ -240,14 +255,15 @@ ask_yes_no() {
 }
 
 # ask_terminal_yes_no <question> [yes|no]: like ask_yes_no, always as a plain
-# terminal prompt, so the question stays visible in the scrollback.
+# terminal prompt, so the question stays visible in the scrollback. Only y or
+# yes (any case) counts as Yes; Enter picks the default.
 ask_terminal_yes_no() {
     local question="$1" default="${2:-yes}" answer hint="[Y/n]"
     [[ "$default" == "no" ]] && hint="[y/N]"
     printf '%s %s ' "$question" "$hint" >&2
     IFS= read -r answer </dev/tty || return 1
-    answer="${answer:-$default}"
-    [[ "$answer" =~ ^[Yy] ]]
+    answer="$(trim_space "${answer:-$default}")"
+    [[ "${answer,,}" == "y" || "${answer,,}" == "yes" ]]
 }
 
 # show_message <text>: show <text> and wait for OK.
@@ -263,7 +279,7 @@ show_message() {
 
 # confirm_privileged <command line...>: show the commands that need root (each
 # argument is one command line, e.g. from format_command) and ask once before
-# they run. Never runs anything itself. Returns 1 when the user says no, or
+# they run; the default answer is No. Never runs anything itself. Returns 1 when the user says no, or
 # when there is no terminal to ask in (the commands are then printed to run by
 # hand).
 confirm_privileged() {
@@ -277,7 +293,7 @@ confirm_privileged() {
         log_warn "no terminal to ask in; skipped. Run the command(s) above yourself."
         return 1
     fi
-    if ask_terminal_yes_no "Run now?" "yes"; then
+    if ask_terminal_yes_no "Run now?" "no"; then
         return 0
     fi
     log_info "Skipped. Run the command(s) above yourself when ready."
@@ -295,6 +311,34 @@ run_as_root() {
         log_warn "sudo is not installed; run as root: $(format_command "$@")"
         return 1
     fi
+}
+
+# refuse_sudo <script name>: stop when run through sudo. The scripts ask
+# before each root step and call sudo themselves, so files they create
+# (node.conf, .venv, captures) stay owned by the user.
+refuse_sudo() {
+    if ((EUID == 0)) && [[ -n "${SUDO_USER:-}" ]]; then
+        die "don't run $1 with sudo: run it as $SUDO_USER. It asks before each step that needs root and runs sudo itself."
+    fi
+}
+
+# reset_stale_build_dir <build_dir> <source_dir>: delete <build_dir> when its
+# CMake cache was configured for another source path (the same checkout seen
+# from the host and from the container, or a moved checkout), since CMake
+# refuses to reuse it.
+reset_stale_build_dir() {
+    local build_dir="$1" source_dir="$2" cached_source
+    [[ -f "$build_dir/CMakeCache.txt" ]] || return 0
+    cached_source="$(sed -n 's/^CMAKE_HOME_DIRECTORY:INTERNAL=//p' "$build_dir/CMakeCache.txt")"
+    if [[ "$cached_source" != "$source_dir" ]]; then
+        log_info "==> $build_dir was configured for $cached_source; starting it afresh"
+        rm -rf "$build_dir"
+    fi
+}
+
+# is_dev_container: true inside the dev container (node/docker/Dockerfile).
+is_dev_container() {
+    [[ "${WIRESPLOIT_DEV_CONTAINER:-}" == "1" ]]
 }
 
 # is_package_installed <package>: true when the Debian package is installed.

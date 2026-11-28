@@ -58,6 +58,7 @@ while (($#)); do
     shift
 done
 
+refuse_sudo setup_host.sh
 NODE_ROOT="$(find_node_root "$SCRIPT_DIR")" || die "can't find the Node folder (node.conf.example) above $SCRIPT_DIR"
 REPO_ROOT="$(find_repo_root "$NODE_ROOT")" || die "setup_host.sh needs a repo checkout"
 VENV_DIR="$REPO_ROOT/.venv"
