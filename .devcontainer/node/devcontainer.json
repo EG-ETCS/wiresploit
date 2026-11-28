@@ -1,0 +1,39 @@
+// VS Code "Dev Containers: Reopen in Container" for the Wiresploit Node.
+// Image: node/docker/Dockerfile (build context: the repo root).
+// The repo is mounted at /work; you work as "dev", whose uid VS Code changes
+// to match yours, so files you create stay owned by you.
+// Terminal users without VS Code: see the header of node/docker/Dockerfile.
+{
+  "name": "Wiresploit Node",
+  // The image is linux/amd64 (emulated on Apple Silicon); see the Dockerfile.
+  "build": {
+    "dockerfile": "../../node/docker/Dockerfile",
+    "context": "../.."
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/work,type=bind",
+  "workspaceFolder": "/work",
+  "remoteUser": "dev",
+  "containerUser": "dev",
+  "updateRemoteUserUID": true,
+  // 8000: docs.sh serve. 9090: the web_ui capture test page.
+  "forwardPorts": [8000, 9090],
+  "postCreateCommand": "cat /opt/toolchain-versions.txt",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/opt/venv/bin/python",
+        "cmake.sourceDirectory": "${workspaceFolder}/node/capture",
+        "cmake.buildDirectory": "${workspaceFolder}/node/capture/build-container-tests",
+        "cmake.configureSettings": { "PI5LA_TESTS_ONLY": "ON" }
+      },
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        "timonwong.shellcheck"
+      ]
+    }
+  }
+}
