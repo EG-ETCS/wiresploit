@@ -1,4 +1,14 @@
-# Quick reference
+# Coding rules
+
+The rules for all Wiresploit code. They apply to every component: Core, the web
+application and the Node. Python is the main language; the Node's C code follows
+the same naming, comment and test principles, plus the C conventions in
+`node/AGENTS.md`.
+
+Agents and people read the same rules. The short version for agents is in the
+root `AGENTS.md`; this page is the full text.
+
+## Quick reference
 
 | Thing | Rule |
 |---|---|
@@ -20,7 +30,7 @@
 
 ---
 
-# Index
+## Index
 1. [Naming](#1-naming)
 2. [Functions](#2-functions)
 3. [Classes and modules](#3-classes-and-modules)
@@ -35,7 +45,7 @@
 
 ---
 
-# 1. Naming
+## 1. Naming
 
 Follow PEP 8 and the Google Python Style Guide.
 
@@ -48,7 +58,7 @@ Follow PEP 8 and the Google Python Style Guide.
 | Modules, files, packages | `snake_case` | `event_builder.py` |
 | Private details | One leading underscore | `_build_path()` |
 
-## 1.1 Functions and methods
+### 1.1 Functions and methods
 
 Start with a verb that tells the reader what kind of operation it is.
 
@@ -71,7 +81,7 @@ Rules:
 - A function that performs I/O uses an I/O verb (`read_`, `write_`, `send_`).
 - Pure calculations do not perform I/O.
 
-## 1.2 Classes
+### 1.2 Classes
 
 Use `PascalCase`. A class that has a role ends with the appropriate role suffix. Data classes use plain nouns.
 
@@ -98,7 +108,7 @@ Exceptions end in `Error`, for example `ClockDriftError`.
 
 Do not add role suffixes when they do not describe a real responsibility.
 
-## 1.3 Variables, constants and booleans
+### 1.3 Variables, constants and booleans
 
 - Use `snake_case` for variables and `UPPER_SNAKE_CASE` for constants.
 - Names must be descriptive: `node_id`, not `n`. Single letters are acceptable for short loop indexes.
@@ -123,7 +133,7 @@ if node_count > MAX_NODES:
 
 Do not create constants for values that have no domain meaning, such as `index + 1`.
 
-## 1.4 Files, modules and packages
+### 1.4 Files, modules and packages
 
 - Python files use `snake_case.py`.
 - A file is named after its main class (`SessionManager` belongs in `session_manager.py`) or after what it provides (`sample_rate.py`).
@@ -144,7 +154,7 @@ Owner: <team member or team>
 """
 ```
 
-## 1.5 Terminology
+### 1.5 Terminology
 
 Use the same term for the same concept throughout Wiresploit.
 
@@ -176,9 +186,9 @@ Use the same term for the same concept throughout Wiresploit.
 
 ---
 
-# 2. Functions
+## 2. Functions
 
-## 2.1 Shape
+### 2.1 Shape
 
 - A function does one thing and is short enough to read without unnecessary scrolling.
 - Size and complexity limits are enforced by tools (§9), not by manually counting lines during review.
@@ -188,7 +198,7 @@ Use the same term for the same concept throughout Wiresploit.
 - Type hints are required on public functions and encouraged elsewhere.
 - Return results instead of unnecessarily modifying caller-owned variables.
 
-## 2.2 How to split a function
+### 2.2 How to split a function
 
 Review a function for separation when it combines multiple responsibilities, such as:
 
@@ -247,9 +257,9 @@ def handle_capture_request(
 
 ---
 
-# 3. Classes and modules
+## 3. Classes and modules
 
-## 3.1 When to create a class
+### 3.1 When to create a class
 
 Create a class when the concept:
 
@@ -262,7 +272,7 @@ Use a function for a stateless operation.
 
 Do not create a class merely to group unrelated functions.
 
-## 3.2 Shape
+### 3.2 Shape
 
 A class has one responsibility and one main reason to change.
 
@@ -283,7 +293,7 @@ Prefer `@dataclass(frozen=True)` for value objects.
 
 Note: `frozen=True` does not make nested lists or dictionaries immutable.
 
-## 3.3 Interfaces and plug-ins
+### 3.3 Interfaces and plug-ins
 
 | Situation | Use |
 |---|---|
@@ -303,7 +313,7 @@ Rules:
 - Engines never decode UART, I2C, SPI or other capture protocols.
 - A plug-in must not read files, use the network or read the clock while decoding.
 
-## 3.4 Dependency injection
+### 3.4 Dependency injection
 
 A class receives the objects it needs instead of constructing important dependencies internally.
 
@@ -328,7 +338,7 @@ Rules:
 
 ---
 
-# 4. Comments and docstrings
+## 4. Comments and docstrings
 
 Comments explain **why**, not what.
 
@@ -339,7 +349,7 @@ Example:
 retry_count += 1
 ```
 
-## Docstrings
+### Docstrings
 
 - Public functions, classes and modules must have docstrings.
 - Follow the docstring requirements in BRD §4.
@@ -351,7 +361,7 @@ retry_count += 1
 - Never invent a BR ID.
 - Private helper functions do not require docstrings under this guideline unless additional documentation is useful for clarity.
 
-## Module headers
+### Module headers
 
 Every module starts with a header docstring containing:
 
@@ -373,7 +383,7 @@ Implements: BR-MON-02
 
 Add `Implements:` only when the module implements an identifiable requirement.
 
-## Additional comment rules
+### Additional comment rules
 
 - Comment protocol behavior, timing assumptions, bit manipulation, safety constraints and workarounds.
 - Update comments in the same change as the associated code.
@@ -395,7 +405,7 @@ for attempt in range(MAX_RETRY_COUNT):
     ...
 ```
 
-## Docstring example
+### Docstring example
 
 ```python
 """Correlate network and bus events.
@@ -433,9 +443,9 @@ The private helper does not require a docstring under this guideline.
 
 ---
 
-# 5. Errors and logging
+## 5. Errors and logging
 
-## Errors
+### Errors
 
 - Catch an exception only to handle it, add context or translate it.
 - Never use a bare `except:`.
@@ -457,7 +467,7 @@ except StorageError as exc:
     raise EventPersistenceError(event.event_id) from exc
 ```
 
-## Logging
+### Logging
 
 - Use Python's `logging` module, not `print()`.
 - Use appropriate logging levels:
@@ -473,7 +483,7 @@ except StorageError as exc:
 - Use structured fields (`session_id`, `bus`, `seq_num`) so logs are searchable.
 - Never log secrets or complete sensitive payloads.
 
-## General principle: Clarity over cleverness
+### General principle: Clarity over cleverness
 
 - Prefer straightforward and readable implementations over unnecessarily clever solutions.
 - Avoid unnecessary abstractions, deeply nested logic and complicated expressions.
@@ -482,9 +492,9 @@ except StorageError as exc:
 
 ---
 
-# 6. Formatting, imports and constants
+## 6. Formatting, imports and constants
 
-## Formatting
+### Formatting
 
 - Four spaces per indentation level. No tabs.
 - One statement per line.
@@ -493,7 +503,7 @@ except StorageError as exc:
 - Run Black before every commit.
 - Do not manually reformat code against Black's output.
 
-## Imports
+### Imports
 
 - Remove unused imports.
 - Do not use wildcard imports.
@@ -514,7 +524,7 @@ from pydantic import BaseModel
 from node_agent.models.event import Event
 ```
 
-## Constants and configuration
+### Constants and configuration
 
 - Do not use unexplained magic numbers or strings.
 - Use named constants or enums for fixed domain values.
@@ -524,7 +534,7 @@ from node_agent.models.event import Event
 - Secrets must never be stored in source code.
 - Include units in names where necessary.
 
-## Whitespace
+### Whitespace
 
 Black applies PEP 8 whitespace automatically (§9).
 
@@ -545,7 +555,7 @@ The rules to know when reading code:
 
 ---
 
-# 7. Tests
+## 7. Tests
 
 - Name tests by condition and expected result:
 
@@ -562,7 +572,7 @@ The rules to know when reading code:
 
 ---
 
-# 8. Code review and definition of done
+## 8. Code review and definition of done
 
 A change is ready when:
 
@@ -595,7 +605,7 @@ Authors explain non-obvious decisions and separate required fixes from suggestio
 
 ---
 
-# 9. Enforcement with tools
+## 9. Enforcement with tools
 
 Rules that a person has to check cost review time. Rules that a tool checks can be enforced consistently.
 
@@ -607,7 +617,7 @@ Use:
 
 Pin tool versions in the repository so the team uses consistent configurations.
 
-## 9.1 Black (formatter)
+### 9.1 Black (formatter)
 
 Black formats whitespace, line breaks, quotes and trailing commas.
 
@@ -633,7 +643,7 @@ Rules:
 - Pin the Black version in the repository.
 - Editors should enable format-on-save with Black.
 
-## 9.2 Ruff (linter) and configuration
+### 9.2 Ruff (linter) and configuration
 
 Example proposed configuration:
 
@@ -690,7 +700,7 @@ Pin the Python version and ensure language features match it. For example, `X | 
 
 
 
-# 10. References
+## 10. References
 
 - [PEP 8 — Style Guide for Python Code](https://peps.python.org/pep-0008/)
 - [PEP 257 — Docstring Conventions](https://peps.python.org/pep-0257/)
@@ -700,5 +710,3 @@ Pin the Python version and ensure language features match it. For example, `X | 
 - [Ruff documentation](https://docs.astral.sh/ruff/)
 - Wiresploit BRD §4 — Coding Standards & Commenting Guidelines
 - Approved Core and Node design documents
-
----
