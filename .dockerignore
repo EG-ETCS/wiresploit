@@ -1,0 +1,17 @@
+# Build context for node/docker/Dockerfile (run from the repo root). The image
+# only copies a few requirement files and the toolchain file; keep the rest,
+# and anything per-machine or secret, out of the context.
+.git
+.venv
+site
+**/build*
+**/__pycache__
+**/*.pyc
+**/.DS_Store
+node/node.conf
+node/.deploy.conf
+node/captures
+AGENTS.local.md
+CLAUDE.local.md
+.remember
+docs/private
