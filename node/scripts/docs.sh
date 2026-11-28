@@ -12,8 +12,9 @@ show_usage() {
     cat <<'EOF'
 Usage: node/scripts/docs.sh build|serve [mkdocs options...]
 
-  build   run Doxygen for node/capture (once node/capture/Doxyfile exists),
-          then `mkdocs build` into site/
+  build   run Doxygen on node/capture/Doxyfile (any warning, such as an
+          undocumented public declaration, fails the build), then
+          `mkdocs build` into site/
   serve   `mkdocs serve`: live preview on http://127.0.0.1:8000
           (in a `docker run` container add: --dev-addr 0.0.0.0:8000)
 

@@ -22,6 +22,7 @@ root `AGENTS.md`; this page is the full text.
 | Line length | **88 characters** (Black default) |
 | Whitespace and layout | Formatted by **Black**. Run `black .` before every commit |
 | Docstrings | Required for public functions, classes and modules |
+| C doc comments | `/** */` with `@param` and `@return` on every public declaration in a `.h` ([Writing doc comments](#writing-doc-comments)) |
 | Module header | Contains `Module`, `Purpose` and `Owner` |
 | Implements | Include requirement references where applicable, using actual BR IDs |
 | TODO | `# TODO(owner): description` or a ticket reference |
@@ -440,6 +441,73 @@ def _is_within_window(timestamp_ns: int, window_ns: int) -> bool:
 ```
 
 The private helper does not require a docstring under this guideline.
+
+### Writing doc comments
+
+Doc comments are the source of the generated code reference on this site
+(Node › Reference). Nobody edits those pages by hand: fix the comment, and the
+page follows at the next build.
+
+**Python** uses Google-style docstrings, as described above. The `mkdocstrings`
+plugin renders them, with `docstring_style: google`.
+
+- The first line is one sentence that says what the function does or returns.
+- Then `Args:`, `Returns:` and `Raises:`, each only when it has something to say.
+- Docstrings are rendered as Markdown. Put placeholders such as `<file>.sr` in
+  double backticks (` ``<file>.sr`` `), or the page drops them as HTML tags.
+- A module's docstring starts with its header: `Module`, `Purpose`, `Owner`.
+
+**C** puts its doc comments in the header (`.h`), on every public function,
+struct, struct member, enum value and macro. Doxygen reads them, and the
+`mkdoxy` plugin renders them. A `.c` file's private helpers keep plain `/* */`
+comments.
+
+- A doc comment opens with `/**`. A plain `/*` comment does not appear in the
+  reference.
+- The first sentence is the summary line, so make it a complete sentence.
+- Document every parameter with `@param name text` and every non-void return
+  with `@return text`. Give units and the error convention (`0`, or `-1` with
+  a message on stderr).
+- Each header starts with an `@file name.h` block. `@brief` gives the summary,
+  and the paragraphs after it describe the module.
+- Struct members get their own `/** */` comment on the line above, like any
+  other comment.
+- Use `@code` and `@endcode` for diagrams and examples, and backticks for code
+  in running text.
+
+```c
+/**
+ * Read the FDEBUG register.
+ *
+ * @param fd    Handle from fdebug_open().
+ * @param value Receives the register value.
+ * @return 0 on success, -1 on error (errno set).
+ */
+int fdebug_read(int fd, uint32_t *value);
+
+/** Result of analyze_runs(): run lengths of one channel. */
+typedef struct {
+    /** Complete runs examined (first and last run excluded). */
+    uint64_t runs;
+} run_stats_t;
+```
+
+**Check and preview.** `node/scripts/docs.sh build` runs Doxygen with
+`node/capture/Doxyfile` first and fails on any Doxygen warning, for example an
+undocumented public declaration or a `@param` that names no parameter. Then it
+builds the whole site into `site/`. To read the pages while you write:
+
+```bash
+node/scripts/docs.sh serve --watch node   # http://127.0.0.1:8000
+# from a container started with docker run, publish the port:
+docker run --rm -it -u "$(id -u):$(id -g)" -p 8000:8000 -v "$PWD":/work -w /work \
+    wiresploit-node node/scripts/docs.sh serve --watch node --dev-addr 0.0.0.0:8000
+```
+
+The reference pages are under Node › Reference. `--watch node` makes the
+preview rebuild when a header or a Python file changes, not only when a page
+in `docs/` does. `serve` does not run the Doxygen warning check: run
+`docs.sh build` before you commit.
 
 ---
 

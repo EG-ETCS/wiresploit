@@ -1,6 +1,11 @@
 """
 Input validation and argv building for the pi5la web UI.
 
+Module: args
+Purpose: Validate the test page's form fields and build the pi5la, sr2es and
+    sigrok-cli argument lists from them.
+Owner: node
+
 Everything here is pure: no Flask, no subprocess, no filesystem. The web app
 turns form fields into argument lists through these functions, so nothing a
 browser sends is ever handed to a shell. Unit tests live in
@@ -113,8 +118,8 @@ def safe_capture_name(name):
 
 def safe_capture_ref(ref):
     """
-    A capture the browser may name: either a plain "<file>.sr" or one burst
-    inside a monitor session, "mon-YYYYmmdd-HHMMSS/<file>.sr". Anything else,
+    A capture the browser may name: either a plain ``<file>.sr`` or one burst
+    inside a monitor session, ``mon-YYYYmmdd-HHMMSS/<file>.sr``. Anything else,
     including separators or traversal, is rejected.
     """
     if not isinstance(ref, str):
@@ -341,7 +346,7 @@ def live_commands(form, pi5la="pi5la", sigrok="sigrok-cli"):
 
 
 def decode_command(path, form, channels=8, base_gpio=2, sigrok="sigrok-cli"):
-    """argv to decode a saved .sr file. Channels there are named GPIO<n>."""
+    """argv to decode a saved .sr file. Channels there are named ``GPIO<n>``."""
     decoder = _decoder_spec(form, channels, name=lambda ch: "GPIO%d" % (base_gpio + ch))
     return [sigrok, "-i", path, "-P", decoder] + _annotation_args(form.get("protocol", "uart"))
 

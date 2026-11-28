@@ -80,6 +80,32 @@ plugins:
       video_controls: True
       css_style:
         width: "100%"
+  # Node code reference (docs/03_Documentation/Node/reference/).
+  # C: Doxygen reads node/capture/Doxyfile; mkdoxy writes the c_api pages.
+  - mkdoxy:
+      projects:
+        c_api:
+          src-dirs: node/capture/src
+          api-path: 03_Documentation/Node/reference/c_api
+          doxy-cfg-file: node/capture/Doxyfile
+          full-doc: True
+  # Python: Google-style docstrings, imported by path (no install needed).
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths:
+            - node/exporter
+            - node/capture/tools/web_ui
+            - node/lib
+          options:
+            docstring_style: google
+            docstring_options:
+              warn_missing_types: false
+            show_root_heading: false
+            show_source: true
+            members_order: source
+            filters: ["!^_"]
 
 nav:
   - Home: index.md
@@ -112,3 +138,29 @@ nav:
     - Findings report: 03_Documentation/Node/findings_report.md
     - Decisions: 03_Documentation/Node/decisions.md
     - Original brief: 03_Documentation/Node/spec.md
+    - Reference:
+      - Overview: 03_Documentation/Node/reference/index.md
+      - C API:
+        - Files: 03_Documentation/Node/reference/c_api/files.md
+        - Structs: 03_Documentation/Node/reference/c_api/annotated.md
+        - Functions: 03_Documentation/Node/reference/c_api/functions.md
+        - Macros: 03_Documentation/Node/reference/c_api/macros.md
+        - analyze.h: 03_Documentation/Node/reference/c_api/analyze_8h.md
+        - burst.h: 03_Documentation/Node/reference/c_api/burst_8h.md
+        - capture.h: 03_Documentation/Node/reference/c_api/capture_8h.md
+        - dmacyclic.h: 03_Documentation/Node/reference/c_api/dmacyclic_8h.md
+        - fdebug.h: 03_Documentation/Node/reference/c_api/fdebug_8h.md
+        - generator.h: 03_Documentation/Node/reference/c_api/generator_8h.md
+        - idle.h: 03_Documentation/Node/reference/c_api/idle_8h.md
+        - progbuild.h: 03_Documentation/Node/reference/c_api/progbuild_8h.md
+        - record.h: 03_Documentation/Node/reference/c_api/record_8h.md
+        - rp1_ioctl.h: 03_Documentation/Node/reference/c_api/rp1__ioctl_8h.md
+        - shipper.h: 03_Documentation/Node/reference/c_api/shipper_8h.md
+        - srwriter.h: 03_Documentation/Node/reference/c_api/srwriter_8h.md
+        - srzip.h: 03_Documentation/Node/reference/c_api/srzip_8h.md
+        - unpack.h: 03_Documentation/Node/reference/c_api/unpack_8h.md
+        - util.h: 03_Documentation/Node/reference/c_api/util_8h.md
+      - Python API:
+        - sr2es: 03_Documentation/Node/reference/python_api/sr2es.md
+        - web_ui args: 03_Documentation/Node/reference/python_api/args.md
+        - node_config: 03_Documentation/Node/reference/python_api/node_config.md
