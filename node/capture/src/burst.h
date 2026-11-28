@@ -48,8 +48,8 @@ typedef struct {
     /** Absolute index where the new burst starts (valid with `begin`). */
     uint64_t start;
     /**
-     * The change itself, before `pre` is taken off `start`: when the traffic
-     * actually arrived.
+     * The change itself, before `pre` is taken off `start`:
+     * when the traffic actually arrived.
      */
     uint64_t first_edge;
     /** Append samples [write_from, write_to). */

@@ -32,7 +32,7 @@ Document fields:
                   active_channels for raw)
 
 Absolute time comes from the sidecar pi5la writes beside every capture
-(<capture>.sr.meta.json, or burst-NNNN.sr.meta.json in a monitor session), which
+(``<capture>.sr.meta.json``, or burst-NNNN.sr.meta.json in a monitor session), which
 carries integer nanoseconds so a timestamp is not rounded to the ~240 ns a
 double can hold at today's epoch values.
 

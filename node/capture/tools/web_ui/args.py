@@ -118,8 +118,8 @@ def safe_capture_name(name):
 
 def safe_capture_ref(ref):
     """
-    A capture the browser may name: either a plain "<file>.sr" or one burst
-    inside a monitor session, "mon-YYYYmmdd-HHMMSS/<file>.sr". Anything else,
+    A capture the browser may name: either a plain ``<file>.sr`` or one burst
+    inside a monitor session, ``mon-YYYYmmdd-HHMMSS/<file>.sr``. Anything else,
     including separators or traversal, is rejected.
     """
     if not isinstance(ref, str):
@@ -346,7 +346,7 @@ def live_commands(form, pi5la="pi5la", sigrok="sigrok-cli"):
 
 
 def decode_command(path, form, channels=8, base_gpio=2, sigrok="sigrok-cli"):
-    """argv to decode a saved .sr file. Channels there are named GPIO<n>."""
+    """argv to decode a saved .sr file. Channels there are named ``GPIO<n>``."""
     decoder = _decoder_spec(form, channels, name=lambda ch: "GPIO%d" % (base_gpio + ch))
     return [sigrok, "-i", path, "-P", decoder] + _annotation_args(form.get("protocol", "uart"))
 
