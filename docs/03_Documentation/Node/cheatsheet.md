@@ -235,7 +235,9 @@ sigrok-cli -i capture.sr --show
 ## Elasticsearch export (optional)
 
 ```bash
-export ES_USER ES_PASSWORD           # or ES_API_KEY; never on the command line
+# Credentials: from node.conf, or exported (the environment wins); never on the command line
+export ES_USER ES_PASSWORD           # or ES_API_KEY
+# --es-url and --sigrok default to ES_URL and SIGROK_CLI in node.conf
 <install_dir>/bin/sr2es capture.sr --baud 115200                 # -> capture.sr.ndjson
 <install_dir>/bin/sr2es capture.sr --es-url https://es.example:9200
 <install_dir>/bin/sr2es --ship <install_dir>/captures/mon1       # ship what is not sent yet

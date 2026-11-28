@@ -275,7 +275,7 @@ database is no good for a bus you are watching for hours. With `--es-url`, pi5la
 hands each burst to `sr2es` the moment it closes:
 
 ```bash
-export ES_USER ES_PASSWORD          # or ES_API_KEY: credentials come from the environment, never argv
+export ES_USER ES_PASSWORD          # or ES_API_KEY, or set them in node.conf; never on argv
 pi5la --rate 2M --monitor <install_dir>/captures/mon1 \
       --es-url https://es.example:9200 --es-index bus-traffic \
       --protocol uart --decode-channel 0 --baud 115200
@@ -300,7 +300,10 @@ from §6), rather than whenever the run is stopped.
   `--protocol raw` is the exception: its document carries no payload, so the
   `.sr` is the only copy of the waveform and stays.
 - **Credentials are never on the command line or in a form.** `ES_API_KEY`, or
-  `ES_USER` and `ES_PASSWORD`, are inherited from pi5la's environment.
+  `ES_USER` and `ES_PASSWORD`, come from the environment or from `node.conf`;
+  the environment wins. `sr2es` inherits pi5la's environment and also loads
+  `node.conf` from its own location, filling in only what the environment
+  lacks.
 
 Flags:
 
@@ -311,7 +314,8 @@ Flags:
 - `--uart-type` (default `TTL-3V3`) and `--port` (default `chN`) label the line.
 - `--insecure` skips TLS verification; `--sr2es PATH` overrides the script.
 
-You can also ship a folder after the fact: `sr2es --ship DIR`. The document
+You can also ship a folder after the fact: `sr2es --ship DIR`. Its `--es-url`
+and `--sigrok` default to `ES_URL` and `SIGROK_CLI` in `node.conf`. The document
 shape is described in the
 [capture guide](capture_guide.md#sending-captures-to-elasticsearch).
 

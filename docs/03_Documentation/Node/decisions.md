@@ -132,8 +132,10 @@ say something new: add a new one that replaces it, and mark the old one
 - **Decision:** `sr2es.py` decodes a capture with sigrok-cli, groups bytes into
   messages by idle gap, and writes bulk NDJSON for the `wiresploit-poc1` index,
   uploading when `--es-url` is given. Wall-clock time comes from the per-burst
-  sidecar written by `record.c`. Credentials only through `ES_API_KEY`, or
-  `ES_USER` and `ES_PASSWORD`.
+  sidecar written by `record.c`. Credentials (`ES_API_KEY`, or `ES_USER` and
+  `ES_PASSWORD`) come from the environment or `node.conf`, the environment
+  winning; never from argv or a form field. `--es-url` and `--sigrok` default
+  to `ES_URL` and `SIGROK_CLI` in `node.conf`.
 - **Why:** no third-party packages on the Pi; the NDJSON written first means a
   failed upload loses nothing; credentials never reach an argv.
 - **Date:** 2026-09-21.

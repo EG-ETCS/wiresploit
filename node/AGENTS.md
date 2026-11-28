@@ -235,11 +235,15 @@ Wiring diagram and buffer pinout: the capture guide's "Hardware safety" section.
 - `web_ui/args.py`, `exporter/sr2es.py` and `lib/node_config.py` have their own
   tests (`web_ui/tests/test_args.py`, `exporter/tests/test_sr2es.py`,
   `lib/tests/test_node_config.py`). Keep them passing.
-- **No credential ever reaches an argv or a form field.** `pi5la`, `sr2es` and
-  the test page read `ES_API_KEY`, or `ES_USER` and `ES_PASSWORD`, from the
-  environment only. The test page passes its own environment to the capture it
-  spawns. (`node.conf` has these keys for `setup_pi.sh`, but today the programs
-  take credentials from the environment, not from `node.conf`.) `test_args.py` asserts nothing secret can be forwarded.
+- **No credential ever reaches an argv or a form field.** Credentials
+  (`ES_API_KEY`, or `ES_USER` and `ES_PASSWORD`) come from the environment or
+  from `node.conf`, and the environment wins. At startup, `sr2es.py` and the
+  test page call `NodeConfig.export_es_credentials()` (`lib/node_config.py`),
+  which copies the `node.conf` values into the process environment only where
+  the environment does not already have them. The test page passes its
+  environment to the `pi5la` it spawns, and the `sr2es` that `pi5la` spawns
+  loads `node.conf` from its own location, so a shipped burst gets `node.conf`
+  credentials too. `test_args.py` asserts nothing secret can be forwarded.
 - `web_ui/args.py` has two protocol lists with similar names and different
   jobs: `PROTOCOLS` (uart, i2c, spi) picks a **sigrok decoder** for the live and
   decode views; `SHIP_PROTOCOLS` (uart, raw) matches `sr2es.py`'s table and

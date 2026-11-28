@@ -68,8 +68,8 @@ the Node.
 
 ## What never goes into shared context
 
-- Credentials, API keys and tokens, in any file. Keep them in environment
-  variables.
+- Credentials, API keys and tokens, in any committed file. Keep them in
+  environment variables or in the gitignored `node/node.conf` (mode 600).
 - IP addresses, hostnames, user names and home-folder paths. Write `<pi-host>`
   for the Pi's address, `<install_dir>` for the Node's install folder on a Pi,
   and repo-relative paths for everything in the repo.

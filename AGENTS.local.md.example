@@ -7,7 +7,7 @@ not be shared: addresses, user names, local paths, your own way of working.
 - Shared rules belong in `AGENTS.md` or a component's `AGENTS.md`, not here. If
   you learn something the whole team needs, move it there in a pull request.
 - Never put passwords, API keys or tokens in this file either. Keep them in your
-  shell environment.
+  shell environment or in the gitignored `node/node.conf` (mode 600).
 - Claude Code reads `CLAUDE.md` files, not `AGENTS.md`. To load both files,
   create a gitignored `CLAUDE.local.md` at the repo root containing:
 

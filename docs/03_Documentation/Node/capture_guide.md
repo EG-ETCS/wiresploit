@@ -426,8 +426,10 @@ How that works, and why nothing slow runs in the capture path, is in
 `sr2es --ship DIR` can also be run by hand, on a live folder or a finished one,
 and picks up whatever has not been shipped yet.
 
-**Credentials never go on the command line.** Set `ES_API_KEY`, or `ES_USER`
-and `ES_PASSWORD`, in the environment:
+**Credentials never go on the command line.** `sr2es` takes `ES_API_KEY`, or
+`ES_USER` and `ES_PASSWORD`, from the environment or from `node.conf`
+(`setup_pi.sh` writes them there, mode 600); a variable set in the environment
+wins over `node.conf`. To use the environment for one session:
 
 ```bash
 read -s ES_API_KEY; export ES_API_KEY      # not saved in shell history
@@ -549,12 +551,14 @@ Options: `--host`, `--port`, `--pi5la`, `--sigrok`, `--captures`. Their defaults
 come from `node.conf` (`WEB_UI_HOST`, `WEB_UI_PORT`, `PI5LA_BIN`, `SIGROK_CLI`,
 `CAPTURES_DIR`).
 
-To let the page ship bursts to Elasticsearch, export the credentials **before**
-starting it. pi5la's shipper inherits the page's environment, and the page says
-so up front when they are missing:
+To let the page ship bursts to Elasticsearch, put the credentials in
+`node.conf`, or export them **before** starting the page; the environment wins
+over `node.conf`. At startup the page copies the `node.conf` credentials into
+its environment where they are not already set, and pi5la's shipper inherits
+that environment. The page says so up front when credentials are missing:
 
 ```bash
-export ES_USER ES_PASSWORD        # or ES_API_KEY
+export ES_USER ES_PASSWORD        # or ES_API_KEY; or leave them in node.conf
 python3 <install_dir>/web_ui/app.py
 ```
 
@@ -579,7 +583,7 @@ What the page does:
 
 **Credentials never go through the browser.** There is no password field: the
 shipper reads `ES_API_KEY`, or `ES_USER` and `ES_PASSWORD`, from the environment
-the page was started with. A form field would put a password into the POST body,
+the page was started with, filled in from `node.conf` where unset. A form field would put a password into the POST body,
 the job log and the browser's history. When there are no credentials, the page
 shows a red marker in the header and explains how to restart it, rather than
 letting every burst fail silently.
