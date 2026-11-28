@@ -1,11 +1,11 @@
-"""Unit tests for web/args.py. Run: python3 -m unittest tests/test_web_args.py"""
+"""Unit tests for capture/tools/web_ui/args.py. Run: python3 -m pytest node/capture/tools/web_ui/tests"""
 
 import datetime
 import os
 import sys
 import unittest
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "web"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 
 import args  # noqa: E402
 

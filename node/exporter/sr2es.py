@@ -37,13 +37,14 @@ double can hold at today's epoch values.
     what was confirmed, and leaves the rest for the next sweep to retry.
 
 Credentials are never read from the command line: set ES_API_KEY, or ES_USER
-and ES_PASSWORD, in the environment.
+and ES_PASSWORD, in the environment or in node.conf (the environment wins).
+--es-url and --sigrok default to ES_URL and SIGROK_CLI from node.conf.
 
 Examples:
 
     sr2es.py capture.sr --baud 115200
-    sr2es.py ~/captures/mon-test --channel 0 --es-url https://es.example:9200
-    sr2es.py --ship ~/captures/mon-test --es-url https://es.example:9200
+    sr2es.py captures/mon-test --channel 0 --es-url https://es.example:9200
+    sr2es.py --ship captures/mon-test --es-url https://es.example:9200
 """
 
 import argparse
@@ -800,7 +801,29 @@ def count_ndjson(path):
 # --------------------------------------------------------------------------
 
 
+def _load_node_config():
+    """Load node.conf for the Node this file is in, or None outside a Node.
+
+    Walks up from this file to the folder holding node.conf.example (the Node
+    root), so it works from the repo, a build directory or an install folder.
+    """
+    here = os.path.dirname(os.path.realpath(__file__))
+    current = here
+    while True:
+        if os.path.isfile(os.path.join(current, "node.conf.example")):
+            sys.path.insert(0, os.path.join(current, "lib"))
+            import node_config
+            return node_config.load_config(here)
+        parent = os.path.dirname(current)
+        if parent == current:
+            return None
+        current = parent
+
+
 def main():
+    config = _load_node_config()
+    if config is not None:
+        config.export_es_credentials()
     p = argparse.ArgumentParser(
         description="Decode a pi5la capture into Elasticsearch documents",
         epilog="Credentials come from ES_API_KEY, or ES_USER and ES_PASSWORD.")
@@ -825,10 +848,14 @@ def main():
     p.add_argument("--out", help="NDJSON output path (default: next to the capture)")
     p.add_argument("--index", default=INDEX, help="index name (default %s)" % INDEX)
     p.add_argument("--es-url", dest="es_url",
-                   help="Elasticsearch base URL; without it, only the NDJSON is written")
+                   default=(config.get("ES_URL") or None) if config else None,
+                   help="Elasticsearch base URL (default: ES_URL in node.conf); "
+                        "without it, only the NDJSON is written")
     p.add_argument("--insecure", action="store_true",
                    help="skip TLS certificate checks (self-signed clusters)")
-    p.add_argument("--sigrok", default="sigrok-cli", help="sigrok-cli command")
+    p.add_argument("--sigrok",
+                   default=(config.get("SIGROK_CLI") or "sigrok-cli") if config else "sigrok-cli",
+                   help="sigrok-cli command (default %(default)s)")
     p.add_argument("--print", action="store_true", dest="print_docs",
                    help="also print the documents")
     opts = p.parse_args()

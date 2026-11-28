@@ -4,7 +4,7 @@ Input validation and argv building for the pi5la web UI.
 Everything here is pure: no Flask, no subprocess, no filesystem. The web app
 turns form fields into argument lists through these functions, so nothing a
 browser sends is ever handed to a shell. Unit tests live in
-tests/test_web_args.py.
+tests/test_args.py.
 
 The rules mirror pi5la's own parsers: parse_si / parse_duration in src/util.c
 and src/idle.c, and the option checks in src/main.c.
@@ -25,7 +25,7 @@ MONITOR_DIR_RE = re.compile(r"^mon-\d{8}-\d{6}$")
 DEFAULTS = {"gap": "100ms", "pre": "10ms", "post": "50ms", "max_size": "4G"}
 TRIGGERS = ("rising", "falling", "high", "low")
 PROTOCOLS = ("uart", "i2c", "spi")          # sigrok decoders, for the live/decode views
-SHIP_PROTOCOLS = ("uart", "raw")            # what sr2es can ship; see tools/sr2es.py
+SHIP_PROTOCOLS = ("uart", "raw")            # what sr2es can ship; see node/exporter/sr2es.py
 ES_URL_RE = re.compile(r"^https?://[^\s/]+(/.*)?$")
 INDEX_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9._-]*$")   # Elasticsearch index rules
 

@@ -1,4 +1,4 @@
-"""Unit tests for tools/sr2es.py. Run: python3 -m unittest tests/test_sr2es.py"""
+"""Unit tests for exporter/sr2es.py. Run: python3 -m pytest node/exporter/tests"""
 
 import json
 import os
@@ -7,7 +7,7 @@ import tempfile
 import time
 import unittest
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "tools"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 
 import sr2es  # noqa: E402
 
