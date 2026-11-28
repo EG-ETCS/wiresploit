@@ -1,4 +1,6 @@
 # shellcheck shell=bash
+# Constants here are used by the scripts that source this file.
+# shellcheck disable=SC2034
 #
 # Shared helpers for the Node scripts in node/scripts/. Source this file, don't
 # run it. It works the same in the repo (Node root = node/) and in an install

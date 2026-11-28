@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Build or preview the documentation site (mkdocs.yml at the repo root).
+# shellcheck source-path=SCRIPTDIR
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
-# shellcheck source=lib/config.sh
+# SC1091: plain `shellcheck` does not follow it; `shellcheck -x` does.
+# shellcheck source=lib/config.sh disable=SC1091
 source "$SCRIPT_DIR/lib/config.sh"
 
 show_usage() {

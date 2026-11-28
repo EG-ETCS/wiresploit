@@ -4,10 +4,12 @@
 #
 # The dev container (node/docker/Dockerfile) is the easier path and is the only
 # one that cross-compiles for the Pi (build_pi.sh).
+# shellcheck source-path=SCRIPTDIR
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
-# shellcheck source=lib/config.sh
+# SC1091: plain `shellcheck` does not follow it; `shellcheck -x` does.
+# shellcheck source=lib/config.sh disable=SC1091
 source "$SCRIPT_DIR/lib/config.sh"
 
 # Same as node/docker/Dockerfile, minus the arm64 cross-compile packages: those

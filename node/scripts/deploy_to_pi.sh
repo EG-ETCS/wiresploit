@@ -4,10 +4,12 @@
 # Build the Pi binaries first (build_pi.sh). The first run asks for the Pi's
 # address, the ssh user and the install folder, and saves them in the
 # gitignored node/.deploy.conf for next time.
+# shellcheck source-path=SCRIPTDIR
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
-# shellcheck source=lib/config.sh
+# SC1091: plain `shellcheck` does not follow it; `shellcheck -x` does.
+# shellcheck source=lib/config.sh disable=SC1091
 source "$SCRIPT_DIR/lib/config.sh"
 
 show_usage() {
@@ -64,6 +66,7 @@ CAPTURE_DIR="$NODE_ROOT/capture"
 ARM64_BUILD_DIR="$CAPTURE_DIR/build-arm64"
 PI_BINARIES=(pi5la ratesweep bitprobe fdebugtest)
 DEFAULT_INSTALL_DIR="wiresploit-node"
+# shellcheck disable=SC2034 # read by the dialogs in lib/config.sh
 UI_TITLE="Deploy to Pi"
 
 # ------------------------------------------------------------- target

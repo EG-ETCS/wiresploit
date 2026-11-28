@@ -5,10 +5,12 @@
 #   <install_dir>/scripts/setup_pi.sh
 # It installs packages and collects settings into <install_dir>/node.conf. It
 # builds nothing: the binaries arrive ready-made in <install_dir>/bin/.
+# shellcheck source-path=SCRIPTDIR
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
-# shellcheck source=lib/config.sh
+# SC1091: plain `shellcheck` does not follow it; `shellcheck -x` does.
+# shellcheck source=lib/config.sh disable=SC1091
 source "$SCRIPT_DIR/lib/config.sh"
 
 PI_PACKAGES=(libzip4 sigrok-cli python3 python3-flask whiptail)
