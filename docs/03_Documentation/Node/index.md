@@ -119,7 +119,7 @@ reboot, `pinctrl lev 2` shows `-` until pi5la has run once.
       with a shared GND.
 - [ ] Live per-burst shipping (`--es-url`) on the Pi, then against the real
       cluster.
-- [ ] The full hardware test list (`tools/test_pi.sh`) on a Pi after the
+- [ ] The full hardware test list (`<install_dir>/bin/test_pi.sh`) on a Pi after the
       restructure.
 - [ ] The Actions function.
 - [ ] Optional: M8 (RLE, pre-trigger buffer), or a PulseView live driver.

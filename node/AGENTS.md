@@ -64,29 +64,35 @@ asking.
 
 Test levels (details in `docs/02_Engineering/04_Testing.md`):
 
-1. **Unit**: C tests in `node/capture/tests/unit/` (`test_record` builds on the
-   host with `tests/unit/stubs/piolib.h`) and the Python tests, run by pytest
-   (configured in `node/pyproject.toml`). `ctest` calls pytest, so one command
-   runs everything.
-2. **Integration**: synthetic `.sr` samples in
-   `node/capture/tests/integration/samples/`, with expected output in
+1. **Unit** (`test.sh unit`): C tests in `node/capture/tests/unit/`
+   (`test_record` builds on the host with `tests/unit/stubs/piolib.h`), plus the
+   Python tests in `exporter/tests/`, `capture/tools/web_ui/tests/` and
+   `lib/tests/`. pytest is configured in `node/pyproject.toml`.
+2. **Integration** (`test.sh integration`): synthetic `.sr` samples in
+   `node/capture/tests/integration/samples/` run through the real pipeline
+   (`test_pipeline`) and the real exporter (`test_decode.py`), compared with
    `expected/`. No Pi needed.
-3. **Pi hardware**: `node/capture/tools/test_pi.sh`, run on the Pi with loopback
-   jumpers. It asks you to confirm the wiring with `pinctrl` first.
+3. **Pi hardware** (`<install_dir>/bin/test_pi.sh` on the Pi; source in
+   `node/capture/tools/test_pi.sh`): loopback checks with PASS or FAIL for
+   each. It asks you to confirm the wiring with `pinctrl` first.
 
-Unit and integration tests must pass before a task branch is merged.
+Every test is registered with CTest and labelled `unit` or `integration`;
+`ctest` runs the Python tests through pytest, or plain unittest when pytest is
+missing. **`test.sh all` must pass before a task branch is merged.** A change to
+the capture hardware path (`src/capture.c`, `src/dmacyclic.c`, `src/fdebug.c`,
+`src/generator.c`, the `.pio` programs) also needs a passing `test_pi.sh` run.
 
-What `test.sh unit` does underneath, if you need one test by hand:
+Running tests by hand, without the wrapper:
 
 ```bash
 cmake -S node/capture -B node/capture/build-host -DPI5LA_TESTS_ONLY=ON
 cmake --build node/capture/build-host -j4
+ctest --test-dir node/capture/build-host -L unit --output-on-failure
 ctest --test-dir node/capture/build-host -R test_unpack --output-on-failure
 ```
 
-- `-DPI5LA_TESTS_ONLY=ON` builds only `pi5la_core` and its tests, with no piolib
-  or pioasm. Use it for pure logic: unpack, srzip, analyze, progbuild, burst,
-  idle, util, srwriter.
+- `-DPI5LA_TESTS_ONLY=ON` builds the tests without piolib or pioasm, so it works
+  on any Linux machine.
 - Requires CMake 3.16 or newer, a C11 compiler, `libzip-dev` and `python3`.
 - At run time on the Pi, `/dev/pio0` needs the user in the `gpio` group. Never
   run pi5la with `sudo`.
