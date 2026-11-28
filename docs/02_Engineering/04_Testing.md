@@ -187,6 +187,7 @@ changes. Format:
 ```
 # Comment lines start with #. Say how the expected numbers were worked out.
 sample two_bursts.sr      a file in samples/
+samples 8192              its length in samples; a short or empty file fails
 period_words 256          FIFO words fed to the state machine per period
 pre 100                   lengths in samples
 post 200
@@ -259,11 +260,21 @@ PASS or FAIL line for each, then a summary:
 | `bitprobe-map` | pin 38 (GPIO 20) to pin 3 (GPIO 2) | `bitprobe --probe` finds channel 0 in word bits 0 8 16 24, in that order |
 | `bitprobe-verify` | same | `bitprobe --verify 0 --generator 100k --rate 10M --samples 16M` prints PASS |
 | `ratesweep` | same | `ratesweep --channels 8 --dividers 20 --samples 40M`: 10 MSa/s, 0 violations, 0 stalls, status `ok` |
-| `uart-loopback` | pin 8 (GPIO 14) to pin 3 (GPIO 2) | 50 lines sent on `/dev/ttyAMA0` at 115200 baud, captured by `pi5la` and decoded by `sigrok-cli`, match byte for byte |
+| `uart-loopback` | pin 8 (GPIO 14) to pin 3 (GPIO 2) | 50 lines sent on `/dev/ttyAMA0` at 115200 baud, captured by `pi5la --channels 1 --rate 2M` and decoded by `sigrok-cli`, match byte for byte |
 
 Before it captures anything, the script prints the hardware-safety warning and
 the wiring, and asks you to confirm each wiring step from `pinctrl lev` output.
 It continues only when you type `yes`.
+
+Between the two steps the script sets GPIO 20 back to an input
+(`pinctrl set 20 ip pd`), because the generator leaves it driving. Before the
+UART sends anything, it checks that GPIO 20 reads low: if the step A jumper is
+still on, GPIO 20 reads high through pin 3, and the UART check fails without
+driving the line. You then confirm the step B wiring before any byte is sent.
+
+If a step cannot run (for example `stty` is refused because you are not in the
+`dialout` group), that check is recorded as FAIL with the reason, and the
+summary is still printed.
 
 **Hardware safety.** Pi 5 GPIO is 3.3 V and not 5 V tolerant. Overvoltage
 destroys RP1 and, with it, the Pi. These tests use loopback jumpers between Pi
@@ -278,12 +289,16 @@ On the Pi, after deploying:
 <install_dir>/bin/test_pi.sh            # or --keep to keep every log and capture
 ```
 
-In the repo on a Pi, after building the Pi binaries, run
-`node/capture/build/test_pi.sh`. The build copies it next to `pi5la`.
+In the repo on a Pi, after a native build (`node/scripts/test.sh --pi` builds
+into `node/capture/build-pi-tests/`), run `node/capture/build-pi-tests/test_pi.sh`;
+the build copies it next to `pi5la`. `node/capture/tools/test_pi.sh` works too.
+The script looks for the programs in this order: its own folder (the installed
+`bin/`, or a build folder), then `../build-pi-tests/`, then `../build/`.
 
-It needs `pinctrl`, `sigrok-cli` and `stty`, and the UART check needs
+It needs `pinctrl`, `sigrok-cli` and `stty`. The UART check needs
 `dtparam=uart0=on` in `/boot/firmware/config.txt` (then reboot) so that
-`/dev/ttyAMA0` exists. Exit status is 0 when every check passes and 1
+`/dev/ttyAMA0` exists, and write access to it (membership of the `dialout`
+group). Exit status is 0 when every check passes and 1
 otherwise. When a check fails, the work folder with every log is kept and its
 path is printed.
 
