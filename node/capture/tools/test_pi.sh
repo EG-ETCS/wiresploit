@@ -94,6 +94,8 @@ release_gpio20() {
     pinctrl set 20 ip pd
 }
 
+# Called only by the EXIT trap, which shellcheck cannot see.
+# shellcheck disable=SC2317
 cleanup() {
     stop_generator
     local pid
