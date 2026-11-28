@@ -26,12 +26,16 @@ Assembles the Node install folder and copies it to the Pi:
   <install_dir>/node.conf.example
 
 Nothing on the Pi is deleted: its node.conf and captures/ stay as they are, and
-no node.conf or credential is ever copied from this machine. Afterwards run
+no node.conf or credential is ever copied from this machine. A file removed
+from the repo is not removed from the Pi either; delete it there by hand. The
+install folder's own permissions are left as they are. Afterwards run
 <install_dir>/scripts/setup_pi.sh on the Pi.
 
 The Pi's address, ssh user and install folder are asked for in dialogs on the
 first run and saved in node/.deploy.conf (PI_HOST, PI_USER, PI_INSTALL_DIR).
 A relative install folder is relative to the ssh user's home folder on the Pi.
+It must be a folder of its own: ".", the home folder itself and top-level
+folders such as /opt are refused.
 Without a terminal, node/.deploy.conf must already exist.
 
 Options:
@@ -79,8 +83,28 @@ is_valid_user() {
     [[ "$1" =~ ^[a-z_][a-z0-9_-]*$ ]]
 }
 
+# is_valid_install_dir <dir>: true for a folder of its own on the Pi. Refuses
+# "~" paths (a relative path is already under the home folder), ".", "..",
+# "/", top-level folders (/opt, /root), and a user's home folder itself (the
+# "home" folder plus one name), where the Node would mix with everything else.
 is_valid_install_dir() {
-    [[ -n "$1" && "$1" != *$'\n'* && "$1" != "~"* && "$1" != "/" ]]
+    local dir="$1" part
+    local -a parts=()
+    [[ -n "$dir" && "$dir" != "~"* ]] || return 1
+    is_single_line "$dir" || return 1
+    IFS='/' read -r -a parts <<<"$dir"
+    local -a names=()
+    for part in "${parts[@]}"; do
+        [[ -z "$part" || "$part" == "." ]] && continue
+        [[ "$part" == ".." ]] && return 1
+        names+=("$part")
+    done
+    ((${#names[@]} >= 1)) || return 1
+    if [[ "$dir" == /* ]]; then
+        ((${#names[@]} >= 2)) || return 1
+        [[ "${names[0]}" == "home" ]] && ((${#names[@]} < 3)) && return 1
+    fi
+    return 0
 }
 
 pi_host="$(read_conf_value "$DEPLOY_CONF" PI_HOST)"
@@ -111,7 +135,7 @@ ask_target() {
         pi_install_dir="$(trim_space "$answer")"
         pi_install_dir="${pi_install_dir%/}"
         is_valid_install_dir "$pi_install_dir" && break
-        show_message "Give a folder that doesn't start with '~' (a relative path is already relative to the home folder)."
+        show_message "Give a folder of its own, e.g. wiresploit-node or /opt/wiresploit-node. Not '.', '..', the home folder, a top-level folder, or a path starting with '~' (a relative path is already relative to the home folder)."
     done
     write_conf_value "$DEPLOY_CONF" PI_HOST "$pi_host"
     write_conf_value "$DEPLOY_CONF" PI_USER "$pi_user"
@@ -172,11 +196,14 @@ install -m 644 "$NODE_ROOT/node.conf.example" "$stage_dir/node.conf.example"
 
 # --mkpath creates the install folder. There is no --delete, so the Pi's
 # node.conf, captures/ and anything else already there are never removed. The
-# excludes are a second guard: the stage never holds these files anyway.
+# excludes are a second guard: the stage never holds these files anyway. The
+# stage's entries are sent one by one rather than "$stage_dir/", so the
+# install folder's own mode on the Pi is never changed.
 remote="$pi_user@$pi_host:$pi_install_dir/"
+mapfile -t stage_entries < <(find "$stage_dir" -mindepth 1 -maxdepth 1 | sort)
 rsync_command=(rsync -rlptz --mkpath --itemize-changes
     --exclude=/node.conf --exclude=/captures/ --exclude=/.deploy.conf
-    "$stage_dir/" "$remote")
+    "${stage_entries[@]}" "$remote")
 
 log_info "Staged install folder:"
 (cd "$stage_dir" && find . -mindepth 1 -printf '  %M  %P\n' | sort -k2)
@@ -188,7 +215,13 @@ if ((is_dry_run)); then
 fi
 
 log_info "==> copy to $remote"
-"${rsync_command[@]}"
+rsync_status=0
+"${rsync_command[@]}" || rsync_status=$?
+if ((rsync_status != 0)); then
+    log_warn "rsync failed (exit $rsync_status). Check that ssh $pi_user@$pi_host works, and that"
+    log_warn "rsync is installed on the Pi: ssh $pi_user@$pi_host 'command -v rsync || sudo apt install rsync'"
+    exit "$rsync_status"
+fi
 
 setup_command="cd $(printf '%q' "$pi_install_dir") && ./scripts/setup_pi.sh"
 log_info "Deployed. Next, on the Pi:"
