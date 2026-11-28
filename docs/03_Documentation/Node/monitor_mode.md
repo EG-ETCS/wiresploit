@@ -147,16 +147,17 @@ is complete and safe to decode**. A shipper keys off this file, never off
 ```json
 {
   "samplerate_hz": 2000000, "channels": 8, "base_gpio": 2,
-  "burst": "burst-0001.sr",
+  "burst": "burst-0001.sr", "capture_started": 1789986303.512345,
   "start_sample": 20018, "samples": 121552,
-  "start_time_ns": 1789986306512345678,
+  "start_time": 1789986306.512346, "start_time_ns": 1789986306512345678,
   "first_edge_sample": 40018,
   "first_edge_time_ns": 1789986306522345678,
   "duration_s": 0.060776, "gap_before_s": 2.99,
   "protocol": "uart", "decode_channel": 0, "baud": 115200,
   "edges": 214, "active_channels": [0],
   "clock_synchronised": true, "clock_max_error_us": 1234,
-  "clock_drift_ns": -41200, "clock_source": "CLOCK_REALTIME"
+  "clock_drift_ns": -41200, "clock_source": "CLOCK_REALTIME",
+  "written_by": "pi5la"
 }
 ```
 
@@ -185,6 +186,9 @@ Full field list (from `write_burst_meta`, `src/record.c`):
 | `clock_drift_ns` | How far the sample count had walked from the wall clock |
 | `clock_source` | Always `CLOCK_REALTIME` |
 | `written_by` | `"pi5la"` |
+
+When live shipping confirms an upload, `sr2es` adds `"shipped": true` to the
+sidecar (§9); pi5la itself never writes that field.
 
 Continuous mode (`--out`) writes the matching single sidecar `<out>.meta.json`.
 

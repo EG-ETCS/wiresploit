@@ -115,8 +115,9 @@ machine-specific path in code, scripts or docs.
 - **Precedence**, highest first: command-line flag > environment variable >
   `node.conf` > built-in default.
 - Relative paths in `node.conf` resolve against the Node root.
-- `pi5la` finds `sr2es` next to its own binary, then on `PATH`
-  (`src/shipper.c`).
+- `pi5la` finds the exporter in this order (`src/shipper.c`): the path given
+  with `--sr2es PATH`; `sr2es.py` next to its own binary (the build folder);
+  `sr2es` next to its own binary (an install folder); then `sr2es` on `PATH`.
 
 The install folder on a Pi:
 
@@ -261,8 +262,11 @@ Wiring diagram and buffer pinout: the capture guide's "Hardware safety" section.
 | Area | Files | Role |
 |---|---|---|
 | Settings | `node.conf.example`, `lib/node_config.py` | Every per-machine setting; Node root lookup and precedence |
+| Python config | `pyproject.toml` | pytest test paths and options |
 | Scripts | `scripts/*.sh`, `scripts/lib/config.sh` | Setup, test, build, deploy, docs; shared shell helpers |
-| Container | `docker/Dockerfile`, `../.devcontainer/node/devcontainer.json`, `capture/cmake/aarch64-linux-gnu.cmake` | Dev container and cross-compile toolchain |
+| Container | `docker/Dockerfile`, `docker/requirements-dev.txt`, `../.devcontainer/node/devcontainer.json`, `capture/cmake/aarch64-linux-gnu.cmake` | Dev container, its Python packages, cross-compile toolchain |
+| Build | `capture/CMakeLists.txt` | Targets, the test-only build, CTest registration and labels, install rules |
+| Capture overview | `capture/README.md` | Short summary, safety warning, links to the docs |
 | CLI | `capture/src/main.c` | Flag parsing, signals, dispatch, reporting |
 | Capture | `capture/src/capture.c/.h` | PIO setup; `run_dma`, `run_naive`, `capture_stream` |
 | DMA | `capture/src/dmacyclic.c/.h`, `capture/src/rp1_ioctl.h` | Cyclic-DMA ioctls, kernel ABI structs |

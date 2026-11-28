@@ -138,9 +138,11 @@ Live decode runs sigrok's Python decoder: keep the rate modest, about 16–20× 
 baud rate (2M for 115200). Too high and the pipe falls behind, and pi5la stops
 with a DMA ring overflow.
 
-**A real external device:** wire the target's TX to GPIO 2 and share GND.
-**3.3 V only**: anything at 5 V needs a 74LVC245 buffer and series resistors,
-or it destroys RP1.
+**A real external device:** never wire it to the Pi bare, whatever its voltage.
+Every external target goes through the **74LVC245 buffer, with series resistors
+(100–330 Ω) and a shared ground**: the target's TX → resistor → buffer input,
+buffer output → GPIO 2. Only loopback jumpers between the Pi's own header pins
+are safe bare-wire. Wiring: [capture guide, hardware safety](capture_guide.md#hardware-safety).
 
 ## Checking the wiring
 

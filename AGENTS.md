@@ -118,9 +118,10 @@ several AI tools.
 
 ## Never commit
 
-- Credentials, API keys or tokens. Keep them in environment variables or in
-  the gitignored `node/node.conf` (mode 600).
-  Settings that differ per machine go in the gitignored `node/node.conf`.
+- Credentials, API keys or tokens. Keep them, and every other setting that
+  differs per machine, in environment variables or in the gitignored
+  `node.conf` (mode 600): `node/node.conf` in the repo, `<install_dir>/node.conf`
+  on a Pi.
 - IP addresses, hostnames, user names or home-folder paths of anyone's machine.
   Write `<pi-host>`, `<install_dir>` and repo-relative paths instead.
 - Build output, `__pycache__/`, `.venv/`, `site/` or editor settings.

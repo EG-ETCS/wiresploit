@@ -18,8 +18,8 @@ code.** Where a library default disagrees with this page, this page wins.
       and `brand-guidelines.html`, also in the brand kit.
 
 !!! note "Terminology"
-    Section 8 uses the BRD's role names (Capture Node, Snapshot Node, Injection
-    Node). For component names in code and docs, the terminology table in the
+    Sections 5 and 8 use the BRD's role names (Capture Node, Snapshot Node,
+    Injection Node). For component names in code and docs, the terminology table in the
     [coding rules, §1.5](01_Coding_Rules.md#15-terminology) applies: a Node has
     Capture and Actions functions.
 
