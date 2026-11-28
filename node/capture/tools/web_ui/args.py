@@ -18,7 +18,7 @@ VALID_CHANNELS = (1, 2, 4, 8)
 PIO_CLOCK_HZ = 200e6
 MIN_RATE_HZ = PIO_CLOCK_HZ / 65535.999   # largest divider
 MAX_DMA_BUF = 8 << 20      # 4 x 8 MiB is the largest ring the 64 MB CMA pool allows
-RELIABLE_BYTES_PER_S = 50e6  # see REPORT.md: 50 MB/s packed ran clean 15/15
+RELIABLE_BYTES_PER_S = 50e6  # findings_report.md §3.3: 50 MB/s ran clean 15/15
 
 CAPTURE_NAME_RE = re.compile(r"^[A-Za-z0-9._-]+\.sr$")
 MONITOR_DIR_RE = re.compile(r"^mon-\d{8}-\d{6}$")
@@ -134,7 +134,7 @@ def throughput_warning(rate_hz, channels):
         return None
     return (
         "%.0f MB/s of packed data is above the 50 MB/s that ran clean 15/15 on this Pi; "
-        "samples may be dropped (see REPORT.md)." % (packed / 1e6)
+        "samples may be dropped (see the findings report, rate ceiling)." % (packed / 1e6)
     )
 
 
