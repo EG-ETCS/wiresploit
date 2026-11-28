@@ -6,7 +6,10 @@ Runs on the Pi and drives the existing binaries: pi5la for capture and live
 streaming, sigrok-cli for decoding. No authentication by design, so keep it on
 a trusted network (see README, "Web UI").
 
-    python3 app.py --pi5la ~/build-pi5la/pi5la --captures ~/captures
+    python3 <install_dir>/web_ui/app.py
+
+Paths and the bind address default to node.conf (see node.conf.example);
+every flag still overrides them.
 
 Only one job runs at a time, because a capture holds /dev/pio0. Child
 processes are started with argument lists (never a shell) built by args.py, in
@@ -20,12 +23,32 @@ import os
 import queue
 import signal
 import subprocess
+import sys
 import threading
 import time
 
 from flask import Flask, Response, jsonify, render_template, request, send_from_directory
 
 import args as argbuild
+
+def _load_node_config():
+    """Load node.conf for the Node this file is in, or None outside a Node.
+
+    Walks up from this file to the folder holding node.conf.example (the Node
+    root), so it works from the repo, a build directory or an install folder.
+    """
+    here = os.path.dirname(os.path.realpath(__file__))
+    current = here
+    while True:
+        if os.path.isfile(os.path.join(current, "node.conf.example")):
+            sys.path.insert(0, os.path.join(current, "lib"))
+            import node_config
+            return node_config.load_config(here)
+        parent = os.path.dirname(current)
+        if parent == current:
+            return None
+        current = parent
+
 
 POSIX = os.name == "posix"  # the Pi; the Windows branches exist only for local smoke tests
 MAX_LINES = 2000            # kept per job for late-joining browsers
@@ -447,15 +470,21 @@ def create_app(runner):
 
 
 def main():
-    home = os.path.expanduser("~")
-    p = argparse.ArgumentParser(description="web UI for pi5la")
-    p.add_argument("--pi5la", default=os.path.join(home, "build-pi5la", "pi5la"),
-                   help="path to the pi5la binary")
-    p.add_argument("--sigrok", default="sigrok-cli", help="sigrok-cli command")
-    p.add_argument("--captures", default=os.path.join(home, "captures"),
-                   help="directory for .sr files")
-    p.add_argument("--host", default="0.0.0.0", help="bind address (127.0.0.1 for local only)")
-    p.add_argument("--port", type=int, default=9090, help="listen port (default 9090)")
+    config = _load_node_config()
+    if config is None:
+        sys.exit("app.py: not inside a Node folder (no node.conf.example above it)")
+    config.export_es_credentials()
+    p = argparse.ArgumentParser(description="capture test page for pi5la")
+    p.add_argument("--pi5la", default=config.get_pi5la_bin(),
+                   help="path to the pi5la binary (default %(default)s)")
+    p.add_argument("--sigrok", default=config.get("SIGROK_CLI"),
+                   help="sigrok-cli command (default %(default)s)")
+    p.add_argument("--captures", default=config.get_path("CAPTURES_DIR"),
+                   help="directory for .sr files (default %(default)s)")
+    p.add_argument("--host", default=config.get("WEB_UI_HOST"),
+                   help="bind address, 127.0.0.1 for local only (default %(default)s)")
+    p.add_argument("--port", type=int, default=int(config.get("WEB_UI_PORT")),
+                   help="listen port (default %(default)s)")
     opts = p.parse_args()
 
     os.makedirs(opts.captures, exist_ok=True)

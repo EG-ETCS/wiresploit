@@ -7,7 +7,7 @@
 #include "record.h"
 
 /*
- * Handing finished bursts to tools/sr2es.py while the capture keeps running.
+ * Handing finished bursts to node/exporter/sr2es.py while the capture keeps running.
  *
  * Monitor mode finalises a burst-NNNN.sr the moment a burst ends, but nothing
  * used to read it until the whole session was stopped, so a run that watches a

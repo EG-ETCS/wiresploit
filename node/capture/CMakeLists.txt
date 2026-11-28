@@ -93,7 +93,9 @@ if(NOT PI5LA_TESTS_ONLY)
     # sets the executable bit; the configure_file() calls exist only to make
     # CMake re-run (and so re-copy) when a script changes, since otherwise a
     # plain `cmake --build` would leave a stale copy behind.
-    foreach(script tools/sr2es.py tools/uart-listen.sh)
+    # sr2es lives in node/exporter/; src/shipper.c finds it next to pi5la.
+    set(PI5LA_EXPORTER ${CMAKE_CURRENT_SOURCE_DIR}/../exporter/sr2es.py)
+    foreach(script ${PI5LA_EXPORTER} tools/uart-listen.sh)
         get_filename_component(script_name ${script} NAME)
         configure_file(${script} ${CMAKE_CURRENT_BINARY_DIR}/.stamp-${script_name} COPYONLY)
         file(COPY ${script} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
@@ -110,7 +112,7 @@ if(NOT PI5LA_TESTS_ONLY)
 
     install(TARGETS pi5la ratesweep bitprobe fdebugtest RUNTIME DESTINATION bin)
     install(PROGRAMS tools/uart-listen.sh DESTINATION bin RENAME uart-listen)
-    install(PROGRAMS tools/sr2es.py DESTINATION bin RENAME sr2es)
+    install(PROGRAMS ${PI5LA_EXPORTER} DESTINATION bin RENAME sr2es)
 endif()
 
 enable_testing()
@@ -121,12 +123,17 @@ foreach(t test_unpack test_srzip test_srwriter test_analyze test_progbuild test_
     add_test(NAME ${t} COMMAND ${t})
 endforeach()
 
-# Python-side tests: web UI argument validation and the Elasticsearch exporter.
+# Python-side tests: the capture test page's argument checks, the
+# Elasticsearch exporter and the shared node.conf loader. Paths are relative to
+# this file, so the tree works wherever it is checked out.
 # Skipped when python3 is missing.
+set(PI5LA_NODE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 find_program(PI5LA_PYTHON3 python3)
 if(PI5LA_PYTHON3)
-    foreach(pt test_web_args test_sr2es)
-        add_test(NAME ${pt}
-            COMMAND ${PI5LA_PYTHON3} ${CMAKE_CURRENT_SOURCE_DIR}/tests/${pt}.py)
-    endforeach()
+    add_test(NAME test_web_args
+        COMMAND ${PI5LA_PYTHON3} ${CMAKE_CURRENT_SOURCE_DIR}/tools/web_ui/tests/test_args.py)
+    add_test(NAME test_sr2es
+        COMMAND ${PI5LA_PYTHON3} ${PI5LA_NODE_DIR}/exporter/tests/test_sr2es.py)
+    add_test(NAME test_node_config
+        COMMAND ${PI5LA_PYTHON3} ${PI5LA_NODE_DIR}/lib/tests/test_node_config.py)
 endif()
