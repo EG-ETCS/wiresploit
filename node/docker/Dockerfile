@@ -4,15 +4,30 @@
 # binaries, and builds the docs. Debian Bookworm matches Raspberry Pi OS
 # Bookworm, so the arm64 libraries it links against are the ones on the Pi.
 #
-# Build (from the repo root, which is the build context):
-#   docker build -f node/docker/Dockerfile -t wiresploit-node-dev .
+# The image is always linux/amd64. On an ARM64 machine (Apple Silicon, an
+# arm64 Linux laptop) Docker runs it under emulation: slower, same results.
+# A native arm64 image would need a second package set (no cross compiler),
+# so one well-tested image was chosen over two.
 #
-# Use from a terminal (repo mounted at /work, files owned by you):
-#   docker run --rm -it --user "$(id -u):$(id -g)" -v "$PWD:/work" \
-#       wiresploit-node-dev node/scripts/test.sh all
+# Build (from the repo root, which is the build context). Pass your own uid
+# and gid, so the "dev" user in the image is you:
+#   docker build -f node/docker/Dockerfile -t wiresploit-node-dev \
+#       --build-arg USER_UID="$(id -u)" --build-arg USER_GID="$(id -g)" .
 #
-# VS Code: "Reopen in Container" uses .devcontainer/node/devcontainer.json.
-FROM debian:bookworm
+# Use from a terminal (repo mounted at /work; no --user needed, files you
+# create stay yours):
+#   docker run --rm -it -v "$PWD:/work" wiresploit-node-dev node/scripts/test.sh all
+#
+# To deploy to a Pi from the container, also pass your ssh agent socket, so
+# your keys stay on your machine and never enter the image or the repo:
+#   docker run --rm -it -v "$PWD:/work" \
+#       -v "$SSH_AUTH_SOCK:/ssh-agent" -e SSH_AUTH_SOCK=/ssh-agent \
+#       wiresploit-node-dev node/scripts/deploy_to_pi.sh
+# (Docker Desktop on macOS: use /run/host-services/ssh-auth.sock as the source.)
+#
+# VS Code: "Reopen in Container" uses .devcontainer/node/devcontainer.json and
+# matches the uid by itself (updateRemoteUserUID).
+FROM --platform=linux/amd64 debian:bookworm
 
 # Pinned upstream sources, so every build is the same.
 # pico-sdk 2.2.0: only tools/pioasm is used (a build-time tool, runs natively).
@@ -20,8 +35,8 @@ ARG PICO_SDK_COMMIT=a1438dff1d38bd9c65dbd693f0e5db4b9ae91779
 ARG PIOASM_VERSION_STRING=2.2.0
 # raspberrypi/utils: only piolib is used (cross-built for the Pi, static).
 ARG RPI_UTILS_COMMIT=cf42db188fda72ecf2bd46b9acd5c114b6cc6fb9
-# The non-root user. VS Code rewrites the uid to match yours
-# (updateRemoteUserUID); terminal users pass --user instead.
+# The non-root user. Terminal users build with their own uid/gid (see the top);
+# VS Code rewrites the uid to match (updateRemoteUserUID).
 ARG USER_NAME=dev
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -30,7 +45,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PYTHONDONTWRITEBYTECODE=1
+    PYTHONDONTWRITEBYTECODE=1 \
+    WIRESPLOIT_DEV_CONTAINER=1
 
 # Keep this package list in sync with node/scripts/setup_host.sh.
 RUN dpkg --add-architecture arm64 \
@@ -104,8 +120,13 @@ RUN python3 -m venv /opt/venv \
 ENV PATH=/opt/venv/bin:$PATH \
     PI5LA_ARM64_PREFIX=/opt/arm64-prefix
 
-RUN groupadd --gid "${USER_GID}" "${USER_NAME}" \
-    && useradd --create-home --uid "${USER_UID}" --gid "${USER_GID}" \
+# The gid may already exist in Debian (macOS's staff group is 20, Debian's
+# "dialout"): then "dev" simply joins that group. --non-unique lets "dev" share
+# a uid that a Debian system account already has.
+RUN if ! getent group "${USER_GID}" >/dev/null; then \
+        groupadd --gid "${USER_GID}" "${USER_NAME}"; \
+    fi \
+    && useradd --create-home --non-unique --uid "${USER_UID}" --gid "${USER_GID}" \
         --shell /bin/bash "${USER_NAME}" \
     && git config --system --add safe.directory /work
 

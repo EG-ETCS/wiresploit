@@ -5,6 +5,7 @@
 // Terminal users without VS Code: see the header of node/docker/Dockerfile.
 {
   "name": "Wiresploit Node",
+  // The image is linux/amd64 (emulated on Apple Silicon); see the Dockerfile.
   "build": {
     "dockerfile": "../../node/docker/Dockerfile",
     "context": "../.."
@@ -22,7 +23,7 @@
       "settings": {
         "python.defaultInterpreterPath": "/opt/venv/bin/python",
         "cmake.sourceDirectory": "${workspaceFolder}/node/capture",
-        "cmake.buildDirectory": "${workspaceFolder}/node/capture/build-host-tests",
+        "cmake.buildDirectory": "${workspaceFolder}/node/capture/build-container-tests",
         "cmake.configureSettings": { "PI5LA_TESTS_ONLY": "ON" }
       },
       "extensions": [

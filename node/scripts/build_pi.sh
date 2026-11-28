@@ -72,6 +72,7 @@ if ((is_clean)); then
     log_info "==> remove $BUILD_DIR"
     rm -rf "$BUILD_DIR"
 fi
+reset_stale_build_dir "$BUILD_DIR" "$CAPTURE_DIR"
 
 log_info "==> configure $BUILD_DIR"
 cmake -S "$CAPTURE_DIR" -B "$BUILD_DIR" \
