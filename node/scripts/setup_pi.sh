@@ -306,6 +306,12 @@ ask_port_setting() {
         [[ -n "$is_optional" && -z "${settings[$key]}" ]] && return
         is_port "${settings[$key]}" && return
         show_message "${settings[$key]:-(empty)} is not a port number (1-65535)."
+        # Re-ask from the default, so Enter alone gives a valid answer.
+        if [[ -n "$is_optional" ]]; then
+            settings[$key]=""
+        else
+            settings[$key]="$(read_conf_value "$EXAMPLE_FILE" "$key")"
+        fi
     done
 }
 

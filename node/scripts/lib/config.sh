@@ -193,15 +193,21 @@ has_whiptail() {
 }
 
 # ask_input <prompt> [default]: print the answer. Returns 1 on Cancel.
+# Without whiptail: Enter keeps the default, and "-" clears it.
 ask_input() {
     local prompt="$1" default="${2-}" answer
     if has_whiptail; then
         whiptail --title "$UI_TITLE" --inputbox "$prompt" 12 76 "$default" 3>&1 1>&2 2>&3
         return
     fi
-    printf '%s\n[%s]: ' "$prompt" "$default" >&2
+    printf '%s\n(Enter keeps [%s], - clears it): ' "$prompt" "$default" >&2
     IFS= read -r answer </dev/tty || return 1
-    printf '%s' "${answer:-$default}"
+    if [[ "$answer" == "-" ]]; then
+        answer=""
+    elif [[ -z "$answer" ]]; then
+        answer="$default"
+    fi
+    printf '%s' "$answer"
 }
 
 # ask_password <prompt>: print the answer (hidden while typed). Returns 1 on
