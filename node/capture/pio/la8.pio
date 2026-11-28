@@ -1,0 +1,8 @@
+; 8-channel capture: one sample per PIO clock.
+; Configure: in base = GPIO 2, in_shift right, autopush, threshold 32
+; (4 samples per FIFO word), RX FIFO joined.
+
+.program la8
+.wrap_target
+    in pins, 8
+.wrap

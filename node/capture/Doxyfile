@@ -1,0 +1,43 @@
+# Doxygen configuration for the pi5la C headers.
+#
+# Two programs read this file:
+#   - node/scripts/docs.sh build runs `doxygen Doxyfile` from node/capture/ as
+#     the warning check: any warning (for example an undocumented public
+#     declaration) fails the build. Output goes to build-doxygen/ (gitignored).
+#   - the mkdoxy plugin (mkdocs.yml, project c_api) reads it through
+#     doxy-cfg-file, overrides INPUT and OUTPUT_DIRECTORY, and renders the XML
+#     into the "Node > Reference > C API" pages.
+#
+# Only the headers are documented: they are the public interface of each
+# module. Paths are relative to node/capture/. Plain KEY = value lines only:
+# mkdoxy's parser does not accept line continuations or trailing comments.
+
+PROJECT_NAME           = "pi5la"
+PROJECT_BRIEF          = "Wiresploit Node capture core"
+
+INPUT                  = src
+FILE_PATTERNS          = *.h
+RECURSIVE              = NO
+OUTPUT_DIRECTORY       = build-doxygen
+FULL_PATH_NAMES        = NO
+
+OPTIMIZE_OUTPUT_FOR_C  = YES
+MARKDOWN_SUPPORT       = YES
+JAVADOC_AUTOBRIEF      = YES
+EXTRACT_ALL            = NO
+EXTRACT_STATIC         = YES
+TYPEDEF_HIDES_STRUCT   = NO
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = NO
+
+GENERATE_XML           = YES
+XML_PROGRAMLISTING     = YES
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES
+WARN_NO_PARAMDOC       = NO
+WARN_AS_ERROR          = FAIL_ON_WARNINGS

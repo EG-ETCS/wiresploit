@@ -1,3 +1,28 @@
 docs/private/
 serve.bat
 site/
+# Build output
+build*/
+site/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / editor
+.DS_Store
+.vscode/settings.json
+
+# Personal agent context (see AGENTS.local.md.example)
+AGENTS.local.md
+CLAUDE.local.md
+.remember/
+
+# Per-machine node config and data
+node/node.conf
+node/.deploy.conf
+node/captures/
+
+# Claude Code subagent worktrees
+.claude/worktrees/

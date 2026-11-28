@@ -1,0 +1,11 @@
+; 8-channel capture with hardware trigger (high:0).
+; Blocks until input pin 0 (relative to the in base, i.e. GPIO 2) is high,
+; then samples continuously. Other trigger types and pins are built at runtime
+; by src/progbuild.c; this file is the pioasm reference the builder is checked
+; against.
+
+.program la8_trig
+    wait 1 pin 0
+.wrap_target
+    in pins, 8
+.wrap

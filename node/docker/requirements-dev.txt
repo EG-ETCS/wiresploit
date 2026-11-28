@@ -1,0 +1,7 @@
+# Python tools for testing and formatting the Node code.
+# Used by node/docker/Dockerfile and node/scripts/setup_host.sh, next to
+# requirements-docs.txt and node/capture/tools/web_ui/requirements.txt.
+pytest==9.2.0
+black==26.10.1
+ruff==0.17.6
+flask==3.1.3

@@ -1,0 +1,12 @@
+# Python packages for the documentation site (mkdocs.yml).
+# Used by node/docker/Dockerfile and node/scripts/setup_host.sh.
+# Pinned so every machine builds the same site. Python 3.11 (Debian Bookworm).
+mkdocs==1.6.1
+mkdocs-material==9.7.7
+mkdocs-video==1.5.0
+# 13.x needs Python >= 3.11.5; Bookworm ships 3.11.2.
+pymdown-extensions==12.3
+# Code reference pages (added in a later phase).
+mkdocstrings[python]==1.0.8
+mkdocstrings-python==2.0.11
+mkdoxy==1.2.8

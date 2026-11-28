@@ -1,0 +1,41 @@
+# Wiresploit Node settings.
+#
+# Copy this file to node.conf in the same folder (setup_pi.sh does this for you
+# on a Pi). node.conf is gitignored: it holds this machine's settings and may
+# hold credentials, so keep it at mode 600.
+#
+# Format: KEY=value, one per line. Values are read, never executed.
+# An environment variable with the same name overrides a value here, and a
+# command-line flag overrides both. Relative paths are relative to this folder.
+#
+# This file also marks the Node's root folder: programs find their files by
+# walking up from their own location until they see node.conf.example.
+
+# Name shown in captures and logs.
+NODE_NAME=wiresploit-node
+
+# pi5la binary. Leave empty to use bin/pi5la (installed) or capture/build/pi5la
+# (repo build), whichever exists.
+PI5LA_BIN=
+
+# sigrok-cli command, for decoding.
+SIGROK_CLI=sigrok-cli
+
+# Where captures are written.
+CAPTURES_DIR=captures
+
+# Capture test page (capture/tools/web_ui). It has no authentication: use
+# 127.0.0.1 unless the network is trusted.
+WEB_UI_HOST=0.0.0.0
+WEB_UI_PORT=9090
+
+# Elasticsearch export (exporter/sr2es.py). Leave ES_URL empty to only write
+# NDJSON files. Give either an API key, or a user and password.
+ES_URL=
+ES_API_KEY=
+ES_USER=
+ES_PASSWORD=
+
+# Wiresploit Core address. Reserved: not used yet.
+CORE_HOST=
+CORE_PORT=

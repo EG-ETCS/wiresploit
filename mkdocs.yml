@@ -80,6 +80,32 @@ plugins:
       video_controls: True
       css_style:
         width: "100%"
+  # Node code reference (docs/03_Documentation/Node/reference/).
+  # C: Doxygen reads node/capture/Doxyfile; mkdoxy writes the c_api pages.
+  - mkdoxy:
+      projects:
+        c_api:
+          src-dirs: node/capture/src
+          api-path: 03_Documentation/Node/reference/c_api
+          doxy-cfg-file: node/capture/Doxyfile
+          full-doc: True
+  # Python: Google-style docstrings, imported by path (no install needed).
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths:
+            - node/exporter
+            - node/capture/tools/web_ui
+            - node/lib
+          options:
+            docstring_style: google
+            docstring_options:
+              warn_missing_types: false
+            show_root_heading: false
+            show_source: true
+            members_order: source
+            filters: ["!^_"]
 
 nav:
   - Home: index.md
@@ -90,7 +116,51 @@ nav:
   - Requirements:
     - 01_Requirements:
       - 00_BRD: 01_Requirements/00_BRD.md
+      - System Requirements: 
+        - Functional_Requirements: 01_Requirements/01_SysRS/01_Functional_Requirements.md
+        - Nonfunctional_Requirements: 01_Requirements/01_SysRS/02_Nonfunctional_Requirements.md
+        - Interface_Requirements: 01_Requirements/01_SysRS/03_Interface_Requirements.md
+        - Behavioral_and_Model_Requirements: 01_Requirements/01_SysRS/04_Behavioral_and_Model_Requirements.md
   - Acceptance Criteria:
     - 01_Acceptance_Criteria: 01_Requirements/05_Acceptance_Criteria.md
   - Resources: Resources.md
   
+  - Engineering:
+    - Coding rules: 02_Engineering/01_Coding_Rules.md
+    - Design system: 02_Engineering/02_Design_System.md
+    - Agent context: 02_Engineering/03_Agent_Context.md
+    - Testing: 02_Engineering/04_Testing.md
+  - Node:
+    - Overview: 03_Documentation/Node/index.md
+    - Capture guide: 03_Documentation/Node/capture_guide.md
+    - Monitor mode: 03_Documentation/Node/monitor_mode.md
+    - Cheatsheet: 03_Documentation/Node/cheatsheet.md
+    - Findings report: 03_Documentation/Node/findings_report.md
+    - Decisions: 03_Documentation/Node/decisions.md
+    - Original brief: 03_Documentation/Node/spec.md
+    - Reference:
+      - Overview: 03_Documentation/Node/reference/index.md
+      - C API:
+        - Files: 03_Documentation/Node/reference/c_api/files.md
+        - Structs: 03_Documentation/Node/reference/c_api/annotated.md
+        - Functions: 03_Documentation/Node/reference/c_api/functions.md
+        - Macros: 03_Documentation/Node/reference/c_api/macros.md
+        - analyze.h: 03_Documentation/Node/reference/c_api/analyze_8h.md
+        - burst.h: 03_Documentation/Node/reference/c_api/burst_8h.md
+        - capture.h: 03_Documentation/Node/reference/c_api/capture_8h.md
+        - dmacyclic.h: 03_Documentation/Node/reference/c_api/dmacyclic_8h.md
+        - fdebug.h: 03_Documentation/Node/reference/c_api/fdebug_8h.md
+        - generator.h: 03_Documentation/Node/reference/c_api/generator_8h.md
+        - idle.h: 03_Documentation/Node/reference/c_api/idle_8h.md
+        - progbuild.h: 03_Documentation/Node/reference/c_api/progbuild_8h.md
+        - record.h: 03_Documentation/Node/reference/c_api/record_8h.md
+        - rp1_ioctl.h: 03_Documentation/Node/reference/c_api/rp1__ioctl_8h.md
+        - shipper.h: 03_Documentation/Node/reference/c_api/shipper_8h.md
+        - srwriter.h: 03_Documentation/Node/reference/c_api/srwriter_8h.md
+        - srzip.h: 03_Documentation/Node/reference/c_api/srzip_8h.md
+        - unpack.h: 03_Documentation/Node/reference/c_api/unpack_8h.md
+        - util.h: 03_Documentation/Node/reference/c_api/util_8h.md
+      - Python API:
+        - sr2es: 03_Documentation/Node/reference/python_api/sr2es.md
+        - web_ui args: 03_Documentation/Node/reference/python_api/args.md
+        - node_config: 03_Documentation/Node/reference/python_api/node_config.md

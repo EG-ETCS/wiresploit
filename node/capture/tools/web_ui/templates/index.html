@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pi5la</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="topbar">
+  <span class="mark" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#fff"
+         stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 11h2.5V5H6v6h2.5V7H11v4h4"></path>
+    </svg>
+  </span>
+  <div class="brand">
+    <b>pi5la</b>
+    <span>8-channel logic analyzer &middot; GPIO 2&ndash;9 &middot; Raspberry Pi 5</span>
+  </div>
+  <div class="topbar-right">
+    <span id="es-pill" class="pill hidden"></span>
+    <span id="job-state" class="pill">idle</span>
+  </div>
+</div>
+
+<main>
+
+<!-- ---------------------------------------------------------------- capture -->
+<section class="card">
+  <div class="card-head">
+    <h2>Capture</h2>
+    <div class="spacer"></div>
+    <div class="segmented" id="mode-picker">
+      <label><input type="radio" name="mode" value="continuous" checked> Continuous</label>
+      <label><input type="radio" name="mode" value="monitor"> Monitor</label>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="chips">
+      <span class="chips-label">Presets</span>
+      <button type="button" class="chip" data-preset="uart">UART 115200</button>
+      <button type="button" class="chip" data-preset="i2c">I&sup2;C 400k</button>
+      <button type="button" class="chip" data-preset="spi">SPI 5 MHz</button>
+    </div>
+
+    <form id="capture-form" class="grid" style="margin-top:16px">
+      <label>Sample rate <input name="rate" value="2M" required></label>
+      <label>Channels
+        <select name="channels">
+          <option>8</option><option>4</option><option>2</option><option>1</option>
+        </select>
+      </label>
+      <label>Base GPIO <input name="base_gpio" value="2"></label>
+      <label>Max duration <input name="duration" placeholder="empty = until Stop"></label>
+      <label>Silence timeout <input name="silence_timeout" placeholder="empty = off"></label>
+      <label>Max size <input name="max_size" placeholder="4G"></label>
+      <label>Trigger
+        <select name="trigger">
+          <option value="none">none</option>
+          <option>rising</option><option>falling</option><option>high</option><option>low</option>
+        </select>
+      </label>
+      <label>Trigger channel <input name="trigger_channel" value="0"></label>
+      <label>DMA buffer <input name="dma_buf" placeholder="bytes, empty = 4 MiB"></label>
+      <label class="m-monitor hidden">Burst gap <input name="gap" placeholder="100ms"></label>
+      <label class="m-monitor hidden">Lead-in (pre) <input name="pre" placeholder="10ms"></label>
+      <label class="m-monitor hidden">Tail (post) <input name="post" placeholder="50ms"></label>
+
+      <!-- Elasticsearch lives inside the capture form so its fields are
+           submitted with it; it is hidden entirely unless monitoring. -->
+      <div class="subsection m-monitor hidden" style="grid-column:1/-1">
+        <div class="subsection-head">
+          <label class="switch">
+            <input type="checkbox" name="ship" id="ship-toggle">
+            <span class="track"></span>
+            Send each burst to Elasticsearch as it ends
+          </label>
+          <span id="ship-protocol-note" class="pill hidden"></span>
+        </div>
+
+        <div id="ship-fields" class="hidden">
+          <div class="grid">
+            <label style="grid-column:span 2">Elasticsearch URL
+              <input name="es_url" placeholder="https://es.example:9200"></label>
+            <label>Bus protocol
+              <select name="ship_protocol" id="ship-protocol">
+                <option value="uart">UART &mdash; decode to messages</option>
+                <option value="raw">Raw &mdash; no decoding</option>
+              </select>
+            </label>
+            <label class="s-uart">Decode channel <input name="decode_channel" value="0"></label>
+            <label class="s-uart">Baud rate <input name="baud" value="115200"></label>
+            <label class="s-uart">Line type <input name="uart_type" placeholder="TTL-3V3"></label>
+            <label>Index <input name="es_index" placeholder="wiresploit-poc1"></label>
+          </div>
+
+          <div id="es-missing-creds" class="note danger hidden">
+            <span>
+              <b>No credentials in this server's environment.</b>
+              Every upload will be refused. Stop the web server and start it with them
+              exported: <code>export ES_USER ES_PASSWORD &amp;&amp; python3 web/app.py</code>
+            </span>
+          </div>
+
+          <p class="hint">
+            <strong>Latency.</strong> A burst cannot be seen until the DMA period holding
+            it fills: 4 MiB is about <strong>2.1 s at 2 MSa/s</strong>, and that is usually
+            most of the wait. Setting <strong>DMA buffer</strong> to <code>262144</code>
+            brings it to about 130 ms. The large default exists because an SD card stalls
+            for seconds while a continuous capture writes to it &mdash; monitor mode writes
+            almost nothing, so a smaller period is much safer here, but watch for
+            <code>DMA ring overflow</code> in the output and raise it again if you see one.
+          </p>
+          <p class="hint">
+            Bursts are decoded and uploaded by <code>sr2es.py</code> in a separate process,
+            one at a time, so nothing slow ever runs in the capture path. A burst that
+            closes while a shipper is busy waits on disk for the next sweep, and a failed
+            upload is retried rather than lost. Once the cluster confirms a burst, its
+            <code>.sr</code> is deleted &mdash; except under <strong>Raw</strong>, where the
+            document carries no payload and the file is the only copy.
+            <strong>Credentials are never sent from this page</strong>: pi5la reads
+            <code>ES_API_KEY</code>, or <code>ES_USER</code> and <code>ES_PASSWORD</code>,
+            from the environment it inherits.
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="card-foot">
+    <button id="start-capture" class="primary">Start capture</button>
+    <button id="stop-job">Stop</button>
+    <span id="capture-note" class="state">Runs until you press Stop unless you set a limit.</span>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------------- output -->
+<section class="card">
+  <div class="card-head">
+    <h2>Output</h2>
+    <div class="spacer"></div>
+    <button id="clear-log" class="link">Clear</button>
+  </div>
+  <pre id="log" class="console" aria-live="polite"></pre>
+</section>
+
+<!-- -------------------------------------------------------------- captures -->
+<section class="card">
+  <div class="card-head">
+    <h2>Captures</h2>
+    <div class="spacer"></div>
+    <button id="refresh-captures" class="link">Refresh</button>
+  </div>
+  <div class="table-wrap">
+    <table id="captures">
+      <thead><tr><th>Name</th><th>Size</th><th>When</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div id="captures-empty" class="empty hidden">Nothing recorded yet.</div>
+
+  <div id="decode-box" class="hidden" style="border-top:1px solid var(--line)">
+    <div class="card-head" style="border-bottom:none">
+      <h2>Decode <code id="decode-name"></code></h2>
+      <div class="spacer"></div>
+      <button id="close-decode" class="link">Close</button>
+    </div>
+    <div class="card-body" style="padding-top:0">
+      <form id="decode-form" class="grid">
+        <label>Protocol
+          <select name="protocol" class="protocol">
+            <option value="uart">UART</option>
+            <option value="i2c">I&sup2;C</option>
+            <option value="spi">SPI</option>
+          </select>
+        </label>
+        <label>Channels captured
+          <select name="channels">
+            <option>8</option><option>4</option><option>2</option><option>1</option>
+          </select>
+        </label>
+        <label>Base GPIO <input name="base_gpio" value="2"></label>
+        <label class="p-uart">RX channel <input name="rx" value="0"></label>
+        <label class="p-uart">Baud rate <input name="baudrate" value="115200"></label>
+        <label class="p-i2c hidden">SCL channel <input name="scl" value="0"></label>
+        <label class="p-i2c hidden">SDA channel <input name="sda" value="1"></label>
+        <label class="p-spi hidden">CLK channel <input name="clk" value="0"></label>
+        <label class="p-spi hidden">MOSI channel <input name="mosi" value="1"></label>
+        <label class="p-spi hidden">MISO channel <input name="miso" placeholder="optional"></label>
+        <label class="p-spi hidden">CS channel <input name="cs" placeholder="optional"></label>
+      </form>
+      <div class="row" style="margin-top:16px">
+        <button id="run-decode" class="primary">Decode</button>
+      </div>
+      <pre id="decode-out" class="console" style="margin-top:14px; border:1px solid var(--line);
+           border-radius:8px; min-height:80px"></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------ live decode -->
+<section class="card">
+  <div class="card-head">
+    <h2>Live decode</h2>
+    <p class="lede">Watch a bus as it talks, without recording it</p>
+  </div>
+  <div class="card-body">
+    <form id="live-form" class="grid">
+      <label>Sample rate <input name="rate" value="2M"></label>
+      <label>Protocol
+        <select name="protocol" class="protocol">
+          <option value="uart">UART</option>
+          <option value="i2c">I&sup2;C</option>
+          <option value="spi">SPI</option>
+        </select>
+      </label>
+      <label class="p-uart">RX channel <input name="rx" value="0"></label>
+      <label class="p-uart">Baud rate <input name="baudrate" value="115200"></label>
+      <label class="p-i2c hidden">SCL channel <input name="scl" value="0"></label>
+      <label class="p-i2c hidden">SDA channel <input name="sda" value="1"></label>
+      <label class="p-spi hidden">CLK channel <input name="clk" value="0"></label>
+      <label class="p-spi hidden">MOSI channel <input name="mosi" value="1"></label>
+      <label class="p-spi hidden">MISO channel <input name="miso" placeholder="optional"></label>
+      <label class="p-spi hidden">CS channel <input name="cs" placeholder="optional"></label>
+    </form>
+    <p class="hint">sigrok's decoders run in Python, so keep the rate low: about 2 MSa/s
+       handles 115200 baud comfortably.</p>
+  </div>
+  <div class="card-foot">
+    <button id="start-live" class="primary">Start live decode</button>
+  </div>
+</section>
+
+<!-- -------------------------------------------------------------- reference -->
+<details class="card">
+  <summary>Channel map and wiring</summary>
+  <div class="card-body">
+    <p class="hint" style="margin-top:0">Channel k is GPIO base+k. With the default base of GPIO 2:</p>
+    <div class="table-wrap">
+      <table class="pins">
+        <thead><tr><th>Channel</th><th>GPIO</th><th>Pi pin</th><th>74LVC245 in / out</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>2</td><td>3</td><td>2 / 18</td></tr>
+          <tr><td>1</td><td>3</td><td>5</td><td>3 / 17</td></tr>
+          <tr><td>2</td><td>4</td><td>7</td><td>4 / 16</td></tr>
+          <tr><td>3</td><td>5</td><td>29</td><td>5 / 15</td></tr>
+          <tr><td>4</td><td>6</td><td>31</td><td>6 / 14</td></tr>
+          <tr><td>5</td><td>7</td><td>26</td><td>7 / 13</td></tr>
+          <tr><td>6</td><td>8</td><td>24</td><td>8 / 12</td></tr>
+          <tr><td>7</td><td>9</td><td>21</td><td>9 / 11</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note danger">
+      <span><b>3.3 V only.</b> Pi 5 GPIO is not 5 V-tolerant, and overvoltage destroys RP1,
+        which is soldered to the board. Every external target goes through a 74LVC245 buffer
+        with series resistors and a shared ground, and unused buffer inputs are tied to GND.
+        Never connect pins 1, 2, 4 or 17 (3.3 V / 5 V) to a GPIO.
+        GND is on pins 6, 9, 14, 20, 25, 30, 34 and 39.</span>
+    </div>
+  </div>
+</details>
+
+</main>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

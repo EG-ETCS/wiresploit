@@ -1,0 +1,8 @@
+; Test signal: square wave at PIO clock / 2.
+; Output frequency = 200 MHz / (2 * clkdiv). Usable range ~1.53 kHz .. 100 MHz.
+
+.program sqwave
+.wrap_target
+    set pins, 1
+    set pins, 0
+.wrap
