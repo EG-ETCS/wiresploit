@@ -183,3 +183,41 @@ if(PI5LA_PYTHON3)
     pi5la_python_test(test_sr2es ${PI5LA_NODE_DIR}/exporter/tests/test_sr2es.py unit)
     pi5la_python_test(test_node_config ${PI5LA_NODE_DIR}/lib/tests/test_node_config.py unit)
 endif()
+
+# --- Level 2: integration ----------------------------------------------------
+# make_samples builds the synthetic captures in tests/integration/samples/.
+# Rebuild them after changing it with:
+#   cmake --build <build> --target integration_samples
+add_executable(make_samples tests/integration/make_samples.c)
+target_link_libraries(make_samples PRIVATE pi5la_core)
+add_custom_target(integration_samples
+    COMMAND make_samples ${PI5LA_INTEGRATION_DIR}/samples
+    DEPENDS make_samples
+    COMMENT "Rebuilding tests/integration/samples"
+    VERBATIM)
+
+# The committed samples must be what make_samples builds today.
+add_test(NAME test_samples_current
+         COMMAND make_samples --check ${PI5LA_INTEGRATION_DIR}/samples)
+set_tests_properties(test_samples_current PROPERTIES LABELS integration)
+
+# unpack -> idle scan -> burst state machine on the samples, against expected/.
+add_executable(test_pipeline tests/integration/test_pipeline.c)
+target_include_directories(test_pipeline PRIVATE ${PI5LA_UNIT_DIR})
+target_link_libraries(test_pipeline PRIVATE pi5la_core)
+add_test(NAME test_pipeline
+         COMMAND test_pipeline ${PI5LA_INTEGRATION_DIR}/samples ${PI5LA_INTEGRATION_DIR}/expected)
+set_tests_properties(test_pipeline PROPERTIES LABELS integration)
+
+# sr2es on the samples, against expected/. The raw case needs no decoder. The
+# UART cases need sigrok-cli: without it the whole class skips, printing the
+# reason, and ctest reports test_decode_uart as skipped rather than passed.
+# The two are separate tests so that skip can never hide a raw failure.
+if(PI5LA_PYTHON3)
+    pi5la_python_test(test_decode_raw ${PI5LA_INTEGRATION_DIR}/test_decode.py integration
+                      TestRawSamples)
+    pi5la_python_test(test_decode_uart ${PI5LA_INTEGRATION_DIR}/test_decode.py integration
+                      TestUartSamples)
+    set_tests_properties(test_decode_uart PROPERTIES
+        SKIP_REGULAR_EXPRESSION "sigrok-cli not found")
+endif()

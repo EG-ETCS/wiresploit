@@ -1,0 +1,13 @@
+# Two low pulses on channel 0: samples 2000..2099 and 4200..4299.
+# Pulse 1 ends with a change in word 525, so last_change = 2104. At the period
+# boundary 4096 the line has been quiet exactly 4096 - 2104 = 1992 samples.
+# With gap 1992 that is enough: the first burst ends at the boundary and the
+# second pulse opens a new burst. This case fails if the gap test is off by
+# one towards "longer" (quiet > gap, or quiet >= gap + 1).
+sample two_bursts.sr
+period_words 256
+pre 100
+post 200
+gap 1992
+burst 1900 2000 2304
+burst 4100 4200 4504

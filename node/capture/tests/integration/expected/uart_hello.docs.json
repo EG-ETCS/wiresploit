@@ -1,0 +1,34 @@
+[
+  {
+    "duration": 417000,
+    "event_type": "onboard",
+    "length_bytes": 5,
+    "payload_hex": "68656c6c6f",
+    "protocol": "UART",
+    "psf": {
+      "baud_rate": 115200,
+      "burst": "uart_hello.sr",
+      "byte_count": 5,
+      "channel": 0,
+      "clock_drift_ns": 0,
+      "clock_max_error_us": 0,
+      "clock_synchronised": true,
+      "data_bits": 8,
+      "end_sample": 1426,
+      "error": false,
+      "file": "uart_hello.sr",
+      "first_edge_time_ns": 1767225600001000000,
+      "framing_error": false,
+      "gap_before_s": 0.0,
+      "gpio": 2,
+      "parity": "none",
+      "port": "ch0",
+      "samplerate_hz": 1000000,
+      "start_sample": 1009,
+      "stop_bits": 1,
+      "text": "hello",
+      "uart_type": "TTL-3V3"
+    },
+    "timestamp": "2026-01-01T00:00:00.001009000Z"
+  }
+]

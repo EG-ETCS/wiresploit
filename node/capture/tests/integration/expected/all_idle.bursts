@@ -1,0 +1,6 @@
+# Nothing moves: the idle scan finds no change, so no burst opens.
+sample all_idle.sr
+period_words 256
+pre 100
+post 200
+gap 1000
