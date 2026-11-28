@@ -2,6 +2,10 @@
 """
 Turn captures into Elasticsearch documents for the wiresploit-poc1 index.
 
+Module: sr2es
+Purpose: Decode pi5la captures and ship them to Elasticsearch as documents.
+Owner: node
+
     capture (.sr, or a monitor session directory)
         -> decode with sigrok-cli, or none at all for --protocol raw
         -> events grouped into messages by idle gap
@@ -97,6 +101,8 @@ ERROR_TEXT_RE = re.compile(r"error|break|parity|framing", re.I)
 
 
 class Error(Exception):
+    """Raised for any failure sr2es reports and exits on: bad input, sigrok, upload."""
+
     pass
 
 
@@ -331,6 +337,17 @@ def iso_nanos(nanos):
 
 
 def printable(payload):
+    """Render bytes as readable text for psf.text.
+
+    Printable ASCII is kept, newline, carriage return and tab become escapes,
+    and every other byte becomes ``\\xNN``.
+
+    Args:
+        payload: The message's bytes.
+
+    Returns:
+        The text, cut to MAX_TEXT characters.
+    """
     out = []
     for b in payload:
         if b == 0x0a:
@@ -380,6 +397,17 @@ def uart_fields(opts, extra):
 
 
 class ProtocolSpec:
+    """How one declared protocol is decoded and described.
+
+    Adding a bus means adding a PROTOCOLS entry built from one of these.
+
+    Args:
+        name: Uppercase protocol name, the document's ``protocol`` field.
+        decode: ``(path, opts) -> annotation lines``; None ships the burst raw.
+        group: ``(events, opts, rate_hz) -> [[event, ...]]``, one list per message.
+        fields: ``(opts, extra) -> dict`` of the protocol's own psf fields.
+    """
+
     def __init__(self, name, decode=None, group=None, fields=None):
         self.name = name                # uppercase, the document's "protocol"
         self.decode = decode            # (path, opts) -> annotation lines; None = raw
@@ -570,6 +598,25 @@ def auth_header():
 
 
 def bulk_upload(ndjson_path, es_url, index=INDEX, timeout=120, insecure=False):
+    """POST a bulk file to the cluster's _bulk endpoint.
+
+    Credentials come from auth_header(). The index is named in the file's
+    action lines, so ``index`` is not sent separately.
+
+    Args:
+        ndjson_path: Bulk file written by write_ndjson().
+        es_url: Elasticsearch base URL.
+        index: Index name (unused; kept for callers).
+        timeout: Request timeout, in seconds.
+        insecure: Skip TLS certificate checks.
+
+    Returns:
+        ``(result, failed)``: the parsed _bulk response, and the items it
+        rejected.
+
+    Raises:
+        Error: If the cluster cannot be reached or answers with an HTTP error.
+    """
     url = es_url.rstrip("/") + "/_bulk"
     with open(ndjson_path, "rb") as f:
         body = f.read()
@@ -607,6 +654,7 @@ def bulk_upload(ndjson_path, es_url, index=INDEX, timeout=120, insecure=False):
 
 
 def burst_index(sr_path):
+    """The NNNN of burst-NNNN.sr as an int, for sorting; 0 for any other name."""
     m = re.search(r"burst-(\d+)\.sr$", sr_path)
     return int(m.group(1)) if m else 0
 
@@ -700,6 +748,17 @@ def mark_shipped(sr_path, docs, keep_sr):
 
 
 def log_shipped(directory, sr_path, docs, took):
+    """Append one line about a shipped burst to the session's SHIPPED_LOG.
+
+    A failure to write it is reported on stderr and not raised: the burst did
+    reach the cluster.
+
+    Args:
+        directory: The monitor session directory.
+        sr_path: The burst that was shipped.
+        docs: Number of documents sent.
+        took: The cluster's reported processing time, in milliseconds.
+    """
     line = {
         "burst": os.path.basename(sr_path),
         "documents": docs,
@@ -821,6 +880,12 @@ def _load_node_config():
 
 
 def main():
+    """Command-line entry point: decode one capture, or ship a monitor directory.
+
+    Returns:
+        The process exit code: 0 on success, 1 on any failure. A usage error
+        exits through argparse with code 2 instead.
+    """
     config = _load_node_config()
     if config is not None:
         config.export_es_credentials()

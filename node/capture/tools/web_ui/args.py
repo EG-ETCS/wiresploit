@@ -1,6 +1,11 @@
 """
 Input validation and argv building for the pi5la web UI.
 
+Module: args
+Purpose: Validate the test page's form fields and build the pi5la, sr2es and
+    sigrok-cli argument lists from them.
+Owner: node
+
 Everything here is pure: no Flask, no subprocess, no filesystem. The web app
 turns form fields into argument lists through these functions, so nothing a
 browser sends is ever handed to a shell. Unit tests live in
