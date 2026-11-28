@@ -1,0 +1,12 @@
+[tool.pytest.ini_options]
+# Python tests for the Node, run from node/ with `python3 -m pytest`.
+# ctest runs the same files (see capture/CMakeLists.txt); the files are plain
+# unittest, so they also run without pytest as `python3 <file>`.
+testpaths = [
+    "exporter/tests",
+    "capture/tools/web_ui/tests",
+    "lib/tests",
+]
+python_files = ["test_*.py"]
+# -rs prints why a test was skipped; no cache folder is written into the tree.
+addopts = "-rs -p no:cacheprovider"
